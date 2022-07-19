@@ -453,7 +453,7 @@ struct DocGia{
 	int phai; //0: nam, 1 : nu
 	int trangthai; //0: Khoa, 1: Hoat dong	 
 	// dslk kep luu cac sach ma doc gia da va dang muon
-	DS_MuonTra listMT;
+	DS_MuonTra mt;
 	DocGia(){
 	}
 	DocGia(int mt, char h[20], char t[11], int p, int tt){
