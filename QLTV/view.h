@@ -63,22 +63,22 @@ struct EditText{
 		setbkcolor(BG_COLOR);
 		// Ve tieu de
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-		setcolor(TEXT_EDIITEXT_TITLE_COLOR);
+		setcolor(TEXT_BUTTON_DEFAULT);
 		outtextxy(x, y+(height-textheight("TD"))/2, title);
 		
 		// Ve background 
-		setfillstyle(SOLID_FILL, BG_EDITTEXT_COLOR);
+		setfillstyle(SOLID_FILL, BG_BUTTON_DEFAULT);
 		bar(x+150, y, x+width, y+height);
 
 		if(strlen(content) == 0){
 			// Ve hint 
-			setcolor(TEXT_EDIITEXT_HINT_COLOR);
-			setbkcolor(BG_EDITTEXT_COLOR);
+			setcolor(TEXT_BUTTON_DEFAULT);
+			setbkcolor(BG_BUTTON_DEFAULT);
 			outtextxy(x + 160, y+(height-textheight("H"))/2, hint);
 		}else{
 			// Ve noi dung nguoi dung nhap vao
-			setcolor(TEXT_EDITTEXT_COLOR);
-			setbkcolor(BG_EDITTEXT_COLOR);
+			setcolor(TEXT_COLOR_SELECTED);
+			setbkcolor(BG_BUTTON_DEFAULT);
 			outtextxy(x + 160, y+(height-textheight("C"))/2, content);
 			
 			if(dataFill != NULL){

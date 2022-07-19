@@ -316,7 +316,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		outtextxy(550, 450, TTTDocGia[curDGMT->trangthai]);
 		
 		settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-		setcolor(TEXT_TITLE_COLOR);
+		setcolor(TEXT_COLOR);
 		outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 572, DSDM);
 		
 		DrawBorderDSMT();
@@ -377,7 +377,7 @@ void DrawThongTinSachTra(int itemMT){
 	if(itemMT != -1){
 		curMT = itemMT;		
 		setfillstyle(SOLID_FILL, BG_COLOR);			bar(250+(w-250)/2+5, 240, w, h);		
-		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		setcolor(TEXT_TITLE_COLOR);		outtextxy(1375, 250, "THONG TIN SACH");
+		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		setcolor(TEXT_COLOR);		outtextxy(1375, 250, "THONG TIN SACH");
 		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 		setcolor(TEXT_COLOR);	
 		outtextxy(1250, 300, "Ma sach :");			outtextxy(1500, 300, DSMT.mt[curMT].MASACH);		
@@ -398,7 +398,7 @@ void DrawThongTinSachTra(int itemMT){
 }
  
 void DrawLamMatSach(){
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
 	rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
 	outtextxy(1400, 600, "LAM MAT SACH ?");
@@ -458,7 +458,7 @@ void DrawMuonSach(){
 	btnTopTen.draw();
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(w/2-textwidth(DauSachTitle)/2, 15, MuonSach);
 	
 	memset(edNhapMaDGMuonSach.content, 0, sizeof(edNhapMaDGMuonSach.content));
@@ -468,7 +468,7 @@ void DrawMuonSach(){
 
 void DrawTraSach(){	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(w/2 - textwidth(DauSachTitle)/2, 15, TraSach);
 	
 	memset(edNhapMaDGMuonSach.content, 0, sizeof(edNhapMaDGMuonSach.content));
@@ -478,7 +478,7 @@ void DrawTraSach(){
  
 void DrawTopTen(DS_DauSach &DSDS){
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(w/2 - textwidth(TopTen)/2-85, 15, TopTen);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -491,12 +491,12 @@ void DrawTopTen(DS_DauSach &DSDS){
 	settextstyle(3, HORIZ_DIR, 3);
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	
 	bar(MUONTRA[0], 250, MUONTRA[8], 320);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setlinestyle(SOLID_LINE,0, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	for(int i=0; i<8; i++){
 		outtextxy((MUONTRA[i+1]+MUONTRA[i])/2 - textwidth(t[i])/2, 285-textheight(t[i])/2, t[i]);
 	}

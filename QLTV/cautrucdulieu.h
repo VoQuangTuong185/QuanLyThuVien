@@ -72,7 +72,8 @@ bool InsertAfter_NodeSach(SachPTR &node, Sach &sach){
 }
 
 void InsertLast_NodeSach(SachPTR &First, Sach &sach){
-	if(First == NULL) InsertFirst_NodeSach(First, sach);
+	if(First == NULL) 
+		InsertFirst_NodeSach(First, sach);
 	else{
 		SachPTR last;
 		for(last = First; last->next != NULL; last = last->next);
@@ -265,47 +266,35 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
 	}
 }
 
-//Tim DauSach theo masach, Tra ve index cua DauSach can tim
-int GetIndexDauSach(DS_DauSach &DSDS, char* ISBN){	
-	for(int i=0; i<DSDS.n; i++)	
-		if(strcmp(DSDS.nodes[i]->ISBN, ISBN) == 0)
-			return i;			
-	return -1;
-}
-
 //chua tim hieu
 int GetSepPosition(char *s){
 	int n = strlen(s);
-	for(int i=0; i<n; i++){
-		if(s[i] == '-') {
+	for(int i=0; i<n; i++)
+		if(s[i] == '-') 
 			return i;	
-		}
-	}
 	return -1;
 }
 
 //Tim DauSach theo masach, Tra ve node cua DauSach can tim
 //chua su dung va chua tim hieu
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
-	SachPTR node ;
-	
+	SachPTR node ;	
 	int sepPos = GetSepPosition(masach);
 	char isbn[sepPos+1];
-	int indexSach=0;
+	int indexSach=0;	
 	
 	for(int i=0; i<sepPos; i++) 
 		isbn[i] = masach[i];
 		
 	isbn[sepPos] = '\0';
-	for(int i=sepPos+1; i<strlen(masach); i++){
+	
+	for(int i=sepPos+1; i<strlen(masach); i++)
 		indexSach = indexSach*10 + (masach[i]-'0');
-	}
-	for(int i=0; i<DSDS.n; i++){
-		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0){
+		
+	for(int i=0; i<DSDS.n; i++)
+		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
 			if(indexSach < DSDS.nodes[i]->soluong) return DSDS.nodes[i];
 			else break;
-		}
-	}
 	return NULL;
 }
 

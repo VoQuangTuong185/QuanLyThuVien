@@ -21,3 +21,5 @@
 	+ lỗi khi đóng file: thông báo mở lỗi khi dùng đến hàm, bắt người dùng phải xem lại code, tên file
 
 - lỗi chưa sửa được ngày mượn
+
+- chưa thêm phím < > de di chuyen qua lai khi edit chữ trong khung

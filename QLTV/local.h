@@ -172,7 +172,6 @@ int totalPageDauSach = 1, curPageDauSach = 1;
 int totalPageSach = 1, curPageSach = 1;
 
 void PopUp(char* confirm);
-
 void ReadDauSachFromFile(DS_DauSach &DSDS);
 void WriteDauSachToFile(DS_DauSach &DSDS);
 void ClearScreen(int choice);
@@ -234,7 +233,7 @@ int totalPageDG = 1, curPageDG = 1;
 int totalPageDGQuaHan = 1, curPageDGQuaHan = 1;
 int curItemDG = -1, curDG = -1;
 int curItemMT = -1, curMT = -1;
-
+int startIndexSach = -1;
 bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
 
 void DrawBorderDSDocGia();
@@ -287,7 +286,6 @@ void ScanTimDauSach(DS_DauSach &DSDS,EditText* &txt, int &n, int maxn, char c){
 		else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 			txt->content[n++] = toupper(c);		
 	}
-	txt->content[n] = '\0';
 }
 
 bool NumberOnly(int n, char c){
@@ -657,11 +655,11 @@ void ButtonEffect(Button &btn){
 }
 
 void PopUp(char* confirm){
-	setfillstyle(USER_FILL, TEXT_EDITTEXT_COLOR);
+	setfillstyle(USER_FILL, TEXT_COLOR_SELECTED);
 	setcolor(BORDER_COLOR);
 	bar((w/2)-300, 380, (w/2)+300, 550);
-	setcolor(TEXT_PANEL);
-	setbkcolor(TEXT_EDITTEXT_COLOR);
+	setcolor(BG_COLOR);
+	setbkcolor(TEXT_COLOR_SELECTED);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	outtextxy((w/2) - textwidth(confirm)/2, 415-textheight(confirm)/2, confirm);
 	btnYes.draw();

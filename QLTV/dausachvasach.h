@@ -1,7 +1,7 @@
 void DrawDanhSachDauSach(){	
 	ClearScreen(1);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(w/2-textwidth(DauSachTitle)/2, 15, DauSachTitle);
 	
 	btnQuayVe.draw();
@@ -16,7 +16,7 @@ void DrawDanhSachDauSach(){
 	settextstyle(3, HORIZ_DIR, 3);
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	
 	bar(XXX[0], 152, w-200, 215);
 	
@@ -24,9 +24,9 @@ void DrawDanhSachDauSach(){
 		outtextxy(XXX[i] + (XXX[i+1]-XXX[i])/2 - textwidth(ch[i])/2, 170, ch[i]);
 	}
 	setbkcolor(BG_COLOR);
-	setcolor(TEXT_PANEL);	
+	setcolor(BG_COLOR);	
 	// tips
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	rectangle((w/2)-350, 850, (w/2)+350 , 950);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	outtextxy((w/2)-290, 875, "Click chuot trai: Hieu chinh va xoa dau sach");
@@ -47,12 +47,12 @@ void DrawThemDauSach(){
 	line((w/2)-400, 650, (w/2)+400, 650);
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy((w/2) - textwidth(ThemDauSach)/2, 245 - textheight(ThemDauSach)/2, ThemDauSach);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -87,12 +87,12 @@ void DrawHieuChinhDauSach(){
 	line((w/2)-400, 650, (w/2)+400, 650);
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy((w/2) - textwidth(HieuChinhDauSach)/2, 245 - textheight(HieuChinhDauSach)/2, HieuChinhDauSach);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -115,7 +115,6 @@ void DrawHieuChinhDauSach(){
 }
 
 void DrawThemSach(DS_DauSach &DSDS){
-	int startIndexSach = -1;
 	//auto create ma sach sau moi lan load trang them sach
 	if(curNhapSach == 1) 
 		startIndexSach = DSDS.nodes[curDauSach]->soluong;
@@ -142,11 +141,11 @@ void DrawThemSach(DS_DauSach &DSDS){
 	sprintf(ch, "%s %d / %d", ThemSach, curNhapSach, totalNhapSach);
 		
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy(w/2-textwidth(HieuChinhSach)/2-25, 675 - textheight(ch)/2, ch);
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy((w/2)-440 , 955-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -173,12 +172,12 @@ void DrawHieuChinhSach(){
 	line((w/2)-450, 930, (w/2)+450, 930);
 
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy(w/2-textwidth(HieuChinhSach)/2, 675 - textheight(HieuChinhSach)/2, HieuChinhSach);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy((w/2)-440 , 955-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -197,7 +196,7 @@ void DrawHieuChinhSach(){
 void DrawNhapSach(){
 	//clear subWindows
 	setfillstyle(SOLID_FILL, BG_COLOR); 
-	bar(XDMS[0], 580 , XDMS[3], 985);
+	bar(XDMS[0]-5, 580 , XDMS[3]+5, 985);
 	
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
@@ -206,12 +205,12 @@ void DrawNhapSach(){
 	line((w/2)-450, 850, (w/2)+450, 850);
 
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy(w/2-textwidth(NhapSach)/2, 675 - textheight(NhapSach)/2, NhapSach);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy((w/2)-440 , 875-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -219,7 +218,7 @@ void DrawNhapSach(){
 		
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	setlinestyle(SOLID_LINE, 0, 3);
 	rectangle(w/2 - 250, 930, w/2 + 250, 980);
 	outtextxy(w/2-200, 955-textheight("Click chuot phai: Hieu chinh sach")/2, "Click chuot phai: Hieu chinh sach");
@@ -236,14 +235,16 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	if(strlen(edTimDauSach.content) == 0){
 		totalPageDauSach = (DSDS.n-1) / 13 + 1;
 		for(int i = 13*(curPageDauSach-1); i < 13*curPageDauSach ; i++){
-			if (i >= DSDS.n) break;
+			if (i >= DSDS.n) 
+				break;
 			DrawItemDauSach(DSDS,i, -1);
 		}
 	}else{
 		totalPageDauSach = (sizeListIndexDauSachSearch-1) / 13 + 1;
 		int j = 0;
 		for(int i = 13*(curPageDauSach-1); i < 13*curPageDauSach ; i++){
-			if (i >= sizeListIndexDauSachSearch) break;
+			if (i >= sizeListIndexDauSachSearch) 
+				break;
 			DrawItemDauSach(DSDS,listIndexDauSachSearch[i], j++);
 		}
 	}
@@ -256,6 +257,9 @@ void DrawListDSDS(DS_DauSach &DSDS){
 }
 
 void DrawListSach(DS_DauSach &DSDS){
+	setfillstyle(USER_FILL, BG_COLOR);
+	bar((w/2)-448, 102, (w/2)+449, 500);	
+	
 	setlinestyle(SOLID_LINE, 0, 3);
 	setcolor(BORDER_COLOR);
 	rectangle((w/2)-450, 100, (w/2)+450, 500);
@@ -266,13 +270,13 @@ void DrawListSach(DS_DauSach &DSDS){
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
 	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DanhMucSach)/2-textwidth(DSDS.nodes[curDauSach]->tensach)/2, 20,DanhMucSach);		
-	setcolor(TEXT_EDITTEXT_COLOR);	
+	setcolor(TEXT_COLOR_SELECTED);	
 	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DSDS.nodes[curDauSach]->tensach)/2+130, 20, DSDS.nodes[curDauSach]->tensach);
 	
 	setfillstyle(USER_FILL, PANEL);
 	bar((w/2)-448, 102, (w/2)+449, 150);
 	
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	char ch[3][20] = {"Ma sach", "Trang thai", "Vi tri"};		
 	for(int i=0; i < 3; i++){
@@ -283,7 +287,7 @@ void DrawListSach(DS_DauSach &DSDS){
 	btnPrevDMS.draw();
 	btnNextDMS.draw();	
 	
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	
 	totalPageSach = (DSDS.nodes[curDauSach]->soluong - 1) / 8 + 1;	
@@ -392,7 +396,7 @@ bool CheckSach(EditText &TrangThaiSach,EditText &ViTriSach, bool createSach){
 		strcpy(mess, "Khong duoc bo trong bat ki truong nao");
 		return false;	
 	}
-	else if((TrangThaiSach.toInt()) == 1 && (createSach)){
+	else if((TrangThaiSach.toInt()) == 1){
 		strcpy(mess, "Trang thai sach ban dau khong the la: DA CHO MUON");
 		outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
 		return false;
@@ -431,9 +435,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		ButtonEffect(btnQuayVe);		
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			ItemLeftMouseClick(DSDS, DSDG);
-			if(edTimDauSach.isMouseHover(mx, my)){	
-				Edit = &edTimDauSach;		
-			}
+			if(edTimDauSach.isMouseHover(mx, my))	
+				Edit = &edTimDauSach;
+						
 			else if(btnAddDauSach.isMouseHover(mx, my)){
 				Window = THEM_DAU_SACH;
 				DrawTrangConDSDS(DSDS);				
@@ -443,9 +447,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					edTimDauSach.draw();
 					DrawListDSDS(DSDS);
 				}	
-			else if(btnQuayVe.isMouseHover(mx, my)){
+			else if(btnQuayVe.isMouseHover(mx, my))
 				SetMenuSelect(DSDS, DSDG, 0);
-			}
+				
 			else if(btnPrev.isMouseHover(mx, my)){
 				if(curPageDauSach > 1){
 					--curPageDauSach;
@@ -460,9 +464,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				}
 			}	
 		}	
-		else if(GetAsyncKeyState(VK_RBUTTON)){
-		    ItemRightMouseClick(DSDS, DSDG);
-		}				
+		else if(GetAsyncKeyState(VK_RBUTTON))
+		    ItemRightMouseClick(DSDS, DSDG);				
 	}
 	//WINDOW THEM DAU SACH
 	else if(Window == THEM_DAU_SACH){
@@ -604,9 +607,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	}
 	else if(Window == DANH_MUC_SACH){
 		ItemEvent(DSDS,true);
-		ButtonEffect(btnBack);
-		ButtonEffect(btnPrevDMS);
-		ButtonEffect(btnNextDMS);					
+		ButtonEffect(btnBack);					
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			if(btnBack.isMouseHover(mx, my)){
 				SetMenuSelect(DSDS, DSDG, 100);
@@ -614,25 +615,32 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));		
 				DrawTrangConDSDS(DSDS);	
 			}
-			else if(btnPrevDMS.isMouseHover(mx, my)){
-				if(curPageSach > 1){
-					--curPageSach;					
-					DrawListSach(DSDS);
-				}
-			}else if(btnNextDMS.isMouseHover(mx, my)){
-				if(curPageSach < totalPageSach){
-					++curPageSach;
-					DrawListSach(DSDS);
-				}
-			}
 		}
-		else if(GetAsyncKeyState(VK_RBUTTON)){
+		else if(GetAsyncKeyState(VK_RBUTTON))
 		    ItemRightMouseClick(DSDS, DSDG);
-		}
+		    
 		if(subWindow == NHAP_SACH){
 			ButtonEffect(btnNhapSoLuongSach);
+			ButtonEffect(btnPrevDMS);
+			ButtonEffect(btnNextDMS);
 			if(GetAsyncKeyState(VK_LBUTTON)){
-				if(edNhapSoLuongSach.isMouseHover(mx, my)){
+				if(btnPrevDMS.isMouseHover(mx, my)){
+					if(curPageSach > 1){
+						--curPageSach;					
+						DrawListSach(DSDS);
+						Window = DANH_MUC_SACH;
+						subWindow = NHAP_SACH;
+					}
+				}
+				else if(btnNextDMS.isMouseHover(mx, my)){
+					if(curPageSach < totalPageSach){
+						++curPageSach;
+						DrawListSach(DSDS);
+						Window = DANH_MUC_SACH;
+						subWindow = NHAP_SACH;
+					}
+				}
+				else if(edNhapSoLuongSach.isMouseHover(mx, my)){
 					memset(mess, 0, sizeof(mess));
 					Edit = &edNhapSoLuongSach;	
 				}
@@ -673,6 +681,12 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						subWindow = THEM_SACH;						
 						DrawTrangConDSDS(DSDS);	
 						DrawListSach(DSDS);
+						if(curNhapSach > totalNhapSach){//them du so luong sach can them thi quay ve trang nhap so luong sach
+							subWindow = NHAP_SACH;
+							curNhapSach = -1;
+							totalNhapSach = 0;
+							DrawTrangConDSDS(DSDS);	
+						}
 					}											
 					memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));						
 				}
@@ -681,12 +695,10 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
 				}
-				else if(edThemTrangThaiSach.isMouseHover(mx, my)){
-					Edit = &edThemTrangThaiSach;
-				}		
-				else if(edThemViTriSach.isMouseHover(mx, my)){
-					Edit = &edThemViTriSach;
-				}				
+				else if(edThemTrangThaiSach.isMouseHover(mx, my))
+					Edit = &edThemTrangThaiSach;		
+				else if(edThemViTriSach.isMouseHover(mx, my))
+					Edit = &edThemViTriSach;				
 			}
 		}
 		else if(subWindow == HIEU_CHINH_SACH){
@@ -703,35 +715,30 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curSach);
 						Sach sach(edHieuChinhMaSach.content, edHieuChinhTrangThaiSach.toInt(), edHieuChinhViTriSach.content);
 						if(UpdateNodeSach(nodeSelect, sach)){
-							memset(mess, 0, sizeof(mess));				
+							setfillstyle(SOLID_FILL, BG_COLOR);
+							bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);			
 							strcpy(mess, "Hieu chinh sach thanh cong!");
 							setcolor(TIPS);
 							settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 							outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
 						}			
-					}else{
-						memset(mess, 0, sizeof(mess));
-						strcpy(mess, "Hieu chinh sach that bai!");
-						setcolor(TIPS);
-						settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-						outtextxy((w/2)-350 + textwidth(ThongBao), 875-textheight(mess)/2, mess);						
 					}
-					DrawListSach(DSDS);						
-					memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));					
+					DrawListSach(DSDS);	
 				}
 				else if(edThemMaSach.isMouseHover(mx, my)){
-					memset(mess, 0, sizeof(mess));
 					strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
 				}
-				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && canEditTrangThai){
+				else if(edHieuChinhViTriSach.isMouseHover(mx, my))
+					Edit = &edHieuChinhViTriSach;
+				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && canEditTrangThai)
 					Edit = &edHieuChinhTrangThaiSach;
-				}else {
-					memset(mess, 0, sizeof(mess));
-					strcpy(mess, "Chi hieu chinh CHO MUON DUOC => DA THANH LY");
+				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && (!canEditTrangThai)){
+					settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+					strcpy(mess, "Chi duoc phep sua CO THE MUON -> DA THANH LY!!");
 					setcolor(TIPS);
-					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
+					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);					
 				}				
 			}
 		}	
@@ -792,7 +799,7 @@ void ItemEvent(DS_DauSach &DSDS,bool active){
 			curItem = -1;
 		}
 	}
-	else if((mx > XDMS[0] && mx < XDMS[3] && my > 170-8 && my < 170+8*40-8) and (Window == DANH_MUC_SACH) and (subWindow == NHAP_SACH)){		
+	else if(mx > XDMS[0] && mx < XDMS[3] && my > 170-8 && my < 170+8*40-8){		
 		if(curItemSach != GetItemSachPosition(DSDS, my)){
 			if(curItemSach != -1){
 				setfillstyle(SOLID_FILL, BG_COLOR);
@@ -805,8 +812,7 @@ void ItemEvent(DS_DauSach &DSDS,bool active){
 			curItemSach = GetItemSachPosition(DSDS, my);
 			if(curItemSach != -1){
 				setfillstyle(SOLID_FILL, LINE);
-				bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);
-				
+				bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);				
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 				setbkcolor(LINE);
 				setcolor(TEXT_COLOR);
@@ -823,14 +829,12 @@ void ItemEvent(DS_DauSach &DSDS,bool active){
 		if(curItemSach != -1){
 			// khoi phuc item
 			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);
-				
+			bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);				
 			setbkcolor(BG_COLOR);
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 			setcolor(TEXT_COLOR);
 			DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
-			curItemSach = -1;
-			
+			curItemSach = -1;		
 			//ve khung
 			setlinestyle(SOLID_LINE, 0, 3);
 			setcolor(BORDER_COLOR);
@@ -880,12 +884,8 @@ void ItemRightMouseClick(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			strcpy(edHieuChinhTrangThaiSach.content, ch);
 			strcpy(edHieuChinhViTriSach.content, nodeSelect->sach.vitri);		
 			
-			//chua fix
-			if(nodeSelect->sach.trangthai == 0){
-				canEditTrangThai = true;
-			}else{
-				canEditTrangThai = false;
-			}	
+			(nodeSelect->sach.trangthai == 0) ? canEditTrangThai = true : canEditTrangThai = false;
+
 			DrawTrangConDSDS(DSDS);	
 		}
 	}

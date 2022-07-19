@@ -13,7 +13,7 @@ using namespace std;
 #include "cautrucdulieu.h"
 #include "view.h"
 #include "local.h"
-#include "dausach.h"
+#include "dausachvasach.h"
 #include "docgia.h"
 #include "muontra.h"
 

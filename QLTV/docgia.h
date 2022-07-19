@@ -177,7 +177,7 @@ void DrawDanhSachDocGia(TreeDocgia &DSDG){
 	DrawListDocGia(DSDG, true);	
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(w/2-textwidth(DocGiaTitle)/2, 15, DocGiaTitle);
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
@@ -199,7 +199,7 @@ void DrawBorderDSDocGia(){
 	settextstyle(3, HORIZ_DIR, 3);
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	
 	bar(XXX[0], 152, w-200, 215);	
 	
@@ -222,7 +222,7 @@ void DrawBorderDSDocGiaQuaHan(){
 	settextstyle(3, HORIZ_DIR, 3);
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	
 	bar(XXX[0], 152, w-200, 215);		
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
@@ -300,12 +300,12 @@ void DrawThemDocGia(bool genNewID){
 	line((w/2)-400, 650, (w/2)+400, 650);
 
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy((w/2) - textwidth(ThemDocGia)/2, 245 - textheight(ThemDocGia)/2, ThemDocGia);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);		bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
@@ -341,12 +341,12 @@ void DrawHieuChinhDocGia(){
 	line((w/2)-400, 650, (w/2)+400, 650);
 
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy((w/2) - textwidth(HieuChinhDocGia)/2, 245 - textheight(HieuChinhDocGia)/2, HieuChinhDocGia);
 	
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_TITLE_COLOR);
+	setcolor(TEXT_COLOR);
 	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -407,7 +407,7 @@ void DrawXoaDocGia(TreeDocgia &DSDG, int i){
 	line((w/2)-400, 650, (w/2)+400, 650);
 
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(TEXT_PANEL);
+	setcolor(BG_COLOR);
 	outtextxy((w/2) - textwidth(XoaDocGia)/2, 245 - textheight(XoaDocGia)/2, XoaDocGia);
 	
 	setbkcolor(BG_COLOR);
@@ -426,7 +426,7 @@ void DrawXoaDocGia(TreeDocgia &DSDG, int i){
 		btnXacNhanXoaDocGia.draw();
 	}
 	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);		setcolor(TEXT_TITLE_COLOR);		outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);		setcolor(TEXT_COLOR);		outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	setfillstyle(SOLID_FILL, BG_COLOR);			bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
 	setcolor(TIPS);								outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);		
 	btnBack.draw();

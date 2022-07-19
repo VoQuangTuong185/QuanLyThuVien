@@ -1,14 +1,8 @@
 #define BG_COLOR 						15
-#define TEXT_PANEL 						15
-#define TEXT_TITLE_COLOR				0
-#define BG_EDITTEXT_COLOR				7
 #define BG_BUTTON_DEFAULT 				7
 #define BG_BUTTON_SELECT 				4
 #define TEXT_BUTTON_SELECT 				15
 #define TEXT_BUTTON_DEFAULT				0
-#define TEXT_EDIITEXT_TITLE_COLOR 		8
-#define TEXT_EDIITEXT_HINT_COLOR 		0
-#define TEXT_EDITTEXT_COLOR				2
 #define BORDER_COLOR 					0
 #define TIPS 							12
 #define TEXT_COLOR 						0
