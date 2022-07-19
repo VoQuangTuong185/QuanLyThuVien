@@ -1,0 +1,48 @@
+- có 1 vấn đề khi dùng thuật toán xin số nguyên ngẫu nhiên tự động
+đó là cây nhị phân có thể bị suy biến
+- vẫn muốn cây là 2 nhánh có số lượng node chênh lệch nhau k quá 1
+=> khuyến khích viết 1 thuật toán: tạo sẵn 1 dãy số không trùng
+sao cho lấy số đầu tiên làm root gốc cây, thì tất cả những số còn lại
+trong dãy khi ta đưa vô thì nó sẽ tự động trở thành cây nhị phân tìm
+kiếm cân bằng hoàn toàn,=> sau này khi ta tạo 1 độc giả mới, ta không
+cần kiểm tra mã đó có bị trùng hay không. sau khi đã tạo xong dãy thì
+ta lưu trữ dãy đó trong 1 file, mỗi lần chạy chương trình, mình load 
+file đó vào 1 dãy số tạm, rồi sau đó mình lấy số đó ra xài thì xoá 
+số đó ra khỏi dãy, khi kết thúc chương trình thì ghi lại dãy số vs những
+số còn lại vào file để dùng cho những lần sau
+
+ý tưởng: giả sử thư viện có tối đa 10.000 người, thì số đầu tiên đưa vào 
+cây sẽ là 10.000/2 = 5.000, 
+ta lấy từ 1->5000-1 sẽ nằm bên trái node gốc 5000, 5001->10.000
+nằm bên phải. 1->4999 tiếp tục là 1 cây con, ta chia đôi tiếp
+ta tiếp tục đệ quy kết thúc, ta đã tạo đủ 10.000 thẻ
+
+- mục đích đánh mã sách có kèm mã đầu sách (ISBN): hỗ trợ tìm sách nhanh
+	sau này, giả sử chủ thư viện muốn đi tìm sách, mà những mã sách
+này đã được độc giả ghi sẵn trong tờ giấy, chủ thư đi lấy sách thì 
+cần biết vị trí đang nằm ở đâu, kệ mấy, ngăn nào.
+Khi gõ mã sách vào, mã sách đã có mã đầu sách ghi kèm. Chủ thư sẽ 
+vào tính năng danh sách đầu sách, tìm theo mã đầu sách ISBN trước,
+nếu tìm thấy, tiếp tục dùng tính năng danh mục sách để tìm mã sách
+đó
+   => dùng 1 vòng for để tìm đầu sách trong DAUSACH theo IBSN trước, 
+1 vòng for tìm trên DANHMUCSACH SAU. 2 vòng for rời nhau 
+(không lồng nhau) =>thuật toán diễn ra liên tục: O(N1). Chỉ tìm trên 1 danh 
+mục sách 1 lần duy nhất. k tìm trên tất cả danh mục sách
+
+   => nếu k thiết kế mã sách theo ý tưởng có mã IBSN phía trước, thì
+thì sẽ k biết mã sách cần tìm thuộc đầu sách nào. Bắt buộc phải đi vào 
+từng danh mục sách của từng đầu để tìm => 2 vòng for lồng vào nhau (O(N2))
+
+- in danh đầu sách theo tên và theo mã
+	+ 2 hướng:
+		1: lấy đầu sách gốc để sắp => mất trật tự ban đầu
+		2: sắp xếp logic, ta in ra vẫn tăng theo yêu cầu đề nhưng danh sách 
+đầu sách gốc vẫn k thay đổi trật tự ban đầu khi ta nhập liệu => dùng mãng tạm
+chứa 2 trường dữ liệu (khoá sắp xếp: thể loại + tên sách) và (chứa vị trí của
+tên sách đó ở trong danh sách gốc) => sắp xếp trên mảng tạm => mảng gốc k bị
+thay đổi trật tự
+
+- tìm kiếm đầu sách thông qua tên: tìm kiếm nhúng (từ tìm kiếm có trong tên 
+sách) + xử lý khoảng trắng (ví dụ gõ "  du lieu" thì phải tự động bỏ khoảng
+trắng - trước sau, chuỗi tìm và 2 khoảng trống giữa 2 từ chỉ nhận 1)

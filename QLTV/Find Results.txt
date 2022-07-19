@@ -1,0 +1,8 @@
+77	8	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\local.h	Button btnQuayVe(201, 20, 20, 100, 50, "< MENU", 0);
+222	2	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\docgia.h		btnQuayVe.draw();
+526	15	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\docgia.h		ButtonEffect(btnQuayVe);
+539	8	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\docgia.h					if(btnQuayVe.isMouseHover(mx, my)){
+568	7	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\docgia.h				if(btnQuayVe.isMouseHover(mx, my)){//back to DSDG
+22	2	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\dausach.h		btnQuayVe.draw();
+441	16	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\dausach.h			ButtonEffect(btnQuayVe);
+>	457	12	D:\CTDLGT 2022\DoAnKetThucMon\QLTV\dausach.h				else if(btnQuayVe.isMouseHover(mx, my)){

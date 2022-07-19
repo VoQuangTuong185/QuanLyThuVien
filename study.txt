@@ -1,0 +1,9 @@
+- đánh mã sách kiểu gì
+- đánh mã độc giả kiểu gì (để số nên phải dùng thuật toán hay)
+- làm sao để xác định độc giả mượn quá hạn
+- làm sao random không trùng
+
+- cây nhị phân tìm kiếm nhanh nhất : cây tìm kiếm nhị phân cân bằng hoàn toàn
+=> lưu ý: k dùng thuật toán cân bằng cây mà viết thuật toán để xin số, sao cho vẫn dùng thuật toán
+insert_node đưa vào cây nhị phân tìm kiếm bình thường nhưng cây vẫn là cây tự động cân bằng (cây nhị phân tìm kiếm cân bằng hoàn toàn)
+=> không đi cân bằng cây
