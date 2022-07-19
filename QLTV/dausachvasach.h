@@ -405,9 +405,8 @@ bool CheckSach(EditText &TrangThaiSach,EditText &ViTriSach, bool createSach){
 }
 
 void DrawTrangConDSDS(DS_DauSach &DSDS){
-	if(Window == THEM_DAU_SACH){
+	if(Window == THEM_DAU_SACH)
 		DrawThemDauSach();
-	}
 	else if(Window == DANH_SACH_DAU_SACH){
 	    DrawDanhSachDauSach();	
 		DrawListDSDS(DSDS);

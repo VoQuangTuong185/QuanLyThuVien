@@ -363,11 +363,10 @@ struct NodeMuonTra{
 	NodeMuonTra *prev; 
 	NodeMuonTra *next;
 };
-
+typedef NodeMuonTra *PTRMT;
 struct DS_MuonTra{
-	NodeMuonTra *First = NULL;
-	NodeMuonTra *Last = NULL;	
-	
+	PTRMT First = NULL;
+	PTRMT Last;		
 	//thuoc tinh them
 	int total;		// tong so luong sach da muon
 	int chuaTra;	// so luong sach dang muon + lam mat
@@ -454,7 +453,7 @@ struct DocGia{
 	int phai; //0: nam, 1 : nu
 	int trangthai; //0: Khoa, 1: Hoat dong	 
 	// dslk kep luu cac sach ma doc gia da va dang muon
-	DS_MuonTra mt;
+	DS_MuonTra listMT;
 	DocGia(){
 	}
 	DocGia(int mt, char h[20], char t[11], int p, int tt){
@@ -467,19 +466,15 @@ struct DocGia{
 };
 
 struct NodeDocGia{
-	// key : docgia.MATHE
 	DocGia docgia;
 	NodeDocGia *left = NULL;
 	NodeDocGia *right = NULL;
-	//tu them theo giong nhu thay
-	//cach dat hay hon
 	//NodeMuonTra * DS_MuonSach = NULL; (con tro First)
 	//khi tao 1 doc gia len, chac chan doc gia chua muon quyen nao
 };
 typedef NodeDocGia* DocGiaPTR;
 
 //Mang con tro dung de luu danh sach doc gia tu BST
-enum ModeDocGia{MODE_MA_THE, MODE_TEN, MODE_QUA_HAN};
 
 struct TreeDocgia{
 	int n;
@@ -525,17 +520,19 @@ struct TreeDocgia{
 	
 	void Partition(int low, int high){
 		int i = low, j = high;
-		DocGia* x = nodes[(low+high)/2];
-		int xQH = soNgayQH[(low+high)/2];
+		DocGia* pivot = nodes[(low+high)/2];
+		int pivotQH = soNgayQH[(low+high)/2];
 		DocGia* temp;
 		int qhTemp;		
 		do{
 			if(mode == MODE_QUA_HAN){
-				while(soNgayQH[i] > xQH) i++;
-				while(soNgayQH[j] < xQH) j--;
+				while(soNgayQH[i] > pivotQH) i++;
+				while(soNgayQH[j] < pivotQH) j--;
 			}else{
-				while(compareDG(nodes[j], x) > 0) j--; //tim j dau tien ma nodes[j] <= x tuc la node chinh giua
-				while(compareDG(nodes[i], x) < 0) i++; //tim i dau tien ma nodes[i] >= x tuc la node chinh giua
+				//tim j dau tien ma nodes[j] <= x tuc la node chinh giua
+				while(compareDG(nodes[j], pivot) > 0) 	j--; 
+				//tim i dau tien ma nodes[i] >= x tuc la node chinh giua
+				while(compareDG(nodes[i], pivot) < 0)	i++; 
 			}
 			if(j>=i){//neu vi tri cua node co gia tri lon, nam phia truoc node co gia tri nho hon
 				//hoan doi vi tri cho toi khi node co gia tri LON nam sau node co gia tri NHO
@@ -557,31 +554,34 @@ struct TreeDocgia{
 			Partition(i, high);//phan thu 3 co tu 2 phan tu tro len
 	}
 	
-	void SortMaTheDocGia(){
-		if(mode != MODE_MA_THE && n > 0){
-			mode = MODE_MA_THE;	
-			Partition(0, n-1);
-		}
-	}
-	
-	void SortTenDocGia(){
-		if(mode != MODE_TEN && n > 0){
-			mode = MODE_TEN;
-			Partition(0, n-1);
-		}
-	}
-	
-	void SortDocGiaQuaHan(){
-		if(mode != MODE_QUA_HAN && n > 0){
-			mode = MODE_QUA_HAN;
-			Partition(0, n-1);
+	void SapXepDocGia(ModeDocGia type){
+		if (n>0){
+			switch(type){
+				case MODE_MA_THE:{
+					mode = MODE_MA_THE;	
+					Partition(0, n-1);
+					break;
+				}
+				case MODE_TEN:{
+					mode = MODE_TEN;
+					Partition(0, n-1);	
+					break;
+				}
+				case MODE_QUA_HAN:{
+					mode = MODE_QUA_HAN;
+					Partition(0, n-1);
+				}
+				default:
+					break;
+			}
 		}
 	}
 	
 	void GetDocGiaQuaHan(NodeDocGia* &TreeDG){
 		Reset();	ResetQH();
 		Queue<NodeDocGia*> q;
-		if(TreeDG != NULL) q.push(TreeDG);
+		if(TreeDG != NULL) 
+			q.push(TreeDG);
 		NodeDocGia* nodeDG;
 		bool hasDGQH;
 		int i;
@@ -594,7 +594,6 @@ struct TreeDocgia{
 			
 			if(nodeDG->docgia.mt.chuaTra > 0 && nodeDG->docgia.mt.Last != NULL){
 				// Neu thu tu muon tra duoc luu theo thu tu thoi gian tang dan, thi ta chi can lay duoc 1 node la dung..
-				
 				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.Last; nodeMT != NULL; nodeMT = nodeMT->prev){
 					if(strlen(nodeMT->muontra.ngaytra) == 0){
 						// chua tra sach
@@ -611,12 +610,13 @@ struct TreeDocgia{
 			if(nodeDG->left != NULL) q.push(nodeDG->left);
 			if(nodeDG->right != NULL) q.push(nodeDG->right);
 		}
-		SortDocGiaQuaHan();
+		SapXepDocGia(MODE_QUA_HAN);
 	}
 
 	void Reset(){
 		n = 0;
 	}
+
 	void ResetQH(){
 		for(int i=0; i<MAX_DOC_GIA; i++) soNgayQH[i] = 0;
 	}

@@ -247,9 +247,9 @@ void DrawListDocGia(TreeDocgia &DSDG, bool reload){
 	if(btnTatCaDocGia.isChoose){
 		DrawBorderDSDocGia();	
 		if(sortDGByName)
-			DSDG.SortTenDocGia();
+			DSDG.SapXepDocGia(MODE_TEN);
 		else
-			DSDG.SortMaTheDocGia();	
+			DSDG.SapXepDocGia(MODE_MA_THE);	
 		totalPageDG = (DSDG.n-1)/13 + 1;
 		for(int i=13*(curPageDG-1); i < 13*curPageDG; i++){
 			if(i >= DSDG.n) break;
@@ -263,8 +263,8 @@ void DrawListDocGia(TreeDocgia &DSDG, bool reload){
 		btnPrev.draw();
 		btnNext.draw();
 		btnThemMaThe.draw();
-		
-	}else if(btnDocGiaQuaHan.isChoose){
+	}
+	else if(btnDocGiaQuaHan.isChoose){
 		DrawBorderDSDocGiaQuaHan();	
 		totalPageDGQuaHan = (DSDG.n-1)/13 + 1;
 		for(int i=13*(curPageDGQuaHan-1); i < 13*curPageDGQuaHan; i++){

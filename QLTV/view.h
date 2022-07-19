@@ -5,11 +5,9 @@ struct Button{
 	char title[50];
 	bool isHover, isChoose;
 	int align;
-	/*
-	-1: Left
-	0: center
-	1: right
-	*/
+	
+	//-1: Left, 0: center, 1: right
+	
 	
 	Button(int i, int xx, int yy, int wid, int hei, char s[50], int al){
 		id = i;
@@ -27,15 +25,13 @@ struct Button{
 		setbkcolor(isHover ? BG_BUTTON_SELECT : BG_BUTTON_DEFAULT);
 		setcolor(isHover ? TEXT_BUTTON_SELECT : TEXT_BUTTON_DEFAULT);
 		if(align == -1) outtextxy(x+10, y + (height-textheight(title))/2, title);
-		else if(align == 0) outtextxy(x + width/2 - textwidth(title)/2, y + (height-textheight(title))/2, title);
-		
+		else if(align == 0) outtextxy(x + width/2 - textwidth(title)/2, y + (height-textheight(title))/2, title);		
 		setbkcolor(BG_COLOR);
 	}
 	
 	bool isMouseHover(int mx, int my){
-		if(mx >= x && mx <= x+width && my >= y  && my <= y+height){
+		if(mx >= x && mx <= x+width && my >= y  && my <= y+height)
 			return true;
-		}
 		return false;
 	}
 };
@@ -83,33 +79,36 @@ struct EditText{
 			
 			if(dataFill != NULL){
 				int pos = toInt();
-				if(pos != -1) outtextxy(x+width - textwidth(dataFill[pos]) -20, y+(height-textheight("C"))/2, dataFill[pos]);
+				if(pos != -1) 
+					outtextxy(x+width - textwidth(dataFill[pos]) -20, y+(height-textheight("C"))/2, dataFill[pos]);
 			}
-		}
-		
+		}	
 		setbkcolor(BG_COLOR);
 	}
 	
 	int toInt(){
 		int x = 0;
 		for(int i=0; i<strlen(content); i++){
-			if(i > 0 && content[i] == '_') break;
-			if(content[i] >= '0' && content[i] <= '9') x = x*10 + (content[i]-'0');
-			else return -1;
+			if(i > 0 && content[i] == '_') 
+				break;
+			if(content[i] >= '0' && content[i] <= '9') 
+				x = x*10 + (content[i]-'0');
+			else 
+				return -1;
 		}
 		return x;
 	}
 	
 	char* trim(){
 		int n = strlen(content);
-		if(content[n-1] == ' ') content[n-1] = '\0';
+		if(content[n-1] == ' ') 
+			content[n-1] = '\0';
 		return content;
 	}
 	
 	bool isMouseHover(int mx, int my){
-		if(mx >= x+160 && mx <= x+width && my >= y && my <= y+height){
+		if(mx >= x+160 && mx <= x+width && my >= y && my <= y+height)
 			return true;
-		}
 		return false;
 	}
 };

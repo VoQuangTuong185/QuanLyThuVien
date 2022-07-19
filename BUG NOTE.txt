@@ -15,3 +15,9 @@
 - lỗi chưa sửa được ngày mượn
 
 - chưa thêm phím < > de di chuyen qua lai khi edit chữ trong khung
+
+- chưa xem các hàm trong view.h
+
+- [Warning] address of local variable 'ch' returned [-Wreturn-local-addr]
+
+- chưa làm nút thoát sẽ giải phóng bộ nhớ các ctdl
