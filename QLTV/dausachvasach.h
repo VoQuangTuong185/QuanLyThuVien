@@ -427,7 +427,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	//WINDOW DANH SACH DAU SACH
 	char confirm[50];
 	if(Window == DANH_SACH_DAU_SACH){
-		ItemEvent(DSDS,true);
+		ItemEvent(DSDS);
 		ButtonEffect(btnAddDauSach);			
 		ButtonEffect(btnClearTimDauSach);
 		ButtonEffect(btnPrev);
@@ -606,7 +606,6 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		}
 	}
 	else if(Window == DANH_MUC_SACH){
-		ItemEvent(DSDS,true);
 		ButtonEffect(btnBack);					
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			if(btnBack.isMouseHover(mx, my)){
@@ -620,6 +619,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		    ItemRightMouseClick(DSDS, DSDG);
 		    
 		if(subWindow == NHAP_SACH){
+			ItemEvent(DSDS);
 			ButtonEffect(btnNhapSoLuongSach);
 			ButtonEffect(btnPrevDMS);
 			ButtonEffect(btnNextDMS);
@@ -628,16 +628,12 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					if(curPageSach > 1){
 						--curPageSach;					
 						DrawListSach(DSDS);
-						Window = DANH_MUC_SACH;
-						subWindow = NHAP_SACH;
 					}
 				}
 				else if(btnNextDMS.isMouseHover(mx, my)){
 					if(curPageSach < totalPageSach){
 						++curPageSach;
 						DrawListSach(DSDS);
-						Window = DANH_MUC_SACH;
-						subWindow = NHAP_SACH;
 					}
 				}
 				else if(edNhapSoLuongSach.isMouseHover(mx, my)){
@@ -745,102 +741,72 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	}
 }
 
-void ItemEvent(DS_DauSach &DSDS,bool active){
-	if((mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) and (active) and (Window == DANH_SACH_DAU_SACH)){		
-		if(curItem != GetItemPosition(DSDS,my)){
-			if(curItem != -1){
-				// khoi phuc item
-				setfillstyle(SOLID_FILL, BG_COLOR);
-				bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
-				
-				setbkcolor(BG_COLOR);
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setcolor(TEXT_COLOR);
-				
-				if(strlen(edTimDauSach.content) == 0){
-					DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
-				}else{
-					DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);
-				}				
-				DrawBorderList();
-			}
-			// Ve item hien tai
-			curItem = GetItemPosition(DSDS,my);
-			if(curItem != -1){
-				setfillstyle(SOLID_FILL, LINE);
-				bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
-				setcolor(TEXT_COLOR_SELECTED);				
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setbkcolor(LINE);
-				
-				if(strlen(edTimDauSach.content) == 0){
-					DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
-				}else{
-					DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);
-				}				
-				DrawBorderList();
-			}
-		}
-	}else if (!(mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) and (active) and (Window == DANH_SACH_DAU_SACH)){
-		if(curItem != -1){
-			// khoi phuc item
-			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
-			setbkcolor(BG_COLOR);
-			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-			setcolor(TEXT_COLOR);
+void Draw_Line_DSDS(DS_DauSach &DSDS, bool cur){
+	setfillstyle(SOLID_FILL, cur ? LINE: BG_COLOR);
+	bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
+	
+	setbkcolor(cur ? LINE: BG_COLOR);
+	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	
+	if(strlen(edTimDauSach.content) == 0)
+		DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
+	else
+		DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);							
+	DrawBorderList();
+}
+
+void DrawBorderDMS(){
+	setlinestyle(SOLID_LINE, 0, 3);
+	setcolor(BORDER_COLOR);
+	rectangle((w/2)-450, 100, (w/2)+450, 500);
+	line(XDMS[1], 150, XDMS[1], 500);
+	line(XDMS[2], 150, XDMS[2], 500);
+}
+
+void Draw_Line_DMS(DS_DauSach &DSDS, bool cur){
+	setfillstyle(SOLID_FILL, cur ? LINE: BG_COLOR);
+	bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);			
+	setbkcolor(cur ? LINE: BG_COLOR);
+	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
+	DrawBorderDMS();
+}
+
+void ItemEvent(DS_DauSach &DSDS){
+	if((mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){	//mouse inside table	
+		if(curItem != GetItemDauSachPosition(DSDS,my)){
+			if(curItem != -1)
+				Draw_Line_DSDS(DSDS, false);
 			
-			if(strlen(edTimDauSach.content) == 0){
-				DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
-			}else{
-				DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);
-			}				
-			DrawBorderList();
+			curItem = GetItemDauSachPosition(DSDS,my);
+			
+			if(curItem != -1)
+				Draw_Line_DSDS(DSDS, true);
+		}
+	}
+	else if (!(mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){//mouse outside table
+		if(curItem != -1){
+			Draw_Line_DSDS(DSDS, false);
 			curItem = -1;
 		}
 	}
-	else if(mx > XDMS[0] && mx < XDMS[3] && my > 170-8 && my < 170+8*40-8){		
+	//DANH MUC SACH
+	else if(mx > XDMS[0] && mx < XDMS[3] && my > 170-8 && my < 170+8*40-8){	//mouse inside table	
 		if(curItemSach != GetItemSachPosition(DSDS, my)){
-			if(curItemSach != -1){
-				setfillstyle(SOLID_FILL, BG_COLOR);
-				bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);			
-				setbkcolor(BG_COLOR);
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setcolor(TEXT_COLOR);
-				DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
-			}
+			if(curItemSach != -1)
+				Draw_Line_DMS(DSDS, false);
+				
 			curItemSach = GetItemSachPosition(DSDS, my);
-			if(curItemSach != -1){
-				setfillstyle(SOLID_FILL, LINE);
-				bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);				
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setbkcolor(LINE);
-				setcolor(TEXT_COLOR);
-				DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
-			}
-			//ve khung
-			setlinestyle(SOLID_LINE, 0, 3);
-			setcolor(BORDER_COLOR);
-			rectangle((w/2)-450, 100, (w/2)+450, 500);
-			line(XDMS[1], 150, XDMS[1], 500);
-			line(XDMS[2], 150, XDMS[2], 500);							
+			
+			if(curItemSach != -1)
+				Draw_Line_DMS(DSDS, true);							
 		}
-	}else{
+	}else{//mouse outside table
 		if(curItemSach != -1){
-			// khoi phuc item
-			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);				
-			setbkcolor(BG_COLOR);
-			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-			setcolor(TEXT_COLOR);
-			DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
-			curItemSach = -1;		
-			//ve khung
-			setlinestyle(SOLID_LINE, 0, 3);
-			setcolor(BORDER_COLOR);
-			rectangle((w/2)-450, 100, (w/2)+450, 500);
-			line(XDMS[1], 150, XDMS[1], 500);
-			line(XDMS[2], 150, XDMS[2], 500);	
+			Draw_Line_DMS(DSDS, false);
+			curItemSach = -1;
 		}
 	}
 }
@@ -882,31 +848,34 @@ void ItemRightMouseClick(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			char ch[2];
 			itoa(nodeSelect->sach.trangthai, ch, 10);
 			strcpy(edHieuChinhTrangThaiSach.content, ch);
-			strcpy(edHieuChinhViTriSach.content, nodeSelect->sach.vitri);		
-			
+			strcpy(edHieuChinhViTriSach.content, nodeSelect->sach.vitri);				
 			(nodeSelect->sach.trangthai == 0) ? canEditTrangThai = true : canEditTrangThai = false;
-
 			DrawTrangConDSDS(DSDS);	
 		}
 	}
 }
 
-int GetItemPosition(DS_DauSach &DSDS,int y){
+int GetItemDauSachPosition(DS_DauSach &DSDS,int y){
 	int pos = (y-230+8)/40;
 	int i = 13*(curPageDauSach-1) + pos;
 	if(strlen(edTimDauSach.content) == 0){
-		if(i >= DSDS.n) return -1;
-	}else{
-		if(i >= sizeListIndexDauSachSearch) return -1;
+		if(i >= DSDS.n) 
+			return -1;		
+	}
+	else{
+		if(i >= sizeListIndexDauSachSearch) 
+			return -1;		
 	}
 	return pos;
 }
 
 int GetItemSachPosition(DS_DauSach &DSDS,int y){
 	int pos = (y-170+8)/40;
-	int i = 10*(curPageSach-1) + pos;
-	if(i >= DSDS.nodes[curDauSach]->soluong) return -1;
-	else return pos;
+	int i = 8*(curPageSach-1) + pos;
+	if(i >= DSDS.nodes[curDauSach]->soluong) 
+		return -1;
+	else 
+		return pos;
 }
 
 void DrawItemSach(Sach &sach, int i){

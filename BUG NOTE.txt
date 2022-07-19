@@ -6,19 +6,11 @@
 
 - chưa lược bỏ tối đa biến toàn cục (truyền tham biến vào hàm)
 
-- còn lỗi danh mục sách ở trang 2 không thao tác được chuột
-
-- còn lỗi hiển thị khi bị lỗi k thể khởi tạo 0 cho danh muc sach mới
-
 - chưa tìm hiểu insert_last
 
 - chưa tìm hiểu DSDS
 
 - còn lỗi nhập liệu tìm MASACH (có dấu -)
-
-- chưa thêm bắt lỗi nếu k mở được file khi mở file và ghi file
-	+ lỗi khi mở file : thông báo mở file lỗi, không cho vào menu liên quan
-	+ lỗi khi đóng file: thông báo mở lỗi khi dùng đến hàm, bắt người dùng phải xem lại code, tên file
 
 - lỗi chưa sửa được ngày mượn
 

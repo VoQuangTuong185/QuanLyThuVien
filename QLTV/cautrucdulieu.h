@@ -51,9 +51,7 @@ SachPTR GetNodeSachByMASACH(SachPTR First, char* masach){
 
 SachPTR GetNodesSachByPosition(SachPTR First, int position){
 	SachPTR node = First;
-	for(int i=0; node != NULL && i<position; node = node->next){
-		++i;
-	}
+	for(int i=0; node != NULL && i<position; node = node->next, i++);//duyet toi node can get
 	return node;
 }
 
@@ -92,8 +90,7 @@ bool UpdateNodeSach(SachPTR &node, Sach &sach){
 Sach* GetSach(SachPTR First, char* masach){
 	for(SachPTR node = First; node != NULL; node = node->next)
 		if(strcmp(node->sach.MASACH, masach) == 0) 
-			return &node->sach;
-		
+			return &node->sach;		
 	return NULL;
 }
 
@@ -266,7 +263,6 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
 	}
 }
 
-//chua tim hieu
 int GetSepPosition(char *s){
 	int n = strlen(s);
 	for(int i=0; i<n; i++)
