@@ -364,6 +364,7 @@ struct NodeMuonTra{
 	NodeMuonTra *next;
 };
 typedef NodeMuonTra *PTRMT;
+
 struct DS_MuonTra{
 	PTRMT First = NULL;
 	PTRMT Last;		
@@ -381,8 +382,8 @@ struct DS_MuonTra{
 	}
 };
 
-NodeMuonTra* CreateNewNode_MuonTra(MuonTra &mt){
-	NodeMuonTra *newNode = new NodeMuonTra;	
+PTRMT CreateNewNode_MuonTra(MuonTra &mt){
+	PTRMT newNode = new NodeMuonTra;	
 	newNode->muontra = mt;
 	newNode->prev = NULL;
 	newNode->next = NULL;	
@@ -390,7 +391,7 @@ NodeMuonTra* CreateNewNode_MuonTra(MuonTra &mt){
 }
  
 void InsertFirst_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
-	NodeMuonTra *newNode = CreateNewNode_MuonTra(mt);
+	PTRMT newNode = CreateNewNode_MuonTra(mt);
 	newNode->next = DSMT.First;
 	
 	if(DSMT.First == NULL) 
@@ -402,7 +403,7 @@ void InsertFirst_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
 }
 
 void InsertLast_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
-	NodeMuonTra *newNode = CreateNewNode_MuonTra(mt);
+	PTRMT newNode = CreateNewNode_MuonTra(mt);
 	if(DSMT.First == NULL){
 		DSMT.First = newNode;
 		DSMT.Last = newNode;
@@ -417,7 +418,7 @@ void InsertLast_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
 
 // Tra sach + lam mat sach
 void Update_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
-	for(NodeMuonTra *node = DSMT.Last; node != NULL; node = node->prev){
+	for(PTRMT node = DSMT.Last; node != NULL; node = node->prev){
 		if(strcmp(node->muontra.MASACH, mt.MASACH) == 0 && strlen(node->muontra.ngaytra) == 0){
 			node->muontra = mt;
 			if(mt.trangthai == 1) DSMT.chuaTra--;
@@ -427,7 +428,7 @@ void Update_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
 }
 
 void ClearList_MuonTra(DS_MuonTra &DSMT){
-	NodeMuonTra *removeNode;
+	PTRMT removeNode;
 	while(DSMT.First != NULL){
 		removeNode = DSMT.First;
 		DSMT.First = removeNode->next;
@@ -436,7 +437,7 @@ void ClearList_MuonTra(DS_MuonTra &DSMT){
 }
 
 void DeleteAllMuonTra(DS_MuonTra &DSMT){
-	NodeMuonTra *removeNode;
+	PTRMT removeNode;
 	while(DSMT.First != NULL){
 		removeNode = DSMT.First;
 		DSMT.First = DSMT.First->next;
@@ -469,12 +470,8 @@ struct NodeDocGia{
 	DocGia docgia;
 	NodeDocGia *left = NULL;
 	NodeDocGia *right = NULL;
-	//NodeMuonTra * DS_MuonSach = NULL; (con tro First)
-	//khi tao 1 doc gia len, chac chan doc gia chua muon quyen nao
 };
 typedef NodeDocGia* DocGiaPTR;
-
-//Mang con tro dung de luu danh sach doc gia tu BST
 
 struct TreeDocgia{
 	int n;

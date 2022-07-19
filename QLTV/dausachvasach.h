@@ -433,10 +433,10 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		ButtonEffect(btnNext);
 		ButtonEffect(btnQuayVe);		
 		if(GetAsyncKeyState(VK_LBUTTON)){
-			ItemLeftMouseClick(DSDS, DSDG);
-			if(edTimDauSach.isMouseHover(mx, my))	
+			ItemLeftMouseClick(DSDS, DSDG);	
+			if(edTimDauSach.isMouseHover(mx, my)){
 				Edit = &edTimDauSach;
-						
+			}							
 			else if(btnAddDauSach.isMouseHover(mx, my)){
 				Window = THEM_DAU_SACH;
 				DrawTrangConDSDS(DSDS);				
@@ -815,8 +815,10 @@ void ItemLeftMouseClick(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		Window = HIEU_CHINH_DAU_SACH;
 		subWindow = CONFIRM_POPUP_NONE;
 		strcpy(mess, "");
-		if(strlen(edTimDauSach.content) == 0) GetHieuChinhDauSach(DSDS, 13*(curPageDauSach-1) + curItem);
-		else GetHieuChinhDauSach(DSDS, listIndexDauSachSearch[13*(curPageDauSach-1) + curItem]);
+		if(strlen(edTimDauSach.content) == 0) 
+			GetHieuChinhDauSach(DSDS, 13*(curPageDauSach-1) + curItem);
+		else 
+			GetHieuChinhDauSach(DSDS, listIndexDauSachSearch[13*(curPageDauSach-1) + curItem]);
 	}
 }
 
