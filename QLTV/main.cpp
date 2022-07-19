@@ -11,9 +11,6 @@ using namespace std;
 #include "datetime.h"
 #include "queue.h"
 #include "cautrucdulieu.h"
-#include "cautrucmuontra.h"
-#include "cautrucdocgia.h"
-#include "cautrucdausach.h"
 #include "view.h"
 #include "local.h"
 #include "dausach.h"
@@ -22,8 +19,7 @@ using namespace std;
 
 #include "nhapxuat.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 	initwindow(w, h, AppTitle);			// init window graphics
 	ClearScreen(0);
 	DS_DauSach DSDS; //DSDS quan ly ca dau sach + sach

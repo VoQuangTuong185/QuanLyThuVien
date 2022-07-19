@@ -264,23 +264,30 @@ void DrawItemMT(int i);
 void ItemMTClick();
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 
+void Load_Found_DS(DS_DauSach &DSDS,EditText* &txt,int &n){
+	GetListNodes(DSDS, txt->content, sizeListIndexDauSachSearch);
+	curPageDauSach = 1;
+	ClearScreen(5);
+	DrawListDSDS(DSDS);		
+}
+
 void ScanTimDauSach(DS_DauSach &DSDS,EditText* &txt, int &n, int maxn, char c){
 	if(c == BACKSPACE)
 		if(n > 0)
 			txt->content[n--] = ' ';
-	if(n < maxn)
+		else if(n==0) //tu dong load lai danh sach neu da xoa het tu khoa tim kiem
+			Load_Found_DS(DSDS, txt, n);
+	if(n < maxn){
 		if(c == SPACE){
-			if(n > 0 && txt->content[n-1] != ' ')
-				txt->content[n++] = ' ';			
+			if(n > 0 && txt->content[n-1] != ' '){ //tim kiem khi ket thuc moi tu bang nut space
+				Load_Found_DS(DSDS, txt, n);
+				txt->content[n++] = ' ';
+			}		
 		}
 		else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-			txt->content[n++] = toupper(c);
-
+			txt->content[n++] = toupper(c);		
+	}
 	txt->content[n] = '\0';
-	GetListNodes(DSDS, txt->content, sizeListIndexDauSachSearch);
-	curPageDauSach = 1;
-	ClearScreen(5);
-	DrawListDSDS(DSDS);
 }
 
 bool NumberOnly(int n, char c){
