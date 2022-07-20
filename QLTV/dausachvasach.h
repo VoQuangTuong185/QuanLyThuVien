@@ -434,9 +434,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		ButtonEffect(btnQuayVe);		
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			ItemLeftMouseClick(DSDS, DSDG);	
-			if(edTimDauSach.isMouseHover(mx, my)){
-				Edit = &edTimDauSach;
-			}							
+			if(edTimDauSach.isMouseHover(mx, my))
+				Edit = &edTimDauSach;						
 			else if(btnAddDauSach.isMouseHover(mx, my)){
 				Window = THEM_DAU_SACH;
 				DrawTrangConDSDS(DSDS);				

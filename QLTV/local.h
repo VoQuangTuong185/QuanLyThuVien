@@ -156,7 +156,7 @@ Button btnXacNhanLamMatSach(301, w/2+300, 875, 200, 50, "XAC NHAN", 0);
 Button btnHuyLamMatSach(302, w-400, 875, 200, 50, "HUY", 0);
 
 bool isExit = false;
-bool openSuccess = true;
+bool openFileSuccess = true;
 
 Window Window;
 SubWindow subWindow;
@@ -228,7 +228,8 @@ Node_ID *nodeStart = NULL;	// random ID doc gia
 Sach *curSachMT = NULL;
 DauSach * curDSMT = NULL;
 bool sortDGByName = false;
-bool canMT = false; // Doc Gia co the muon sach hay khong?
+bool canBorrow = false; //Doc gia co dang bi khoa hay khong de hien thi thanh tim kiem ma sach
+bool canMT = false; // Doc Gia co the muon ma sach X hay khong?
 int totalPageDG = 1, curPageDG = 1;
 int totalPageDGQuaHan = 1, curPageDGQuaHan = 1;
 int curItemDG = -1, curDG = -1;
@@ -583,7 +584,7 @@ void Event(DS_DauSach &DSDS,TreeDocgia &DSDG){
 } 
 
 void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){	
-	if(openSuccess == false){
+	if(openFileSuccess == false){
 		ButtonEffect(btnYes);
 		ButtonEffect(btnNo);
 		if(GetAsyncKeyState(VK_LBUTTON)){
@@ -591,7 +592,7 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				isExit = true;
 			}
 			else if(btnNo.isMouseHover(mx, my)){
-				openSuccess = true;
+				openFileSuccess = true;
 				ClearScreen(0);
 				DrawMenu();
 			}
@@ -697,7 +698,7 @@ void DrawMenu(){
 	btnQLSach.draw();
 	btnThoat.draw();
 	char confirm[50];
-	if(openSuccess == false){
+	if(openFileSuccess == false){
 		switch(error){
 			case DAU_SACH: 
 			{

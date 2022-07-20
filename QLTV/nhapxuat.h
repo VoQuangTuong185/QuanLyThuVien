@@ -3,12 +3,12 @@ void ReadDauSachFromFile(DS_DauSach &DSDS){
 	fileDauSach.open("data_dsds.txt", ios::in);
 	fileDMS.open("data_dms.txt", ios::in);
 	if(!fileDauSach.is_open()){
-		openSuccess = false;
+		openFileSuccess = false;
 		error = DAU_SACH;
 		return;
 	}
 	else if (!fileDMS.is_open()){
-		openSuccess = false;
+		openFileSuccess = false;
 		error = SACH;
 		return;		
 	}
@@ -75,11 +75,17 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 	fstream fileDocGia, fileMuonTra;
 	fileDocGia.open("data_docgia.txt", ios::in);
 	fileMuonTra.open("data_muontra.txt", ios::in);
-	if(!fileDocGia.is_open() || !fileMuonTra.is_open()){
-		printf("Loi mo file doc gia \n");
-		AddRangeListID();
+	if(!fileDocGia.is_open()){
+		openFileSuccess = false;
+		error = DOC_GIA;
 		return;
 	}
+	else if(!fileMuonTra.is_open()){
+		openFileSuccess = false;
+		error = MUON_TRA;
+		return;
+	}
+	AddRangeListID();
 	string line, lineMT;
 	
 	int n;

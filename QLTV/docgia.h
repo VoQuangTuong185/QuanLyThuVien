@@ -452,7 +452,8 @@ void DrawTrangConDSDG(TreeDocgia &DSDG){
 	}
 }
 
-void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){	
+void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
+	char confirm[50];	
 	ButtonEffect(btnQuayVeMenu);
 	ButtonEffect(btnTatCaDocGia);
 	ButtonEffect(btnDocGiaQuaHan);
@@ -494,6 +495,14 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					}
 				} 
 			}
+			else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
+				if(curItemDG != -1){
+					strcpy(mess, "");
+					Window = XOA_DOC_GIA;
+					subWindow = CONFIRM_POPUP_NONE;
+					DrawTrangConDSDG(DSDG);	
+				}			
+			}
 		}else if (btnDocGiaQuaHan.isChoose){ 
 			ButtonEffect(btnPrevDocGiaQH);
 			ButtonEffect(btnNextDocGiaQH);
@@ -516,19 +525,13 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						ClearScreen(9);
 						DrawListDocGia(DSDG);
 					}
-				}
-				else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
-					if(curItemDG != -1){					
-						strcpy(mess, "");
-						Window = XOA_DOC_GIA;
-						DrawTrangConDSDG(DSDG);	
-					}			
-				}					
+				}				
 			}
 			else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
 				if(curItemDG != -1){
 					strcpy(mess, "");
 					Window = XOA_DOC_GIA;
+					subWindow = CONFIRM_POPUP_NONE;
 					DrawTrangConDSDG(DSDG);	
 				}			
 			}
@@ -608,33 +611,53 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			}			
 		}
 	}else if(Window == XOA_DOC_GIA){
-		ButtonEffect(btnBack);
-		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(btnBack.isMouseHover(mx, my)){
-				strcpy(mess, "");
-				Window = DANH_SACH_DOC_GIA;	
-				DrawTrangConDSDG(DSDG);
-			}	
-			else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
-				// neu doc gia k muon sach nao thi co the xoa
-				if(DSDG.nodes[curDG]->mt.total == 0){
+		if(subWindow == CONFIRM_POPUP_NONE){
+			ButtonEffect(btnBack);
+			if(GetAsyncKeyState(VK_LBUTTON)){
+				if(btnBack.isMouseHover(mx, my)){
+					strcpy(mess, "");
+					Window = DANH_SACH_DOC_GIA;	
+					DrawTrangConDSDG(DSDG);
+				}	
+				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
+					// neu doc gia k muon sach nao thi co the xoa
+					if(DSDG.nodes[curDG]->mt.total == 0){
+						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
+						Edit = NULL;
+						subWindow = CONFIRM_POPUP;
+						PopUp(confirm);	
+					}else{
+						// Doc gia dang muon sach -> k the xoa
+						strcpy(mess, "Doc gia da muon sach nen khong the xoa!");
+						DrawXoaDocGia(DSDG, curDG);
+					}
+				}			
+			}
+			else if(curDG != -1)
+				ButtonEffect(btnXacNhanXoaDocGia);			
+		}
+		else if(subWindow == CONFIRM_POPUP){
+			ButtonEffect(btnYes);
+			ButtonEffect(btnNo);
+			if(GetAsyncKeyState(VK_LBUTTON)){
+				if(btnYes.isMouseHover(mx, my)){
 					if(delete_ID(DSDG.nodes[curDG]->MATHE)){
 						RemoveDocGia(root, DSDG.nodes[curDG]->MATHE);
 						strcpy(mess, "Xoa doc gia thanh cong!");
+						DrawXoaDocGia(DSDG, curDG);	
+						delay(2000);
 						curDG = -1;
-						ClearScreen(8);
-						DrawListDocGia(DSDG, true);
-						DrawXoaDocGia(DSDG, curDG);					
+						Window = DANH_SACH_DOC_GIA;
+						subWindow = CONFIRM_POPUP_NONE;
+						DrawTrangConDSDG(DSDG);														
 					}
-				}else{
-					// Doc gia dang muon sach -> k the xoa
-					strcpy(mess, "Doc gia da muon sach nen khong the xoa!");
-					DrawXoaDocGia(DSDG, curDG);
 				}
-			}			
+				else if (btnNo.isMouseHover(mx, my)){
+					subWindow = CONFIRM_POPUP_NONE;
+					DrawXoaDocGia(DSDG, curDG);	
+				}							
+			}
 		}
-		else if(curDG != -1)
-			ButtonEffect(btnXacNhanXoaDocGia);
 	}
 }
 
