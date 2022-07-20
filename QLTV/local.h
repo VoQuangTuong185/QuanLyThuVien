@@ -259,9 +259,7 @@ void ButtonSwitchClick(TreeDocgia &DSDG);
 int GetItemDocGiaPosition(TreeDocgia &DSDG, int y);
 void ItemDocGiaEvent(TreeDocgia &DSDG);
 void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
-void ItemMTEvent();
 void DrawItemMT(int i);
-void ItemMTClick();
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void WriteDauSachToFile(DS_DauSach &DSDS);
 void WriteDocGiaToFile(DocGiaPTR &root);
@@ -575,8 +573,9 @@ void Event(DS_DauSach &DSDS,TreeDocgia &DSDG){
 	KeyBoardEvent(DSDS);
 	if(curMenu == 0)
 		MenuEvent(DSDS, DSDG);
-	else if(curMenu == btnQLSach.id)
+	else if(curMenu == btnQLSach.id){
 		MuonTraEvent(DSDS, DSDG);
+	}
 	else if(curMenu == btnQLDauSach.id)
 		DauSachEvent(DSDS, DSDG);
 	else if(curMenu == btnQLDocGia.id)

@@ -734,11 +734,11 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	}
 }
 
-void Draw_Line_DSDS(DS_DauSach &DSDS, bool cur){
-	setfillstyle(SOLID_FILL, cur ? LINE: BG_COLOR);
+void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
+	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
 	bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
 	
-	setbkcolor(cur ? LINE: BG_COLOR);
+	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
 	
@@ -757,10 +757,10 @@ void DrawBorderDMS(){
 	line(XDMS[2], 150, XDMS[2], 500);
 }
 
-void Draw_Line_DMS(DS_DauSach &DSDS, bool cur){
-	setfillstyle(SOLID_FILL, cur ? LINE: BG_COLOR);
+void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
+	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
 	bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);			
-	setbkcolor(cur ? LINE: BG_COLOR);
+	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
 	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);

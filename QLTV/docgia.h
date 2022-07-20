@@ -628,7 +628,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						PopUp(confirm);	
 					}else{
 						// Doc gia dang muon sach -> k the xoa
-						strcpy(mess, "Doc gia da muon sach nen khong the xoa!");
+						strcpy(mess, "DOC GIA DDA MUON SACH NEN KHONG THE XOA!");
 						DrawXoaDocGia(DSDG, curDG);
 					}
 				}			
