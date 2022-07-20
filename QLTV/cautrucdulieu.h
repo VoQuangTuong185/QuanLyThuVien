@@ -754,7 +754,8 @@ int deleteAfter_ID(IDPTR nodeBefore){
 	return 1;
 }
 
-int delete_ID(int id){
+//delete ID by id value
+int delete_ID(int id){ 
 	IDPTR removeNode = listID.First;
 	if (listID.First==NULL ) return 0;
 	if (listID.First->id == id){
