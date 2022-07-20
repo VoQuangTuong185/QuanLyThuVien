@@ -518,7 +518,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					}
 				}
 				else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
-					if(curItemDG != -1){
+					if(curItemDG != -1){					
 						strcpy(mess, "");
 						Window = XOA_DOC_GIA;
 						DrawTrangConDSDG(DSDG);	

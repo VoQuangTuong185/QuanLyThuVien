@@ -88,20 +88,19 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 	int m;
 	for(int i=0; i<n; i++){
 		DocGia dg;
-		
-		fileDocGia >> dg.MATHE;			fileDocGia.ignore();
+		fileDocGia >> dg.MATHE;						fileDocGia.ignore();
 		fileDocGia.getline(dg.ho,sizeof(dg.ho));
 		fileDocGia.getline(dg.ten,sizeof(dg.ten));
-		fileDocGia >> dg.phai;			fileDocGia.ignore();
-		fileDocGia >> dg.trangthai;		fileDocGia.ignore();
-		
-		fileMuonTra >> m;				fileMuonTra.ignore();	
+		fileDocGia >> dg.phai;						fileDocGia.ignore();
+		fileDocGia >> dg.trangthai;					fileDocGia.ignore();
+	
+		fileMuonTra >> m;							fileMuonTra.ignore();	
 		for(int j=0; j<m; j++){
 			MuonTra mt;
 			fileMuonTra.getline(mt.MASACH,sizeof(mt.MASACH));
 			fileMuonTra.getline(mt.ngaymuon,sizeof(mt.ngaymuon));
 			fileMuonTra.getline(mt.ngaytra,sizeof(mt.ngaytra));
-			fileMuonTra >> mt.trangthai;				fileMuonTra.ignore();	
+			fileMuonTra >> mt.trangthai;			fileMuonTra.ignore();
 			InsertLast_MuonTra(dg.mt, mt);
 		}		
 		InsertDocGia(root, dg);

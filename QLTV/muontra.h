@@ -103,7 +103,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							// 0: DANG MUON
 							MuonTra muon(curSachMT->MASACH, edNhapNgayMuonSach.content, "", 0);
 							InsertLast_MuonTra(curDGMT->mt, muon);							
-							NodeSach *nodeSach = GetNodeSachByMASACH(curDSMT->First, curSachMT->MASACH);
+							SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, curSachMT->MASACH);
 							Sach sach = nodeSach->sach;
 							sach.trangthai = 1; 	// DA CHO MUON
 							UpdateNodeSach(nodeSach, sach);							
@@ -152,7 +152,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							MuonTra tra(DSMT.mt[curMT].MASACH, DSMT.mt[curMT].NgayMuon, edNhapNgayTraSach.content, 1);
 							Update_MuonTra(curDGMT->mt, tra);							
 							curDSMT = GetDauSach(DSDS, DSMT.mt[curMT].MASACH);							
-							NodeSach *nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
+							SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
 							Sach sach = nodeSach->sach;
 							sach.trangthai = 0; 	// CHO MUON DUOC
 							UpdateNodeSach(nodeSach, sach);							
@@ -329,7 +329,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		if(curDGMT->mt.chuaTra > 0){
 			DSMT.n = curDGMT->mt.chuaTra;
 			int i = DSMT.n-1;
-			for(NodeMuonTra *mt = curDGMT->mt.Last; mt != NULL; mt = mt->prev){
+			for(NodeMuonTra *mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
 				if(mt->muontra.trangthai != 1){
 					ds = GetDauSach(DSDS, mt->muontra.MASACH);
 					strcpy(DSMT.mt[i].MASACH, mt->muontra.MASACH);

@@ -135,13 +135,6 @@ struct DS_DauSach{
 	DS_DauSach(){
 		n = 0;
 	}
-	~DS_DauSach(){
-		printf("Free memory dau sach + danh muc sach \n");
-		while(n) {
-			DeleteAllNodeSach(nodes[n-1]->First);
-			delete nodes[--n];
-		}
-	}
 };
 
 void InsertLastDauSach(DS_DauSach &DSDS, DauSach * dausach){
@@ -289,8 +282,10 @@ DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 		
 	for(int i=0; i<DSDS.n; i++)
 		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
-			if(indexSach < DSDS.nodes[i]->soluong) return DSDS.nodes[i];
-			else break;
+			if(indexSach < DSDS.nodes[i]->soluong) 
+				return DSDS.nodes[i];
+			else 
+				break;
 	return NULL;
 }
 
@@ -359,22 +354,19 @@ struct MuonTra{
 };
 
 struct NodeMuonTra{
-	MuonTra muontra;
-	NodeMuonTra *prev; 
+	MuonTra muontra; 
 	NodeMuonTra *next;
 };
 typedef NodeMuonTra *PTRMT;
 
 struct DS_MuonTra{
-	PTRMT First = NULL;
-	PTRMT Last;		
+	PTRMT First = NULL;	
 	//thuoc tinh them
 	int total;		// tong so luong sach da muon
 	int chuaTra;	// so luong sach dang muon + lam mat
 	
 	DS_MuonTra(){
 		First = NULL;
-		Last = NULL;
 		total = 0;
 		chuaTra = 0;
 	}
@@ -385,55 +377,41 @@ struct DS_MuonTra{
 PTRMT CreateNewNode_MuonTra(MuonTra &mt){
 	PTRMT newNode = new NodeMuonTra;	
 	newNode->muontra = mt;
-	newNode->prev = NULL;
 	newNode->next = NULL;	
 	return newNode; 
 }
  
 void InsertFirst_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
 	PTRMT newNode = CreateNewNode_MuonTra(mt);
-	newNode->next = DSMT.First;
-	
-	if(DSMT.First == NULL) 
-		DSMT.Last = newNode;
-	else 
-		DSMT.First->prev = newNode;
-		
+	newNode->next = DSMT.First;		
 	DSMT.First = newNode;
 }
 
 void InsertLast_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
-	PTRMT newNode = CreateNewNode_MuonTra(mt);
-	if(DSMT.First == NULL){
-		DSMT.First = newNode;
-		DSMT.Last = newNode;
-	}else{
-		DSMT.Last->next = newNode;
-		newNode->prev = DSMT.Last;
-		DSMT.Last = newNode;
-	}	
+	PTRMT newNode= CreateNewNode_MuonTra(mt);
+	PTRMT p= CreateNewNode_MuonTra(mt);
+	if(DSMT.First == NULL)
+		InsertFirst_MuonTra(DSMT, mt);
+	else{
+		p = DSMT.First;
+		while(p->next != NULL)
+			p = p->next;
+		p->next = newNode;
+	}
 	DSMT.total++;
 	if(mt.trangthai != 1) DSMT.chuaTra++;
 }
 
 // Tra sach + lam mat sach
 void Update_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
-	for(PTRMT node = DSMT.Last; node != NULL; node = node->prev){
+	for(PTRMT node = DSMT.First; node != NULL; node = node->next){
 		if(strcmp(node->muontra.MASACH, mt.MASACH) == 0 && strlen(node->muontra.ngaytra) == 0){
 			node->muontra = mt;
-			if(mt.trangthai == 1) DSMT.chuaTra--;
+			if(mt.trangthai == 1) 
+				DSMT.chuaTra--;
 			return;
 		}
 	}	
-}
-
-void ClearList_MuonTra(DS_MuonTra &DSMT){
-	PTRMT removeNode;
-	while(DSMT.First != NULL){
-		removeNode = DSMT.First;
-		DSMT.First = removeNode->next;
-		delete removeNode;
-	}
 }
 
 void DeleteAllMuonTra(DS_MuonTra &DSMT){
@@ -482,8 +460,7 @@ struct TreeDocgia{
 	TreeDocgia(){
 		mode = MODE_MA_THE;
 	}
-	~TreeDocgia(){
-		
+	~TreeDocgia(){	
 	}	
 	// Duyet InOrder
 	void LNR(DocGiaPTR &node){
@@ -589,15 +566,13 @@ struct TreeDocgia{
 			soNgayQH[n] = 7;
 			hasDGQH = false;
 			
-			if(nodeDG->docgia.mt.chuaTra > 0 && nodeDG->docgia.mt.Last != NULL){
-				// Neu thu tu muon tra duoc luu theo thu tu thoi gian tang dan, thi ta chi can lay duoc 1 node la dung..
-				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.Last; nodeMT != NULL; nodeMT = nodeMT->prev){
+			if(nodeDG->docgia.mt.chuaTra > 0){
+				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.First; nodeMT != NULL; nodeMT = nodeMT->next){
 					if(strlen(nodeMT->muontra.ngaytra) == 0){
 						// chua tra sach
 						if(DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) > soNgayQH[n]*24*60*60){
 							soNgayQH[n] = DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) / (24*60*60);
 							hasDGQH = true;
-							// break;
 						}
 						if(++i >= nodeDG->docgia.mt.chuaTra) break;
 					}
@@ -658,8 +633,10 @@ void RemoveDocGia(DocGiaPTR &node, int maDocGia){
 		printf("K the xoa doc gia \n");
 		return;
 	}
-	if(maDocGia < node->docgia.MATHE) RemoveDocGia(node->left, maDocGia);
-	else if(maDocGia > node->docgia.MATHE) RemoveDocGia(node->right, maDocGia);
+	if(maDocGia < node->docgia.MATHE) 
+		RemoveDocGia(node->left, maDocGia);
+	else if(maDocGia > node->docgia.MATHE) 
+		RemoveDocGia(node->right, maDocGia);
 	else{
 		DocGiaPTR removeNode = node;
 		if(node->right == NULL)

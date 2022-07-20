@@ -504,10 +504,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 								edThemNXB.toInt(), 
 								edThemTheLoai.trim());
 				
-					if(AddDauSach(DSDS, dausach)){
+					if(AddDauSach(DSDS, dausach))
 						strcpy(mess, "Them dau sach thanh cong!");
-						WriteDauSachToFile(DSDS);	
-					}
 					else 
 						strcpy(mess, "Them dau sach that bai, hay thu lai!");
 				}
@@ -549,10 +547,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 									edHieuChinhTacGia.trim(), 
 									edHieuChinhNXB.toInt(), 
 									edHieuChinhTheLoai.trim());	
-						if(UpdateDauSach(DSDS, dausach, curDauSach)){
-							WriteDauSachToFile(DSDS);
+						if(UpdateDauSach(DSDS, dausach, curDauSach))
 							strcpy(mess, "Hieu chinh dau sach thanh cong!");
-						}
 						else						
 							strcpy(mess, "Hieu chinh dau sach that bai!");
 					}
@@ -587,7 +583,6 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							strcpy(mess, "Xoa dau sach thanh cong !!");
 							setcolor(TIPS);
 							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
-							WriteDauSachToFile(DSDS);							
 					}
 					else if (DeleteDauSach(DSDS,DSDS.nodes[curDauSach]->ISBN) == -1){
 							strcpy(mess, "Dau sach khong ton tai !");

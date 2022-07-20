@@ -222,7 +222,7 @@ void MoveToPrevDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText 
 }
 
 //////////////////////////////////////////KHU TU TRI CUA DOCGIA VA MUONSACH /////////////////////////////////////////////////
-NodeDocGia *root = NULL;
+DocGiaPTR root = NULL;
 DocGia *curDGMT = NULL;
 Node_ID *nodeStart = NULL;	// random ID doc gia
 Sach *curSachMT = NULL;
@@ -262,6 +262,8 @@ void ItemMTEvent();
 void DrawItemMT(int i);
 void ItemMTClick();
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
+void WriteDauSachToFile(DS_DauSach &DSDS);
+void WriteDocGiaToFile(DocGiaPTR &root);
 
 void Load_Found_DS(DS_DauSach &DSDS,EditText* &txt,int &n){
 	GetListNodes(DSDS, txt->content, sizeListIndexDauSachSearch);
@@ -607,8 +609,24 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				SetMenuSelect(DSDS, DSDG, btnQLDocGia.id);
 			else if(btnQLSach.isMouseHover(mx, my))
 				SetMenuSelect(DSDS, DSDG, btnQLSach.id);
-			else if(btnThoat.isMouseHover(mx, my))
-				isExit = true;			
+			else if(btnThoat.isMouseHover(mx, my)){	
+				WriteDauSachToFile(DSDS);
+				WriteDocGiaToFile(root);
+				cout<<"Saved dau sach + danh muc sach \n";
+				while(DSDS.n) {
+					DeleteAllNodeSach(DSDS.nodes[DSDS.n-1]->First);
+					delete DSDS.nodes[--DSDS.n];
+				}
+				
+				if(root != NULL){
+					DeleteMemoryDocGia(root->left);
+					DeleteMemoryDocGia(root->right);		
+					DeleteAllMuonTra(root->docgia.mt);		
+					delete root;
+				}
+				cout<<"Free memory danh muc sach \n";
+				isExit = true;
+			}		
 		}		
 	}
 }
