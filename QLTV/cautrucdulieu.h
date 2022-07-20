@@ -678,103 +678,116 @@ struct Node_ID{
 };
 typedef Node_ID *IDPTR;
 struct List_ID{
-	IDPTR head;
-	IDPTR tail;
+	IDPTR First;
 	
 	List_ID(){
-		head = NULL;
-		tail = NULL;
+		First = NULL;
 	}
 	~List_ID(){
 		IDPTR removeNode;
-		while(head != NULL){
-			removeNode = head;
-			head = head->next;
+		while(First != NULL){
+			removeNode = First;
+			First = First->next;
 			delete removeNode;
 		}
-		tail = head;
 	}
 };
 
 // khai bao instance cua List_ID
 List_ID listID;
 
-Node_ID* createNode_ID(int id){
-	Node_ID *node = new Node_ID;
+IDPTR createNode_ID(int id){
+	IDPTR node = new Node_ID;
 	node->id = id;
 	node->next = NULL;
 	return node;
 }
 
-void insertHead_ID(int id){
-	Node_ID *newNode = createNode_ID(id);
-	
-	if(listID.head == NULL){
-		listID.head = newNode;
-		listID.tail = newNode;
-	}else{
-		newNode->next = listID.head;
-		listID.head = newNode;
+void insertFirst(int id){
+	IDPTR newNode = createNode_ID(id);
+	newNode->next = listID.First;
+	listID.First = newNode;
+}
+
+void insertLast_ID(int id){
+	IDPTR newNode = createNode_ID(id);
+	IDPTR p = createNode_ID(id);
+	if(listID.First == NULL)
+		insertFirst(id);
+	else{
+		p = listID.First;
+		while (p->next != NULL)
+			p=p->next;
+		p->next = newNode;
 	}
 }
 
-void insertTail_ID(int id){
-	if(listID.tail == NULL){
-		insertHead_ID(id);
-	}else{
-		Node_ID *newNode = createNode_ID(id);
-		listID.tail->next = newNode;
-		listID.tail = newNode;
+void insertAfter_ID(IDPTR nodeBefore, int id){
+	if(nodeBefore == NULL) 
+		printf("khong them phan tu vao danh sach duoc");
+	else {
+		IDPTR newNode = createNode_ID(id);
+		newNode->next = nodeBefore->next;
+		nodeBefore->next = newNode;		
 	}
 }
 
-void insertAfter_ID(Node_ID *nodeBefore, int id){
-	if(nodeBefore == NULL) return;
-	Node_ID *newNode = createNode_ID(id);
-	newNode->next = nodeBefore->next;
-	nodeBefore->next = newNode;
+int deleteFirst_ID (IDPTR &First){ 
+	IDPTR removeNode;
+    if (First == NULL)
+      return 0;
+    removeNode = First;    // nut can xoa la nut dau
+    First = removeNode->next;
+    delete removeNode; 
+    return 1;
 }
 
-void deleteAfter_ID(Node_ID *nodeBefore){
-	if(nodeBefore == NULL || nodeBefore->next == NULL) return;
-	Node_ID *removeNode = nodeBefore->next;
+
+int deleteAfter_ID(IDPTR nodeBefore){
+	IDPTR removeNode ;
+	//neu nodeBefore la null hoac sau nodeBefore khong co node
+	if(nodeBefore == NULL || nodeBefore->next == NULL) 
+		return 0;
+	removeNode = nodeBefore->next;
 	nodeBefore->next = removeNode->next;
 	delete removeNode;
+	return 1;
 }
 
-void delete_ID(int id){
-	if(listID.head != NULL && listID.head->id == id){
-		Node_ID *removeNode = listID.head;
-		listID.head = removeNode->next;
-		delete listID.head;
-		return;
-	}
+int delete_ID(int id){
+	IDPTR removeNode = listID.First;
+	if (listID.First==NULL ) return 0;
+	if (listID.First->id == id){
+		deleteFirst_ID(listID.First);
+		return 1;
+	}	
 	
-	for(Node_ID *node = listID.head; node->next != NULL; node = node->next){
-		if(node->next->id == id){
-			deleteAfter_ID(node);
-		}
-	}
+	for(removeNode = listID.First; removeNode->next != NULL && removeNode->next->id !=id; removeNode = removeNode->next);
+	if(removeNode->next != NULL)
+		if (deleteAfter_ID(removeNode))
+			return 1;
+	return 0;
 }
 
 // LNR
 void Duyet_DG_ID(DocGiaPTR &nodeDG){
-	if(nodeDG == NULL) return;
+	if(nodeDG == NULL) 
+		return;
 	Duyet_DG_ID(nodeDG->left);
-	insertTail_ID(nodeDG->docgia.MATHE);
+	insertLast_ID(nodeDG->docgia.MATHE);
 	Duyet_DG_ID(nodeDG->right);
 }
 
 void AddRangeListID(){
-	insertHead_ID(START_ID_DG);
-	insertTail_ID(END_ID_DG);
+	insertFirst(START_ID_DG);
+	insertLast_ID(END_ID_DG);
 }
 
-Node_ID* Node_ID_Random(){
+IDPTR Node_ID_Random(){
 	int maxDistance = 1;
-	Node_ID *nodeStart = NULL;
+	IDPTR nodeStart = NULL;
 	
-	for(Node_ID *node = listID.head; node->next != NULL; node = node->next){
+	for(IDPTR node = listID.First; node->next != NULL; node = node->next){
 		if(node->next->id - node->id > maxDistance){
 			maxDistance = node->next->id - node->id;
 			nodeStart = node;
@@ -783,9 +796,8 @@ Node_ID* Node_ID_Random(){
 			nodeStart = node;
 		}
 	}	
-	if(maxDistance == 1){
+	if(maxDistance == 1)
 		printf("Full Array\n");
-	}
 	return nodeStart;
 }
 

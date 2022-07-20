@@ -618,14 +618,14 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
 				// neu doc gia k muon sach nao thi co the xoa
 				if(DSDG.nodes[curDG]->mt.total == 0){
-					delete_ID(DSDG.nodes[curDG]->MATHE);
-					RemoveDocGia(root, DSDG.nodes[curDG]->MATHE);
-					
-					strcpy(mess, "Xoa doc gia thanh cong!");
-					curDG = -1;
-					ClearScreen(8);
-					DrawListDocGia(DSDG, true);
-					DrawXoaDocGia(DSDG, curDG);
+					if(delete_ID(DSDG.nodes[curDG]->MATHE)){
+						RemoveDocGia(root, DSDG.nodes[curDG]->MATHE);
+						strcpy(mess, "Xoa doc gia thanh cong!");
+						curDG = -1;
+						ClearScreen(8);
+						DrawListDocGia(DSDG, true);
+						DrawXoaDocGia(DSDG, curDG);					
+					}
 				}else{
 					// Doc gia dang muon sach -> k the xoa
 					strcpy(mess, "Doc gia da muon sach nen khong the xoa!");
