@@ -1,3 +1,62 @@
+void TangDan(int a[], int n){
+    int tg;
+    for(int i = 0; i < n - 1; i++)
+        for(int j = i + 1; j < n; j++)
+            if(a[i] > a[j]){
+                // Hoan vi 2 so a[i] va a[j]
+                tg = a[i];
+                a[i] = a[j];
+                a[j] = tg;        
+            }
+}
+
+void CreateFileMaTheDocGia(){
+	const int MaxTheDocGia = 10000;
+	int a[MaxTheDocGia];
+	a[0]=0;
+	a[1]= MaxTheDocGia;//MaxTheDocGia
+	int j=2;
+	int k=2;
+	int TheDocGiaBST[MaxTheDocGia];
+	int count = 0;
+	while(a[1]!=1)
+	{
+		for(int i=0;i<j-1;i++){
+			a[k]=(a[i]+a[i+1])/2;
+			TheDocGiaBST[count] = a[k];
+			count++;
+			k++;
+		}
+		j=k;
+		TangDan(a,k);
+	}
+	for(int i=0;i<count;i++){
+		cout<<TheDocGiaBST[i]<<"\t";
+	}
+	
+	fstream fileMaTheDocGia;
+	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);
+	fileMaTheDocGia << count-1 << endl;	
+	for(int i=0; i<count; i++)
+		fileMaTheDocGia << TheDocGiaBST[i]<<"\t";
+	fileMaTheDocGia.close();
+}
+
+void ReadMaTheDocGia(int TheDocGiaBSTC[]){
+	fstream fileMaTheDocGia;
+	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::in);
+	if(!fileMaTheDocGia.is_open())
+		cout<<"Loi doc file data_MaTheDocGia roi!!!";
+		
+	int n;
+	fileMaTheDocGia >> n;
+	fileMaTheDocGia.ignore();
+	for(int i=0; i<n; i++){
+		fileMaTheDocGia >> TheDocGiaBSTC[i];
+	}
+	fileMaTheDocGia.close();
+}
+
 void ReadDauSachFromFile(DS_DauSach &DSDS){
 	fstream fileDauSach, fileDMS;	
 	fileDauSach.open("data_dsds.txt", ios::in);
@@ -90,6 +149,9 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 	
 	int n;
 	fileDocGia >> n;
+	if(n==0){
+		return;
+	}
 	fileDocGia.ignore();
 	int m;
 	for(int i=0; i<n; i++){

@@ -10,12 +10,12 @@ void AutoGenMaDocGia(){
 int GetItemDocGiaPosition(TreeDocgia &DSDG, int y){
 	int pos = (y-220+8)/40;
 	int i;
-	if(btnTatCaDocGia.isChoose){
+	if(btnTatCaDocGia.isChoose)
 		i = 13*(curPageDG-1) + pos;
-	}else{
+	else
 		i = 13*(curPageDGQuaHan-1) + pos;
-	}
-	if(i >= DSDG.n) return -1;
+	if(i >= DSDG.n) 
+		return -1;
 	return pos;
 }
 
@@ -621,16 +621,21 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				}	
 				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
 					// neu doc gia k muon sach nao thi co the xoa
-					if(DSDG.nodes[curDG]->mt.total == 0){
+					cout<<DSDG.nodes[curDG]->mt.total;
 						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
 						Edit = NULL;
 						subWindow = CONFIRM_POPUP;
-						PopUp(confirm);	
-					}else{
-						// Doc gia dang muon sach -> k the xoa
-						strcpy(mess, "DOC GIA DDA MUON SACH NEN KHONG THE XOA!");
-						DrawXoaDocGia(DSDG, curDG);
-					}
+						PopUp(confirm);					
+//					if(DSDG.nodes[curDG]->mt.total == 0){
+//						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
+//						Edit = NULL;
+//						subWindow = CONFIRM_POPUP;
+//						PopUp(confirm);	
+//					}else{
+//						// Doc gia dang muon sach -> k the xoa
+//						strcpy(mess, "DOC GIA DA MUON SACH NEN KHONG THE XOA!");
+//						DrawXoaDocGia(DSDG, curDG);
+//					}
 				}			
 			}
 			else if(curDG != -1)

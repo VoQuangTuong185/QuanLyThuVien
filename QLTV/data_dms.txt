@@ -31,7 +31,7 @@ KE 2, NGAN 3
 1
 5
 AHXD-0
-1
+0
 KE 2, NGAN 4
 AHXD-1
 0
@@ -62,7 +62,7 @@ KE 1, NGAN 2
 1
 4
 TLBB-0
-1
+0
 KE 1, NGAN 2
 TLBB-1
 0
@@ -76,7 +76,7 @@ KE 1, NGAN 2
 3
 6
 TDDH-0
-1
+0
 KE 1, NGAN 3
 TDDH-1
 0
@@ -99,7 +99,7 @@ TSQ-0
 0
 KE 1, NGAN 1
 TSQ-1
-1
+0
 KE 1, NGAN 1
 TSQ-2
 0
@@ -165,7 +165,7 @@ KE 3, NGAN 3
 1
 2
 DLDL-0
-1
+0
 KE 5, NGAN 2
 DLDL-1
 0
@@ -204,7 +204,7 @@ PTC-0
 0
 KE 5, NGAN 2
 PTC-1
-1
+0
 KE 5, NGAN 2
 6
 11
@@ -212,19 +212,19 @@ TDK-0
 0
 KE 5, NGAN 5
 TDK-1
-1
+0
 KE 5, NGAN 5
 TDK-2
-1
+0
 KE 5, NGAN 5
 TDK-3
 0
 KE 5, NGAN 5
 TDK-4
-1
+0
 KE 5, NGAN 5
 TDK-5
-1
+0
 KE 5, NGAN 6
 TDK-6
 0

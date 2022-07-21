@@ -26,6 +26,9 @@ int main(int argc, char *argv[]){
 	TreeDocgia DSDG; //DSDS quan ly ca dau doc gia + muon sach
 	ReadDauSachFromFile(DSDS);
 	ReadDocGiaFromFile(root);
+	//CreateFileMaTheDocGia();
+	int TheDocGiaBSTC[MaxTheDocGia];
+	ReadMaTheDocGia(TheDocGiaBSTC);
 	DrawMenu();
 	while(true){
 		Event(DSDS,DSDG);
