@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 	ReadMaTheDocGia(TheDocGiaBSTC);
 	DrawMenu();
 	while(true){
-		Event(DSDS,DSDG);
+		Event(DSDS,DSDG, TheDocGiaBSTC);
 		if(isExit) break;
 		delay(100);
 	}

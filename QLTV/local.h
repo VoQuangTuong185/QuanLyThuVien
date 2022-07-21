@@ -180,10 +180,9 @@ void ButtonEffect(Button &btn);
 void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void ItemEvent(DS_DauSach &DSDS);
 void DrawBorderList();
-void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
+void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]);
 void DrawDanhSachDauSach();
 void DrawNhapSach();
-void Event();
 void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG,int menuID);
 void DrawListDSDS(DS_DauSach &DSDS);
 void DrawThemDauSach();
@@ -230,6 +229,9 @@ DauSach * curDSMT = NULL;
 bool sortDGByName = false;
 bool canBorrow = false; //Doc gia co dang bi khoa hay khong de hien thi thanh tim kiem ma sach
 bool canMT = false; // Doc Gia co the muon ma sach X hay khong?
+
+int sizeofArrayMaTheDocGia;
+
 int totalPageDG = 1, curPageDG = 1;
 int totalPageDGQuaHan = 1, curPageDGQuaHan = 1;
 int curItemDG = -1, curDG = -1;
@@ -241,7 +243,7 @@ void DrawBorderDSDocGia();
 void DrawDanhSachDocGia(TreeDocgia &DSDG);
 void DrawListDocGia(TreeDocgia &DSDG,bool reload = false);
 void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN);
-void DrawThemDocGia(bool genNewID = true);
+void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID = true);
 void DrawHieuChinhDocGia();
 void DrawMuonSach();
 void DrawTraSach();
@@ -258,11 +260,12 @@ void MoveToPrevDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,
 void ButtonSwitchClick(TreeDocgia &DSDG);
 int GetItemDocGiaPosition(TreeDocgia &DSDG, int y);
 void ItemDocGiaEvent(TreeDocgia &DSDG);
-void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
+void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]);
 void DrawItemMT(int i);
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void WriteDauSachToFile(DS_DauSach &DSDS);
 void WriteDocGiaToFile(DocGiaPTR &root);
+void WriteMaTheDocGia(int TheDocGiaBSTC[]);
 
 void Load_Found_DS(DS_DauSach &DSDS,EditText* &txt,int &n){
 	GetListNodes(DSDS, txt->content, sizeListIndexDauSachSearch);
@@ -568,21 +571,20 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 	}
 }
 
-void Event(DS_DauSach &DSDS,TreeDocgia &DSDG){
+void Event(DS_DauSach &DSDS,TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 	mx = mousex(); my = mousey();
 	KeyBoardEvent(DSDS);
 	if(curMenu == 0)
-		MenuEvent(DSDS, DSDG);
-	else if(curMenu == btnQLSach.id){
-		MuonTraEvent(DSDS, DSDG);
-	}
+		MenuEvent(DSDS, DSDG, TheDocGiaBSTC);
 	else if(curMenu == btnQLDauSach.id)
 		DauSachEvent(DSDS, DSDG);
 	else if(curMenu == btnQLDocGia.id)
-		DocGiaEvent(DSDS, DSDG);
+		DocGiaEvent(DSDS, DSDG, TheDocGiaBSTC);
+	else if(curMenu == btnQLSach.id)
+		MuonTraEvent(DSDS, DSDG);
 } 
 
-void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){	
+void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){	
 	if(openFileSuccess == false){
 		ButtonEffect(btnYes);
 		ButtonEffect(btnNo);
@@ -613,6 +615,8 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				WriteDauSachToFile(DSDS);
 				WriteDocGiaToFile(root);
 				cout<<"Saved dau sach + danh muc sach \n";
+				WriteMaTheDocGia(TheDocGiaBSTC);
+				cout<<"Saved MaTheDocGia \n";
 				while(DSDS.n) {
 					DeleteAllNodeSach(DSDS.nodes[DSDS.n-1]->First);
 					delete DSDS.nodes[--DSDS.n];

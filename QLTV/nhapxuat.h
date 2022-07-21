@@ -36,7 +36,7 @@ void CreateFileMaTheDocGia(){
 	
 	fstream fileMaTheDocGia;
 	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);
-	fileMaTheDocGia << count-1 << endl;	
+	fileMaTheDocGia << count << endl;	
 	for(int i=0; i<count; i++)
 		fileMaTheDocGia << TheDocGiaBST[i]<<"\t";
 	fileMaTheDocGia.close();
@@ -46,15 +46,23 @@ void ReadMaTheDocGia(int TheDocGiaBSTC[]){
 	fstream fileMaTheDocGia;
 	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::in);
 	if(!fileMaTheDocGia.is_open())
-		cout<<"Loi doc file data_MaTheDocGia roi!!!";
-		
-	int n;
-	fileMaTheDocGia >> n;
-	fileMaTheDocGia.ignore();
-	for(int i=0; i<n; i++){
-		fileMaTheDocGia >> TheDocGiaBSTC[i];
-	}
+		cout<<"Loi doc file data_MaTheDocGia roi!!!";		
+	fileMaTheDocGia >> sizeofArrayMaTheDocGia;
+	fileMaTheDocGia.ignore();		
+	for(int i=0; i<sizeofArrayMaTheDocGia; i++)
+		fileMaTheDocGia >> TheDocGiaBSTC[i];	
 	fileMaTheDocGia.close();
+}
+
+void WriteMaTheDocGia(int TheDocGiaBSTC[]){
+	fstream fileMaTheDocGia;
+	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);	
+	if(!fileMaTheDocGia.is_open())
+		cout<<"Loi doc file data_MaTheDocGia roi!!!";		
+	fileMaTheDocGia << sizeofArrayMaTheDocGia << endl;	
+	for(int i=0; i<sizeofArrayMaTheDocGia; i++)
+		fileMaTheDocGia << TheDocGiaBSTC[i]<<"\t";
+	fileMaTheDocGia.close();	
 }
 
 void ReadDauSachFromFile(DS_DauSach &DSDS){

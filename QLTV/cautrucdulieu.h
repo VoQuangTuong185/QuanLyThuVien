@@ -2,6 +2,9 @@
 #include <string>
 #include <fstream>
 using namespace std;
+
+//#MATHEDOCGIA
+
 //#DANHMUCSACH
 //CAU TRUC DU LIEU DANH MUC SACH( DANH SACH LIEN KET DON)
 struct Sach{
