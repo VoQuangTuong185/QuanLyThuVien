@@ -1,12 +1,3 @@
-void AutoGenMaDocGia(){
-	nodeStart = Node_ID_Random();
-	if(nodeStart != NULL){
-		int ranID = rand()%(nodeStart->next->id - nodeStart->id - 1) + nodeStart->id + 1;
-		itoa(ranID, edThemMaTheDocGia.content, 10);
-	}else
-		strcpy(edThemMaTheDocGia.content, "OVERFLOW");	
-}
-
 int GetItemDocGiaPosition(TreeDocgia &DSDG, int y){
 	int pos = (y-220+8)/40;
 	int i;
@@ -309,10 +300,7 @@ void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID){
 	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);		bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
-	setcolor(TIPS);							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
-	
-//	if(genNewID) 
-//		AutoGenMaDocGia();
+	setcolor(TIPS);							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);	
 	
 	if(genNewID) {
 		int ID = TheDocGiaBSTC[0];	
@@ -559,7 +547,6 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 								edThemTrangThaiTheDocGia.toInt());	
 															
 					InsertDocGia(root, docgia);
-					//insertAfter_ID(nodeStart, edThemMaTheDocGia.toInt());			
 					strcpy(mess, "Them doc gia thanh cong!");
 					
 					for(int i=0; i<sizeofArrayMaTheDocGia-1 ; i++){
@@ -631,21 +618,17 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 				}	
 				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
 					// neu doc gia k muon sach nao thi co the xoa
-					cout<<DSDG.nodes[curDG]->mt.total;
+					cout<<DSDG.nodes[curDG]->mt.total;				
+					if(DSDG.nodes[curDG]->mt.total == 0){
 						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
 						Edit = NULL;
 						subWindow = CONFIRM_POPUP;
-						PopUp(confirm);					
-//					if(DSDG.nodes[curDG]->mt.total == 0){
-//						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
-//						Edit = NULL;
-//						subWindow = CONFIRM_POPUP;
-//						PopUp(confirm);	
-//					}else{
-//						// Doc gia dang muon sach -> k the xoa
-//						strcpy(mess, "DOC GIA DA MUON SACH NEN KHONG THE XOA!");
-//						DrawXoaDocGia(DSDG, curDG);
-//					}
+						PopUp(confirm);	
+					}else{
+						// Doc gia dang muon sach -> k the xoa
+						strcpy(mess, "DOC GIA DA MUON SACH NEN KHONG THE XOA!");
+						DrawXoaDocGia(DSDG, curDG);
+					}
 				}			
 			}
 			else if(curDG != -1)

@@ -3,8 +3,6 @@
 #include <fstream>
 using namespace std;
 
-//#MATHEDOCGIA
-
 //#DANHMUCSACH
 //CAU TRUC DU LIEU DANH MUC SACH( DANH SACH LIEN KET DON)
 struct Sach{
@@ -402,7 +400,8 @@ void InsertLast_MuonTra(DS_MuonTra &DSMT, MuonTra &mt){
 		p->next = newNode;
 	}
 	DSMT.total++;
-	if(mt.trangthai != 1) DSMT.chuaTra++;
+	if(mt.trangthai != 1) 
+		DSMT.chuaTra++;
 }
 
 // Tra sach + lam mat sach
@@ -674,7 +673,6 @@ void DeleteMemoryDocGia(DocGiaPTR &node){
 	}
 }
 
-// Random Ma doc gia
 struct Node_ID{
 	int id;
 	Node_ID *next;
@@ -745,7 +743,6 @@ int deleteFirst_ID (IDPTR &First){
     return 1;
 }
 
-
 int deleteAfter_ID(IDPTR nodeBefore){
 	IDPTR removeNode ;
 	//neu nodeBefore la null hoac sau nodeBefore khong co node
@@ -760,7 +757,8 @@ int deleteAfter_ID(IDPTR nodeBefore){
 //delete ID by id value
 int delete_ID(int id){ 
 	IDPTR removeNode = listID.First;
-	if (listID.First==NULL ) return 0;
+	if (listID.First==NULL ) 
+		return 0;
 	if (listID.First->id == id){
 		deleteFirst_ID(listID.First);
 		return 1;
@@ -780,29 +778,6 @@ void Duyet_DG_ID(DocGiaPTR &nodeDG){
 	Duyet_DG_ID(nodeDG->left);
 	insertLast_ID(nodeDG->docgia.MATHE);
 	Duyet_DG_ID(nodeDG->right);
-}
-
-void AddRangeListID(){
-	insertFirst(START_ID_DG);
-	insertLast_ID(END_ID_DG);
-}
-
-IDPTR Node_ID_Random(){
-	int maxDistance = 1;
-	IDPTR nodeStart = NULL;
-	
-	for(IDPTR node = listID.First; node->next != NULL; node = node->next){
-		if(node->next->id - node->id > maxDistance){
-			maxDistance = node->next->id - node->id;
-			nodeStart = node;
-		}else if(node->next->id - node->id == maxDistance && rand()%2){
-			maxDistance = node->next->id - node->id;
-			nodeStart = node;
-		}
-	}	
-	if(maxDistance == 1)
-		printf("Full Array\n");
-	return nodeStart;
 }
 
 

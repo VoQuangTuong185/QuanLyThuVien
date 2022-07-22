@@ -152,7 +152,6 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 		error = MUON_TRA;
 		return;
 	}
-	AddRangeListID();
 	string line, lineMT;
 	
 	int n;
@@ -181,10 +180,7 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 		}		
 		InsertDocGia(root, dg);
 	}
-
 	Duyet_DG_ID(root);
-	AddRangeListID();
-	
 	fileMuonTra.close();
 	fileDocGia.close();
 }

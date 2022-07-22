@@ -192,8 +192,6 @@ void DrawItemDauSach(DS_DauSach &DSDS,int, int);
 int GetItemDauSachPosition(DS_DauSach &DSDS,int y);
 int GetItemSachPosition(DS_DauSach &DSDS,int y);
 void DrawItemSach(Sach &sach, int i);
-void ItemLeftMouseClick(DS_DauSach &DSDS, TreeDocgia &DSDG);
-void ItemRightMouseClick(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void GetHieuChinhDauSach(DS_DauSach &DSDS,int i);
 void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLimit = 0, int endLimit = 0);
 bool NumberOnly(int n,char c);
@@ -223,7 +221,6 @@ void MoveToPrevDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText 
 //////////////////////////////////////////KHU TU TRI CUA DOCGIA VA MUONSACH /////////////////////////////////////////////////
 DocGiaPTR root = NULL;
 DocGia *curDGMT = NULL;
-Node_ID *nodeStart = NULL;	// random ID doc gia
 Sach *curSachMT = NULL;
 DauSach * curDSMT = NULL;
 bool sortDGByName = false;
