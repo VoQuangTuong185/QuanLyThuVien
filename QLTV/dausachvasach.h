@@ -539,6 +539,20 @@ void ItemEvent(DS_DauSach &DSDS){
 	}
 }
 
+int CheckDeteleDauSach(DS_DauSach &DSDS, int curDauSach){
+	if(DSDS.nodes[curDauSach]->soluotmuon == 0)
+		return 1;
+	else {
+		for (int i = 0; i<DSDS.nodes[curDauSach]->soluong-1; i++){
+			SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First,i);
+			if (nodeSelect->sach.trangthai == 1){
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
 void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){	
 	//WINDOW DANH SACH DAU SACH
 	char confirm[50];
@@ -665,10 +679,17 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				    DrawTrangConDSDS(DSDS);							
 				}			
 				else if(btnDeleteDauSach.isMouseHover(mx, my)){
-					strcpy(confirm, "Xac nhan xoa dau sach?");
-					Edit = NULL;
-					subWindow = CONFIRM_POPUP;
-					PopUp(confirm);
+					if (CheckDeteleDauSach(DSDS, curDauSach)){
+						strcpy(confirm, "XAC NHAN XOA DAU SACH?");
+						Edit = NULL;
+						subWindow = CONFIRM_POPUP;
+						PopUp(confirm);						
+					}
+					else {
+						strcpy(mess, "DAU SACH CO SACH \"DANG CHO MUON\"" " => KHONG THE XOA!");
+						setcolor(TIPS);
+						outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+					}
 				}
 				else if(btnClearHieuChinhDauSach.isMouseHover(mx, my)){
 					ClearScreen(3);
@@ -684,9 +705,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 									edHieuChinhNXB.toInt(), 
 									edHieuChinhTheLoai.trim());	
 						if(UpdateDauSach(DSDS, dausach, curDauSach))
-							strcpy(mess, "Hieu chinh dau sach thanh cong!");
+							strcpy(mess, "HIEU CHINH DAU SACH THANH CONG!");
 						else						
-							strcpy(mess, "Hieu chinh dau sach that bai!");
+							strcpy(mess, "HIEU CHINH DAU SACH THAT BAI!");
 					}
 					DrawHieuChinhDauSach();
 				}										

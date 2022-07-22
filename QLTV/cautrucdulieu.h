@@ -285,8 +285,6 @@ DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
 			if(indexSach < DSDS.nodes[i]->soluong) 
 				return DSDS.nodes[i];
-			else 
-				break;
 	return NULL;
 }
 

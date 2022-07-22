@@ -212,7 +212,7 @@ TDK-0
 0
 KE 5, NGAN 5
 TDK-1
-1
+0
 KE 5, NGAN 5
 TDK-2
 0
