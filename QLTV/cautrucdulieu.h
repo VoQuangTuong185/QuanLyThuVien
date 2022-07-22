@@ -288,6 +288,13 @@ DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 	return NULL;
 }
 
+DauSach* GetDauSachByISBN(DS_DauSach &DSDS, char* isbn){
+	for(int i=0; i<DSDS.n; i++)
+	if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
+			return DSDS.nodes[i];
+	return NULL;
+}
+
 struct LuotMuonSach{
 	int indexDS;	// vi tri cua DauSach
 	int cnt;		// so luot muon
@@ -620,7 +627,9 @@ DocGiaPTR TimDocGiaTheoMa(DocGiaPTR &root, int MaDocGia){
 }
 
 void RemoveDocGia_SpecialCase(DocGiaPTR &node, DocGiaPTR &removeNode){
-	if(node->left != NULL) RemoveDocGia_SpecialCase(node->left, removeNode);
+	if(node->left != NULL) 
+		RemoveDocGia_SpecialCase(node->left, removeNode);
+		//den day node la nut cuc trai cua cay con ben phai co nut goc la removeNode
 	else{
 		removeNode->docgia = node->docgia;
 		removeNode = node;
@@ -629,20 +638,19 @@ void RemoveDocGia_SpecialCase(DocGiaPTR &node, DocGiaPTR &removeNode){
 }
 
 int RemoveDocGia(DocGiaPTR &node, int maDocGia){
-	if(node == NULL) {
+	if(node == NULL) 
 		return 0;
-	}
 	if(maDocGia < node->docgia.MATHE) 
 		RemoveDocGia(node->left, maDocGia);
 	else if(maDocGia > node->docgia.MATHE) 
 		RemoveDocGia(node->right, maDocGia);
-	else{
+	else{//==
 		DocGiaPTR removeNode = node;
-		if(node->right == NULL)
+		if(node->right == NULL)//co cay con ben trai
 			node = node->left;
-		else if(node->left == NULL)
+		else if(node->left == NULL)//co cay con ben phai
 			node = node->right;
-		else
+		else//co 2 cay con
 			RemoveDocGia_SpecialCase(node->right, removeNode);	
 		// Neu chi xoa doc gia chua tung muon sach, thi cau lenh nay khong can thiet
 		DeleteAllMuonTra(removeNode->docgia.mt);		
@@ -676,6 +684,7 @@ struct Node_ID{
 	Node_ID *next;
 };
 typedef Node_ID *IDPTR;
+
 struct List_ID{
 	IDPTR First;
 	

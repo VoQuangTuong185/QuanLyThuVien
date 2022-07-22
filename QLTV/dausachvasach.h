@@ -211,17 +211,6 @@ void GetHieuChinhDauSach(DS_DauSach &DSDS,int i){
 	DrawHieuChinhDauSach();
 }
 
-void DrawBorderList(){
-	setlinestyle(SOLID_LINE, 0, 3);
-	setcolor(BORDER_COLOR);
-	rectangle(XXX[0], 150, XXX[6], 750);
-	
-	for(int i=0; i < 5; i++){
-		setlinestyle(SOLID_LINE, 0, 1);
-		line(XXX[i+1], 150, XXX[i+1], 750);
-	}
-}
-
 void DrawItemDauSach(DS_DauSach &DSDS,int i, int j){
 	char chs[10];
 	outtextxy(XXX[0]+10, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->ISBN);
@@ -239,7 +228,14 @@ void DrawItemDauSach(DS_DauSach &DSDS,int i, int j){
 }
 
 void DrawListDSDS(DS_DauSach &DSDS){
-	DrawBorderList();
+	//DrawBorderList
+	setlinestyle(SOLID_LINE, 0, 3);
+	setcolor(BORDER_COLOR);
+	rectangle(XXX[0], 150, XXX[6], 750);	
+	for(int i=0; i < 5; i++){
+		setlinestyle(SOLID_LINE, 0, 1);
+		line(XXX[i+1], 150, XXX[i+1], 750);
+	}
 	//TINH TOAN SO TRANG
 	settextstyle(3, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
@@ -458,15 +454,15 @@ void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
 		DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
 	else
 		DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);							
-	DrawBorderList();
-}
-
-void DrawBorderDMS(){
+	
+	//DrawBorderList
 	setlinestyle(SOLID_LINE, 0, 3);
 	setcolor(BORDER_COLOR);
-	rectangle((w/2)-450, 100, (w/2)+450, 500);
-	line(XDMS[1], 150, XDMS[1], 500);
-	line(XDMS[2], 150, XDMS[2], 500);
+	rectangle(XXX[0], 150, XXX[6], 750);	
+	for(int i=0; i < 5; i++){
+		setlinestyle(SOLID_LINE, 0, 1);
+		line(XXX[i+1], 150, XXX[i+1], 750);
+	}
 }
 
 void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
@@ -476,7 +472,13 @@ void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
 	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
-	DrawBorderDMS();
+	
+	//DrawBorderDMS
+	setlinestyle(SOLID_LINE, 0, 3);
+	setcolor(BORDER_COLOR);
+	rectangle((w/2)-450, 100, (w/2)+450, 500);
+	line(XDMS[1], 150, XDMS[1], 500);
+	line(XDMS[2], 150, XDMS[2], 500);
 }
 
 int GetItemDauSachPosition(DS_DauSach &DSDS,int y){
