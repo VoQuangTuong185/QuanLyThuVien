@@ -178,45 +178,11 @@ void ClearScreen(int choice);
 void DrawMenu();
 void ButtonEffect(Button &btn);
 void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
-void ItemEvent(DS_DauSach &DSDS);
-void DrawBorderList();
-void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]);
 void DrawDanhSachDauSach();
-void DrawNhapSach();
 void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG,int menuID);
 void DrawListDSDS(DS_DauSach &DSDS);
-void DrawThemDauSach();
-void DrawHieuChinhDauSach();
 void PopUp(string s);
-void DrawItemDauSach(DS_DauSach &DSDS,int, int);
-int GetItemDauSachPosition(DS_DauSach &DSDS,int y);
-int GetItemSachPosition(DS_DauSach &DSDS,int y);
-void DrawItemSach(Sach &sach, int i);
-void GetHieuChinhDauSach(DS_DauSach &DSDS,int i);
 void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLimit = 0, int endLimit = 0);
-bool NumberOnly(int n,char c);
-bool TextOnly(char c,bool comma);
-int KiemTraNhapLieu(EditText* &txt, int n, char c);
-bool ScanLimit(char c, int start, int end);
-void ScanTimDauSach(EditText* &txt, int &n, int maxn, char c);
-
-void MoveToNextDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai){
-	if(Edit == &ISBN) Edit = &TenSach;
-	else if(Edit == &TenSach) Edit = &SoTrang;
-	else if(Edit == &SoTrang) Edit = &TacGia;
-	else if(Edit == &TacGia) Edit = &NXB;
-	else if(Edit == &NXB) Edit = &TheLoai;
-	else if(Edit == &TheLoai) Edit = &ISBN;
-}
-
-void MoveToPrevDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai){
-	if(Edit == &ISBN) Edit = &TheLoai;
-	else if(Edit == &TenSach) Edit = &ISBN;
-	else if(Edit == &SoTrang) Edit = &TenSach;
-	else if(Edit == &TacGia) Edit = &SoTrang;
-	else if(Edit == &NXB) Edit = &TacGia;
-	else if(Edit == &TheLoai) Edit = &NXB;
-}
 
 //////////////////////////////////////////KHU TU TRI CUA DOCGIA VA MUONSACH /////////////////////////////////////////////////
 DocGiaPTR root = NULL;
@@ -236,29 +202,11 @@ int curItemMT = -1, curMT = -1;
 int startIndexSach = -1;
 bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
 
-void DrawBorderDSDocGia();
 void DrawDanhSachDocGia(TreeDocgia &DSDG);
-void DrawListDocGia(TreeDocgia &DSDG,bool reload = false);
-void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN);
 void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID = true);
-void DrawHieuChinhDocGia();
 void DrawMuonSach();
-void DrawTraSach();
-void DrawItemDocGiaQuaHan(DocGia &docgia, int soNgayQH, int i);
-void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG);
-void DrawXoaDocGia(TreeDocgia &DSDG, int i);
-void DrawThongTinSach();
-void DrawLamMatSach();
-void DrawThongTinSachTra(int itemMT);
-void DrawBorderDSDocGiaQuaHan();
-void DrawTopTen(DS_DauSach &DSDS);
-void MoveToNextDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia);
-void MoveToPrevDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia);
-void ButtonSwitchClick(TreeDocgia &DSDG);
-int GetItemDocGiaPosition(TreeDocgia &DSDG, int y);
 void ItemDocGiaEvent(TreeDocgia &DSDG);
 void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]);
-void DrawItemMT(int i);
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void WriteDauSachToFile(DS_DauSach &DSDS);
 void WriteDocGiaToFile(DocGiaPTR &root);
@@ -432,6 +380,38 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 	}
 }
 
+void MoveToNextDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai){
+	if(Edit == &ISBN) Edit = &TenSach;
+	else if(Edit == &TenSach) Edit = &SoTrang;
+	else if(Edit == &SoTrang) Edit = &TacGia;
+	else if(Edit == &TacGia) Edit = &NXB;
+	else if(Edit == &NXB) Edit = &TheLoai;
+	else if(Edit == &TheLoai) Edit = &ISBN;
+}
+
+void MoveToPrevDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai){
+	if(Edit == &ISBN) Edit = &TheLoai;
+	else if(Edit == &TenSach) Edit = &ISBN;
+	else if(Edit == &SoTrang) Edit = &TenSach;
+	else if(Edit == &TacGia) Edit = &SoTrang;
+	else if(Edit == &NXB) Edit = &TacGia;
+	else if(Edit == &TheLoai) Edit = &NXB;
+}
+
+void MoveToNextDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
+	if(Edit == &HoDocGia) Edit = &TenDocGia;
+	else if(Edit == &TenDocGia) Edit = &PhaiDocGia;
+	else if(Edit == &PhaiDocGia) Edit = &TrangThaiTheDocGia;
+	else if(Edit == &TrangThaiTheDocGia) Edit = &HoDocGia;
+}
+
+void MoveToPrevDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
+	if(Edit == &HoDocGia) Edit = &TrangThaiTheDocGia;
+	else if(Edit == &TenDocGia) Edit = &HoDocGia;
+	else if(Edit == &PhaiDocGia) Edit = &TenDocGia;
+	else if(Edit == &TrangThaiTheDocGia) Edit = &PhaiDocGia;
+}
+
 void KeyBoardEvent(DS_DauSach &DSDS){
 	if(GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(VK_RIGHT)){
 		ClearScreen(4);//khong nhan 2 phim tro < , > 
@@ -568,19 +548,6 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 	}
 }
 
-void Event(DS_DauSach &DSDS,TreeDocgia &DSDG, int TheDocGiaBSTC[]){
-	mx = mousex(); my = mousey();
-	KeyBoardEvent(DSDS);
-	if(curMenu == 0)
-		MenuEvent(DSDS, DSDG, TheDocGiaBSTC);
-	else if(curMenu == btnQLDauSach.id)
-		DauSachEvent(DSDS, DSDG);
-	else if(curMenu == btnQLDocGia.id)
-		DocGiaEvent(DSDS, DSDG, TheDocGiaBSTC);
-	else if(curMenu == btnQLSach.id)
-		MuonTraEvent(DSDS, DSDG);
-} 
-
 void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){	
 	if(openFileSuccess == false){
 		ButtonEffect(btnYes);
@@ -631,6 +598,19 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 		}		
 	}
 }
+
+void Event(DS_DauSach &DSDS,TreeDocgia &DSDG, int TheDocGiaBSTC[]){
+	mx = mousex(); my = mousey();
+	KeyBoardEvent(DSDS);
+	if(curMenu == 0)
+		MenuEvent(DSDS, DSDG, TheDocGiaBSTC);
+	else if(curMenu == btnQLDauSach.id)
+		DauSachEvent(DSDS, DSDG);
+	else if(curMenu == btnQLDocGia.id)
+		DocGiaEvent(DSDS, DSDG, TheDocGiaBSTC);
+	else if(curMenu == btnQLSach.id)
+		MuonTraEvent(DSDS, DSDG);
+} 
 
 void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG, int menuID){
 	if(curMenu != menuID){
@@ -730,20 +710,6 @@ void DrawMenu(){
 		PopUp(confirm);
 	}
 } 
-
-void MoveToNextDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
-	if(Edit == &HoDocGia) Edit = &TenDocGia;
-	else if(Edit == &TenDocGia) Edit = &PhaiDocGia;
-	else if(Edit == &PhaiDocGia) Edit = &TrangThaiTheDocGia;
-	else if(Edit == &TrangThaiTheDocGia) Edit = &HoDocGia;
-}
-
-void MoveToPrevDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
-	if(Edit == &HoDocGia) Edit = &TrangThaiTheDocGia;
-	else if(Edit == &TenDocGia) Edit = &HoDocGia;
-	else if(Edit == &PhaiDocGia) Edit = &TenDocGia;
-	else if(Edit == &TrangThaiTheDocGia) Edit = &PhaiDocGia;
-}
 
 void ClearScreen(int choice){
 	switch (choice) {

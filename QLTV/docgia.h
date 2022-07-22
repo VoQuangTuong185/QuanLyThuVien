@@ -10,6 +10,46 @@ int GetItemDocGiaPosition(TreeDocgia &DSDG, int y){
 	return pos;
 }
 
+void DrawHieuChinhDocGia(){
+	ClearScreen(1);
+	
+	setfillstyle(USER_FILL, PANEL);
+	setbkcolor(PANEL);
+	bar((w/2)-400, 210, (w/2)+400, 280);
+	
+	//dinh dang tieu de khung THEM THE DOC GIA
+	setcolor(BORDER_COLOR);
+	setlinestyle(SOLID_FILL, 0, 3);
+	rectangle((w/2)-400, 210, (w/2)+400, 700);
+	line((w/2)-400, 280, (w/2)+400, 280);
+	line((w/2)-400, 650, (w/2)+400, 650);
+
+	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
+	setcolor(BG_COLOR);
+	outtextxy((w/2) - textwidth(HieuChinhDocGia)/2, 245 - textheight(HieuChinhDocGia)/2, HieuChinhDocGia);
+	
+	setbkcolor(BG_COLOR);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	
+	setfillstyle(SOLID_FILL, BG_COLOR);
+	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
+
+	setcolor(TIPS);
+	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+	
+	edHieuChinhMaTheDocGia.draw();
+	edHieuChinhHoDocGia.draw();
+	edHieuChinhTenDocGia.draw();
+	edHieuChinhPhaiDocGia.draw();
+	edHieuChinhTrangThaiTheDocGia.draw();
+	
+	btnHieuChinhDocGia.draw();
+	btnClearFormDocGia.draw();
+	btnBack.draw();
+} 
+
 void GetHieuChinhDocGia(TreeDocgia &DSDG, int i){
 	curDG = i;
 	ClearScreen(7);//clear content
@@ -25,163 +65,6 @@ void GetHieuChinhDocGia(TreeDocgia &DSDG, int i){
 	strcpy(edHieuChinhTrangThaiTheDocGia.content, ch);
 	// Clear
 	DrawHieuChinhDocGia();
-}
-
-void ButtonSwitchClick(TreeDocgia &DSDG){
-	if(btnTatCaDocGia.isMouseHover(mx, my)){
-		if(!btnTatCaDocGia.isChoose){
-			ClearScreen(9);
-			btnDocGiaQuaHan.isChoose = false;
-			btnTatCaDocGia.isChoose = true;
-			curItemDG = -1;
-			
-			DrawListDocGia(DSDG, true);
-			DrawDanhSachDocGia(DSDG);
-		
-			btnSapXepTen.isChoose = sortDGByName;
-			btnSapXepMaThe.isChoose = !btnSapXepTen.isChoose; 
-			
-			btnSapXepTen.isHover = sortDGByName;
-			btnSapXepMaThe.isHover = !sortDGByName;		
-			btnSapXepTen.draw();
-			btnSapXepMaThe.draw();
-		}
-	}else if(btnDocGiaQuaHan.isMouseHover(mx, my)){
-		if(!btnDocGiaQuaHan.isChoose){
-			ClearScreen(8);
-
-			btnTatCaDocGia.isChoose = false;
-			btnDocGiaQuaHan.isChoose = true;
-			curItemDG = -1;
-			// Get list docgia qua han			
-			DSDG.GetDocGiaQuaHan(root);
-			DrawListDocGia(DSDG);
-		}
-	}
-	
-	if(btnSapXepTen.isMouseHover(mx, my)){
-		if(!sortDGByName){
-			sortDGByName = true;
-			ClearScreen(8);
-
-			DrawListDocGia(DSDG);
-		}
-	}else if(btnSapXepMaThe.isMouseHover(mx, my)){
-		if(sortDGByName){
-			sortDGByName = false;
-			ClearScreen(8);
-
-			DrawListDocGia(DSDG);
-		}
-	}
-	btnSapXepTen.isChoose = sortDGByName;
-	btnSapXepMaThe.isChoose = !sortDGByName;
-}
-
-void ItemDocGiaEvent(TreeDocgia &DSDG){
-	if(mx > XXXDG[0] && mx < XXXDG[btnTatCaDocGia.isChoose?5:6] && my > 220-8 && my < 220+13*40-8){		
-		if(curItemDG != GetItemDocGiaPosition(DSDG, my)){
-			if(curItemDG != -1){
-				// khoi phuc item
-				setfillstyle(SOLID_FILL, BG_COLOR);
-				bar(XXXDG[0], 220 + curItemDG*40 - 8, XXXDG[btnTatCaDocGia.isChoose?5:6], 220+(curItemDG+1)*40-8);
-				
-				setbkcolor(BG_COLOR);
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setcolor(TEXT_COLOR);
-				
-				if(btnTatCaDocGia.isChoose){
-					DrawItemDocGia(*DSDG.nodes[(curPageDG-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, false);
-					DrawBorderDSDocGia();
-				}
-				else{
-					DrawItemDocGia(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, true);
-					DrawItemDocGiaQuaHan(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], DSDG.soNgayQH[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDGQuaHan-1)*13 + curItemDG);
-					DrawBorderDSDocGiaQuaHan();
-				}							
-			}	
-			// Ve item hien tai
-			curItemDG = GetItemDocGiaPosition(DSDG, my);
-			if(curItemDG != -1){
-				setfillstyle(SOLID_FILL, LINE);
-				bar(XXXDG[0], 220 + curItemDG*40 - 8, XXXDG[btnTatCaDocGia.isChoose?5:6], 220+(curItemDG+1)*40-8);
-				
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-				setbkcolor(LINE);
-				setcolor(TEXT_COLOR);
-				
-				if(btnTatCaDocGia.isChoose){
-					DrawItemDocGia(*DSDG.nodes[(curPageDG-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, false);
-					DrawBorderDSDocGia();
-				}
-				else{
-					DrawItemDocGia(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, true);
-					DrawItemDocGiaQuaHan(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], DSDG.soNgayQH[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDGQuaHan-1)*13 + curItemDG);
-					DrawBorderDSDocGiaQuaHan();
-				}
-			}
-		}
-	}else{
-		if(curItemDG != -1){
-			// khoi phuc item
-			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XXXQH[0], 220 + curItemDG*40 - 8, XXXQH[btnTatCaDocGia.isChoose?5:6], 220+(curItemDG+1)*40-8);
-			setbkcolor(BG_COLOR);
-			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-			setcolor(TEXT_COLOR);
-			
-			if(btnTatCaDocGia.isChoose){
-				DrawItemDocGia(*DSDG.nodes[(curPageDG-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, false);
-				DrawBorderDSDocGia();
-			}
-			else{
-				DrawItemDocGia(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, true);
-				DrawItemDocGiaQuaHan(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], DSDG.soNgayQH[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDGQuaHan-1)*13 + curItemDG);
-				DrawBorderDSDocGiaQuaHan();
-			}			
-			curItemDG = -1;
-		}
-	}
-}
-
-void DrawDanhSachDocGia(TreeDocgia &DSDG){
-	ClearScreen(1);
-	strcpy(mess, " ");
-	
-	btnSapXepTen.isChoose = sortDGByName;
-	btnSapXepMaThe.isChoose = !btnSapXepTen.isChoose; 
-	
-	btnSapXepTen.isHover = sortDGByName;
-	btnSapXepMaThe.isHover = !sortDGByName;
-	
-	btnSapXepTen.draw();
-	btnSapXepMaThe.draw();
-	
-	btnTatCaDocGia.isHover = true;
-	btnTatCaDocGia.isChoose = true;
-	btnDocGiaQuaHan.isChoose = false;
-	btnDocGiaQuaHan.isHover = false;
-	
-	btnTatCaDocGia.draw();
-	btnDocGiaQuaHan.draw();
-	
-	DrawListDocGia(DSDG, true);	
-	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_COLOR);
-	outtextxy(w/2-textwidth(DocGiaTitle)/2, 15, DocGiaTitle);
-	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TIPS);
-	outtextxy(XXXDG[0], 100, "Sap xep theo:");
-	
-	btnQuayVeMenu.draw();
-	btnTatCaDocGia.draw();
-	btnDocGiaQuaHan.draw();
-	btnPrev.draw();
-	btnNext.draw();
-	btnSapXepTen.draw();
-	btnSapXepMaThe.draw();
 }
 
 void DrawBorderDSDocGia(){		
@@ -228,7 +111,35 @@ void DrawBorderDSDocGiaQuaHan(){
 	for(int i=0; i < 6; i++)
 		line(XXXQH[i], 150, XXXQH[i], 750);
 }
- 
+
+void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN){
+	setcolor(TEXT_COLOR);
+	i %= 13;
+	char ch[6];
+	itoa(docgia.MATHE, ch, 10);
+	if(QUAHAN){
+		outtextxy((XXXQH[0] + XXXQH[1])/2 - textwidth(ch)/2, 220 + i*40, ch);
+		outtextxy(XXXQH[1] + 10, 220 + i*40, docgia.ho);
+		outtextxy(XXXQH[2] + 10, 220 + i*40, docgia.ten);
+		outtextxy(XXXQH[3] + 30, 220 + i*40, PhaiDocGia[docgia.phai]);
+		outtextxy((XXXQH[4] + XXXQH[5])/2 - textwidth(TTTDocGia[docgia.trangthai])/2, 220 + i*40, TTTDocGia[docgia.trangthai]);			
+	}
+	else {
+		outtextxy((XXXDG[0] + XXXDG[1])/2 - textwidth(ch)/2, 220 + i*40, ch);
+		outtextxy(XXXDG[1] + 10, 220 + i*40, docgia.ho);
+		outtextxy(XXXDG[2] + 10, 220 + i*40, docgia.ten);
+		outtextxy(XXXDG[3] + 30, 220 + i*40, PhaiDocGia[docgia.phai]);
+		outtextxy((XXXDG[4] + XXXDG[5])/2 - textwidth(TTTDocGia[docgia.trangthai])/2, 220 + i*40, TTTDocGia[docgia.trangthai]);	
+	}
+}
+
+void DrawItemDocGiaQuaHan(DocGia &docgia, int soNgayQH, int i){
+	DrawItemDocGia(docgia, i, true);
+	char ch[4];
+	sprintf(ch, "%d", soNgayQH);
+	outtextxy(XXXQH[5]+50, 220 + i*40, ch);
+}
+
 void DrawListDocGia(TreeDocgia &DSDG, bool reload){
 	char chPage[20];
 	
@@ -276,6 +187,138 @@ void DrawListDocGia(TreeDocgia &DSDG, bool reload){
 	outtextxy((w/2)-230, 915, "Click chuot phai: Xoa doc gia");
 }
 
+void ButtonSwitchClick(TreeDocgia &DSDG){
+	if(btnTatCaDocGia.isMouseHover(mx, my)){
+		if(!btnTatCaDocGia.isChoose){
+			ClearScreen(9);
+			btnDocGiaQuaHan.isChoose = false;
+			btnTatCaDocGia.isChoose = true;
+			curItemDG = -1;
+			
+			DrawListDocGia(DSDG, true);
+			DrawDanhSachDocGia(DSDG);
+		
+			btnSapXepTen.isChoose = sortDGByName;
+			btnSapXepMaThe.isChoose = !btnSapXepTen.isChoose; 
+			
+			btnSapXepTen.isHover = sortDGByName;
+			btnSapXepMaThe.isHover = !sortDGByName;		
+			btnSapXepTen.draw();
+			btnSapXepMaThe.draw();
+		}
+	}else if(btnDocGiaQuaHan.isMouseHover(mx, my)){
+		if(!btnDocGiaQuaHan.isChoose){
+			ClearScreen(8);
+
+			btnTatCaDocGia.isChoose = false;
+			btnDocGiaQuaHan.isChoose = true;
+			curItemDG = -1;
+			// Get list docgia qua han			
+			DSDG.GetDocGiaQuaHan(root);
+			DrawListDocGia(DSDG, false);
+		}
+	}
+	
+	if(btnSapXepTen.isMouseHover(mx, my)){
+		if(!sortDGByName){
+			sortDGByName = true;
+			ClearScreen(8);
+
+			DrawListDocGia(DSDG, false);
+		}
+	}else if(btnSapXepMaThe.isMouseHover(mx, my)){
+		if(sortDGByName){
+			sortDGByName = false;
+			ClearScreen(8);
+
+			DrawListDocGia(DSDG, false);
+		}
+	}
+	btnSapXepTen.isChoose = sortDGByName;
+	btnSapXepMaThe.isChoose = !sortDGByName;
+}
+
+void DrawLineDocGia(TreeDocgia &DSDG, bool current){
+	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
+	bar(XXXDG[0], 220 + curItemDG*40 - 8, XXXDG[btnTatCaDocGia.isChoose?5:6], 220+(curItemDG+1)*40-8);
+	
+	setbkcolor(current ? LINE: BG_COLOR);
+	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	
+	if(btnTatCaDocGia.isChoose){
+		DrawItemDocGia(*DSDG.nodes[(curPageDG-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, false);
+		DrawBorderDSDocGia();
+	}
+	else{
+		DrawItemDocGia(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, true);
+		DrawItemDocGiaQuaHan(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], DSDG.soNgayQH[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDGQuaHan-1)*13 + curItemDG);
+		DrawBorderDSDocGiaQuaHan();
+	}
+}
+
+void ItemDocGiaEvent(TreeDocgia &DSDG){
+	if(mx > XXXDG[0] && mx < XXXDG[btnTatCaDocGia.isChoose?5:6] && my > 220-8 && my < 220+13*40-8){		
+		if(curItemDG != GetItemDocGiaPosition(DSDG, my)){
+			// khoi phuc item
+			if(curItemDG != -1)
+				DrawLineDocGia(DSDG, false);	
+											
+			// Ve item hien tai
+			curItemDG = GetItemDocGiaPosition(DSDG, my);
+			
+			if(curItemDG != -1)
+				DrawLineDocGia(DSDG, true);	
+		}
+	}else{
+		// khoi phuc item
+		if(curItemDG != -1){
+			DrawLineDocGia(DSDG, false);			
+			curItemDG = -1;
+		}
+	}
+}
+
+void DrawDanhSachDocGia(TreeDocgia &DSDG){
+	ClearScreen(1);
+	strcpy(mess, " ");
+	
+	btnSapXepTen.isChoose = sortDGByName;
+	btnSapXepMaThe.isChoose = !btnSapXepTen.isChoose; 
+	
+	btnSapXepTen.isHover = sortDGByName;
+	btnSapXepMaThe.isHover = !sortDGByName;
+	
+	btnSapXepTen.draw();
+	btnSapXepMaThe.draw();
+	
+	btnTatCaDocGia.isHover = true;
+	btnTatCaDocGia.isChoose = true;
+	btnDocGiaQuaHan.isChoose = false;
+	btnDocGiaQuaHan.isHover = false;
+	
+	btnTatCaDocGia.draw();
+	btnDocGiaQuaHan.draw();
+	
+	DrawListDocGia(DSDG, true);	
+	
+	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
+	setcolor(TEXT_COLOR);
+	outtextxy(w/2-textwidth(DocGiaTitle)/2, 15, DocGiaTitle);
+	
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	setcolor(TIPS);
+	outtextxy(XXXDG[0], 100, "Sap xep theo:");
+	
+	btnQuayVeMenu.draw();
+	btnTatCaDocGia.draw();
+	btnDocGiaQuaHan.draw();
+	btnPrev.draw();
+	btnNext.draw();
+	btnSapXepTen.draw();
+	btnSapXepMaThe.draw();
+}
+
 void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID){
 	ClearScreen(1);
 	
@@ -317,74 +360,6 @@ void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID){
 	btnClearFormDocGia.draw();
 	btnBack.draw();
 } 
-
-void DrawHieuChinhDocGia(){
-	ClearScreen(1);
-	
-	setfillstyle(USER_FILL, PANEL);
-	setbkcolor(PANEL);
-	bar((w/2)-400, 210, (w/2)+400, 280);
-	
-	//dinh dang tieu de khung THEM THE DOC GIA
-	setcolor(BORDER_COLOR);
-	setlinestyle(SOLID_FILL, 0, 3);
-	rectangle((w/2)-400, 210, (w/2)+400, 700);
-	line((w/2)-400, 280, (w/2)+400, 280);
-	line((w/2)-400, 650, (w/2)+400, 650);
-
-	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	setcolor(BG_COLOR);
-	outtextxy((w/2) - textwidth(HieuChinhDocGia)/2, 245 - textheight(HieuChinhDocGia)/2, HieuChinhDocGia);
-	
-	setbkcolor(BG_COLOR);
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_COLOR);
-	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
-	
-	setfillstyle(SOLID_FILL, BG_COLOR);
-	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
-
-	setcolor(TIPS);
-	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
-	
-	edHieuChinhMaTheDocGia.draw();
-	edHieuChinhHoDocGia.draw();
-	edHieuChinhTenDocGia.draw();
-	edHieuChinhPhaiDocGia.draw();
-	edHieuChinhTrangThaiTheDocGia.draw();
-	
-	btnHieuChinhDocGia.draw();
-	btnClearFormDocGia.draw();
-	btnBack.draw();
-} 
-
-void DrawItemDocGiaQuaHan(DocGia &docgia, int soNgayQH, int i){
-	DrawItemDocGia(docgia, i, true);
-	char ch[4];
-	sprintf(ch, "%d", soNgayQH);
-	outtextxy(XXXQH[5]+50, 220 + i*40, ch);
-}
-
-void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN){
-	setcolor(TEXT_COLOR);
-	i %= 13;
-	char ch[6];
-	itoa(docgia.MATHE, ch, 10);
-	if(QUAHAN){
-		outtextxy((XXXQH[0] + XXXQH[1])/2 - textwidth(ch)/2, 220 + i*40, ch);
-		outtextxy(XXXQH[1] + 10, 220 + i*40, docgia.ho);
-		outtextxy(XXXQH[2] + 10, 220 + i*40, docgia.ten);
-		outtextxy(XXXQH[3] + 30, 220 + i*40, PhaiDocGia[docgia.phai]);
-		outtextxy((XXXQH[4] + XXXQH[5])/2 - textwidth(TTTDocGia[docgia.trangthai])/2, 220 + i*40, TTTDocGia[docgia.trangthai]);			
-	}
-	else {
-		outtextxy((XXXDG[0] + XXXDG[1])/2 - textwidth(ch)/2, 220 + i*40, ch);
-		outtextxy(XXXDG[1] + 10, 220 + i*40, docgia.ho);
-		outtextxy(XXXDG[2] + 10, 220 + i*40, docgia.ten);
-		outtextxy(XXXDG[3] + 30, 220 + i*40, PhaiDocGia[docgia.phai]);
-		outtextxy((XXXDG[4] + XXXDG[5])/2 - textwidth(TTTDocGia[docgia.trangthai])/2, 220 + i*40, TTTDocGia[docgia.trangthai]);	
-	}
-}
 
 void DrawXoaDocGia(TreeDocgia &DSDG, int i){
 	ClearScreen(1);	
@@ -444,6 +419,35 @@ void DrawTrangConDSDG(TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 	}
 }
 
+bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them){
+	if((strcmp(MaThe.content, "OVERFLOW") == 0) && (them)){
+		strcpy(mess, "So luong doc gia dat gioi han");
+		return false;
+	}	
+	if(strlen(Ho.content) == 0){
+		strcpy(mess, "Ho va ten dem khong duoc bo trong");
+		Edit = &edThemHoDocGia;
+		Edit->draw();
+		return false;
+	}else if(strlen(Ten.content) == 0){
+		strcpy(mess, "Ten khong duoc bo trong");
+		Edit = &edThemTenDocGia;
+		Edit->draw();
+		return false;
+	}else if(strlen(Phai.content) == 0){
+		strcpy(mess, "Phai khong duoc bo trong");
+		Edit = &edThemPhaiDocGia;
+		Edit->draw();
+		return false;
+	}else if(strlen(TrangThai.content) == 0){
+		strcpy(mess, "Trang thai the khong duoc bo trong");
+		Edit = &edThemTrangThaiTheDocGia;
+		Edit->draw();
+		return false;
+	}
+	return true;
+}
+
 void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 	char confirm[50];	
 	ButtonEffect(btnQuayVeMenu);
@@ -477,13 +481,13 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					if(curPageDG > 1){
 						ClearScreen(8);
 						curPageDG--;
-						DrawListDocGia(DSDG);
+						DrawListDocGia(DSDG, false);
 					}
 				}else if(btnNext.isMouseHover(mx, my)){
 					if(curPageDG < totalPageDG){
 						ClearScreen(8);
 						curPageDG ++;
-						DrawListDocGia(DSDG);
+						DrawListDocGia(DSDG, false);
 					}
 				} 
 			}
@@ -509,13 +513,13 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					if(curPageDGQuaHan > 1){
 						curPageDGQuaHan--;
 						ClearScreen(9);
-						DrawListDocGia(DSDG);
+						DrawListDocGia(DSDG, false);
 					}
 				}else if(btnNextDocGiaQH.isMouseHover(mx, my)){
 					if(curPageDGQuaHan < totalPageDGQuaHan){
 						curPageDGQuaHan ++;
 						ClearScreen(9);
-						DrawListDocGia(DSDG);
+						DrawListDocGia(DSDG, false);
 					}
 				}				
 			}
@@ -558,7 +562,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					DrawListDocGia(DSDG, true);
 					DrawThemDocGia(TheDocGiaBSTC);
 				}else
-					DrawThemDocGia(false);					
+					DrawThemDocGia(TheDocGiaBSTC, false);					
 			}				
 			else if(edThemHoDocGia.isMouseHover(mx, my))
 				Edit = &edThemHoDocGia;
@@ -617,8 +621,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					DrawTrangConDSDG(DSDG, TheDocGiaBSTC);
 				}	
 				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
-					// neu doc gia k muon sach nao thi co the xoa
-					cout<<DSDG.nodes[curDG]->mt.total;				
+					// neu doc gia k muon sach nao thi co the xoa			
 					if(DSDG.nodes[curDG]->mt.total == 0){
 						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
 						Edit = NULL;
@@ -639,15 +642,18 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 			ButtonEffect(btnNo);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
-					if(delete_ID(DSDG.nodes[curDG]->MATHE)){
-						RemoveDocGia(root, DSDG.nodes[curDG]->MATHE);
-						strcpy(mess, "Xoa doc gia thanh cong!");
+					if(delete_ID(DSDG.nodes[curDG]->MATHE) && RemoveDocGia(root, DSDG.nodes[curDG]->MATHE)){
+						strcpy(mess, "XOA DOC GIA THANH CONG!");
 						DrawXoaDocGia(DSDG, curDG);	
 						delay(2000);
 						curDG = -1;
 						Window = DANH_SACH_DOC_GIA;
 						subWindow = CONFIRM_POPUP_NONE;
 						DrawTrangConDSDG(DSDG, TheDocGiaBSTC);														
+					}
+					else{
+						strcpy(mess, "XOA DOC GIA KHONG THANH CONG!");
+						DrawXoaDocGia(DSDG, curDG);	
 					}
 				}
 				else if (btnNo.isMouseHover(mx, my)){
@@ -659,34 +665,6 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 	}
 }
 
-bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them){
-	if((strcmp(MaThe.content, "OVERFLOW") == 0) && (them)){
-		strcpy(mess, "So luong doc gia dat gioi han");
-		return false;
-	}	
-	if(strlen(Ho.content) == 0){
-		strcpy(mess, "Ho va ten dem khong duoc bo trong");
-		Edit = &edThemHoDocGia;
-		Edit->draw();
-		return false;
-	}else if(strlen(Ten.content) == 0){
-		strcpy(mess, "Ten khong duoc bo trong");
-		Edit = &edThemTenDocGia;
-		Edit->draw();
-		return false;
-	}else if(strlen(Phai.content) == 0){
-		strcpy(mess, "Phai khong duoc bo trong");
-		Edit = &edThemPhaiDocGia;
-		Edit->draw();
-		return false;
-	}else if(strlen(TrangThai.content) == 0){
-		strcpy(mess, "Trang thai the khong duoc bo trong");
-		Edit = &edThemTrangThaiTheDocGia;
-		Edit->draw();
-		return false;
-	}
-	return true;
-}
 
 
 

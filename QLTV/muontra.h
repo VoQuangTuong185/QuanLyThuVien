@@ -19,6 +19,77 @@ struct DSMuonTra{
 
 DSMuonTra DSMT;
 
+void DrawTopTen(DS_DauSach &DSDS){
+	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
+	setcolor(TEXT_COLOR);
+	outtextxy(w/2 - textwidth(TopTen)/2-85, 15, TopTen);
+	
+	setfillstyle(SOLID_FILL, BG_COLOR);
+	bar(150, 180, w, h);
+	
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	
+	char t[][20] = {"STT", "ISBN", "Ten sach", "So trang", "Tac gia", "NXB", "The loai", "So luot muon"};
+	
+	settextstyle(3, HORIZ_DIR, 3);
+	setfillstyle(USER_FILL, PANEL);
+	setbkcolor(PANEL);
+	setcolor(BG_COLOR);
+	
+	bar(MUONTRA[0], 250, MUONTRA[8], 320);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	setlinestyle(SOLID_LINE,0, 3);
+	setcolor(BG_COLOR);
+	for(int i=0; i<8; i++){
+		outtextxy((MUONTRA[i+1]+MUONTRA[i])/2 - textwidth(t[i])/2, 285-textheight(t[i])/2, t[i]);
+	}
+	
+	setbkcolor(BG_COLOR);
+	
+	//COTMUONTRA
+	setcolor(BORDER_COLOR);
+	rectangle(MUONTRA[0], 250, MUONTRA[8], 850);
+	
+	for(int i=0; i < 7; i++){
+		setlinestyle(SOLID_LINE, 0, 1);
+		line(MUONTRA[i+1], 250, MUONTRA[i+1], 850);
+	}
+	
+	TopSach topsach(DSDS);
+	char ch[20];
+	for(int i=0; i < (topsach.n < 10 ? topsach.n : 10); i++){
+		itoa(i+1, ch, 10);																	
+		outtextxy((MUONTRA[0]+MUONTRA[1])/2-textwidth(ch)/2, 350 + i*50, ch);
+		
+		outtextxy(MUONTRA[1]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->ISBN);
+		
+		outtextxy(MUONTRA[2]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tensach);
+		
+		itoa(DSDS.nodes[topsach.list[i].indexDS]->sotrang, ch, 10);							
+		outtextxy(MUONTRA[3]+20, 350 + i*50, ch);
+		
+		outtextxy(MUONTRA[4]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tacgia);
+		
+		itoa(DSDS.nodes[topsach.list[i].indexDS]->nxb, ch, 10);								
+		outtextxy((MUONTRA[5]+MUONTRA[6])/2-textwidth(ch)/2, 350 + i*50, ch);
+		
+		outtextxy(MUONTRA[6]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->theloai);
+		
+		itoa(topsach.list[i].cnt, ch, 10);													
+		outtextxy((MUONTRA[7]+MUONTRA[8])/2-textwidth(ch)/2, 350 + i*50, ch);
+	} 
+}
+
+void DrawTraSach(){	
+	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
+	setcolor(TEXT_COLOR);
+	outtextxy(w/2 - textwidth(DauSachTitle)/2, 15, TraSach);
+	
+	memset(edNhapMaDGMuonSach.content, 0, sizeof(edNhapMaDGMuonSach.content));
+	edNhapMaDGMuonSach.draw();
+	btnTimMaDG.draw();
+}
+
 void DrawTrangConDSMT(DS_DauSach &DSDS){
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar(15, 130, w, h);//clear phan duoi cua trang tu thanh tim kiem
@@ -66,6 +137,15 @@ void DrawBorderDSMT(){
 	}
 }
 
+void DrawItemMT(int i){
+	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	outtextxy(XMT[0]+10, 675+i*40, DSMT.mt[i].MASACH);
+	outtextxy(XMT[1]+10, 675+i*40, DSMT.mt[i].TenSach);
+	outtextxy(XMT[2]+10, 675+i*40, DSMT.mt[i].NgayMuon);
+	outtextxy(XMT[3]+10, 675+i*40, TTMuonTra[DSMT.mt[i].TrangThai]);
+}
+
 void DrawLineSachMuon(bool current){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
 	bar(XMT[0], 675 + curItemMT*40 - 8, XMT[4], 675+(curItemMT+1)*40-8);			
@@ -93,6 +173,163 @@ void ItemSachMuonEvent(){
 			DrawLineSachMuon(false);
 			curItemMT = -1;
 		}
+}
+
+void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
+	setfillstyle(SOLID_FILL, BG_COLOR);
+	bar(15, 210, w, h);//clear phan duoi cua trang tu thanh tim kiem
+	
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	if(curDGMT == NULL){
+		setcolor(TIPS);
+		outtextxy(w/2 - 240, 210, "KHONG TIM THAY DOC GIA");
+	}else{	
+		char ch[30];
+		settextstyle(BOLD_FONT, HORIZ_DIR, 3);
+		setcolor(TEXT_COLOR);
+		outtextxy(400, 250, "THONG TIN DOC GIA");
+		
+		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+		
+		outtextxy(275, 300, "Doc gia :");		sprintf(ch, "%s %s", curDGMT->ho, curDGMT->ten);		outtextxy(550, 300, ch);		
+		outtextxy(275, 350, "Ma the :");		sprintf(ch, "%d", curDGMT->MATHE);						outtextxy(550, 350, ch);	
+		outtextxy(275, 400, "Phai :");			outtextxy(550, 400, PhaiDocGia[curDGMT->phai]);		
+		outtextxy(275, 450, "Trang thai the :");	outtextxy(550, 450, TTTDocGia[curDGMT->trangthai]);	
+		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
+		setcolor(TEXT_COLOR);					outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 572, DSDM);		
+		DrawBorderDSMT();
+		
+		DSMT.n = 0;
+		DauSach *ds;
+		char chNow[15];
+		strcpy(chNow, GetSystemDate());
+		bool isQH = false;
+		if(curDGMT->mt.chuaTra > 0){	
+			DSMT.n = curDGMT->mt.chuaTra;
+			int i = DSMT.n-1;
+			for(PTRMT mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
+				if(mt->muontra.trangthai != 1){
+					ds = GetDauSach(DSDS, mt->muontra.MASACH);
+					strcpy(DSMT.mt[i].MASACH, mt->muontra.MASACH);
+					strcpy(DSMT.mt[i].TenSach, ds->tensach);
+					strcpy(DSMT.mt[i].NgayMuon, mt->muontra.ngaymuon);
+					DSMT.mt[i].TrangThai = mt->muontra.trangthai;
+					DrawItemMT(i--);
+				}
+				if(mt->muontra.trangthai == 0)
+					if(DiffTime(chNow, mt->muontra.ngaymuon) > 7*24*60*60)
+						isQH = true;
+			}
+		}	
+		if(Window == MUON_SACH){
+			setfillstyle(SOLID_FILL, BG_COLOR);
+			bar(205, 880, 845, 970);//khung thong bao
+			setcolor(TIPS);
+			settextstyle(BOLD_FONT, HORIZ_DIR, 3);	
+			if(curDGMT->trangthai == 0){
+				// the bi khoa
+				outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
+				return;
+			}
+			else if(DSMT.n >= 3){
+				outtextxy(225, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
+				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
+				return;
+			}
+			else if(isQH){
+				outtextxy(225, 900, "DOC GIA DA MUON SACH QUA 7 NGAY ");
+				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
+				return;
+			}
+			else {
+				btnTimMaSach.draw();
+				edNhapMaSachMuonSach.draw();
+				canBorrow = true;
+				setcolor(TEXT_COLOR_SELECTED);
+				outtextxy(275, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
+			}		
+		}
+		else{
+			settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
+			setcolor(TEXT_COLOR_SELECTED);
+			outtextxy(225, 850, "==> CLICK CHUOT TRAI DE CHON SACH <==");
+		}
+	}
+}
+
+void DrawLamMatSach(){
+	setcolor(TEXT_COLOR);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
+	rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
+	outtextxy(1400, 600, "LAM MAT SACH ?");
+	rectangle(1150, 625, w-100, 850);
+	setcolor(TIPS);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	outtextxy(1175, 650, "The doc gia se bi khoa");
+	outtextxy(1175, 700, "Sach se chuyen qua trang thai: DA THANH LY");
+	outtextxy(1175, 750, "Doc gia phai den sach moi co the tiep tuc muon sach");
+	outtextxy(1175, 800, "Xac nhan lam mat sach ??");
+	
+	btnXacNhanLamMatSach.draw();
+	btnHuyLamMatSach.draw();
+}
+
+void DrawThongTinSach(){
+	setfillstyle(SOLID_FILL, BG_COLOR);
+	bar(1095, 300, w, h);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	setcolor(TEXT_COLOR);
+	if(curSachMT != NULL){
+		setfillstyle(SOLID_FILL, BORDER_COLOR);		rectangle(1100, 375, w-100, 625);
+		outtextxy(1375, 350, "THONG TIN SACH");
+		outtextxy(1200, 400, "Ma sach :");		outtextxy(1500, 400, curSachMT->MASACH);	
+		outtextxy(1200, 450, "Ten sach : ");	outtextxy(1500, 450, curDSMT->tensach);		
+		outtextxy(1200, 500, "Trang thai :");	outtextxy(1500, 500, TrangThaiSach[curSachMT->trangthai]);
+		outtextxy(1200, 550, "Vi tri :");		outtextxy(1500, 550, curSachMT->vitri);
+		
+		if(curSachMT->trangthai == 0){
+			setcolor(TEXT_COLOR_SELECTED);
+			outtextxy(1250, 600, "=> DOC GIA CO THE MUON CUON SACH NAY !");
+			canMT = true;	// Co the muon sach
+		}else if(curSachMT->trangthai == 1){
+			setcolor(TIPS);
+			outtextxy(1250, 600, "=> DA CO NGUOI MUON CUON SACH NAY !");
+			return;
+		}else{
+			setcolor(TIPS);
+			outtextxy(1250, 600, "=> SACH DA THANH LY, KHONG THE MUON !");
+			return;
+		}
+		edNhapNgayMuonSach.draw();
+		btnXacNhanMuonSach.draw();
+	}else{
+		setcolor(TIPS);
+		outtextxy(w/2+350, 300, "Khong tim thay sach nay!");
+	}
+}
+
+void DrawThongTinSachTra(int itemMT){
+	if(itemMT != -1){
+		curMT = itemMT;		
+		setfillstyle(SOLID_FILL, BG_COLOR);			bar(250+(w-250)/2+5, 240, w, h);		
+		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		setcolor(TEXT_COLOR);		outtextxy(1375, 250, "THONG TIN SACH");
+		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+		setcolor(TEXT_COLOR);	
+		outtextxy(1250, 300, "Ma sach :");			outtextxy(1500, 300, DSMT.mt[curMT].MASACH);		
+		outtextxy(1250, 350, "Ten sach : ");		outtextxy(1500, 350, DSMT.mt[curMT].TenSach);	
+		outtextxy(1250, 400, "Ngay muon :");		outtextxy(1500, 400, DSMT.mt[curMT].NgayMuon);		
+		rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
+		if(subWindow == XAC_NHAN_TRA_SACH){
+			edNhapNgayTraSach.draw();
+			btnXacNhanTraSach.draw();
+			btnLamMatSach.draw();		
+			settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+			setcolor(TIPS);
+			outtextxy(250+(w-250)/2 + 30, 700, mess);			
+		}else if(subWindow == XAC_NHAN_LAM_MAT_SACH){
+			DrawLamMatSach();
+		}
+	}
 }
 
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
@@ -266,172 +503,6 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		}
 	}
 }
-
-void DrawItemMT(int i){
-	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_COLOR);
-	outtextxy(XMT[0]+10, 675+i*40, DSMT.mt[i].MASACH);
-	outtextxy(XMT[1]+10, 675+i*40, DSMT.mt[i].TenSach);
-	outtextxy(XMT[2]+10, 675+i*40, DSMT.mt[i].NgayMuon);
-	outtextxy(XMT[3]+10, 675+i*40, TTMuonTra[DSMT.mt[i].TrangThai]);
-}
-
-void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
-	setfillstyle(SOLID_FILL, BG_COLOR);
-	bar(15, 210, w, h);//clear phan duoi cua trang tu thanh tim kiem
-	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	if(curDGMT == NULL){
-		setcolor(TIPS);
-		outtextxy(w/2 - 240, 210, "KHONG TIM THAY DOC GIA");
-	}else{	
-		char ch[30];
-		settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-		setcolor(TEXT_COLOR);
-		outtextxy(400, 250, "THONG TIN DOC GIA");
-		
-		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-		
-		outtextxy(275, 300, "Doc gia :");		sprintf(ch, "%s %s", curDGMT->ho, curDGMT->ten);		outtextxy(550, 300, ch);		
-		outtextxy(275, 350, "Ma the :");		sprintf(ch, "%d", curDGMT->MATHE);						outtextxy(550, 350, ch);	
-		outtextxy(275, 400, "Phai :");			outtextxy(550, 400, PhaiDocGia[curDGMT->phai]);		
-		outtextxy(275, 450, "Trang thai the :");	outtextxy(550, 450, TTTDocGia[curDGMT->trangthai]);	
-		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
-		setcolor(TEXT_COLOR);					outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 572, DSDM);		
-		DrawBorderDSMT();
-		
-		DSMT.n = 0;
-		DauSach *ds;
-		char chNow[15];
-		strcpy(chNow, GetSystemDate());
-		bool isQH = false;
-		if(curDGMT->mt.chuaTra > 0){	
-			DSMT.n = curDGMT->mt.chuaTra;
-			int i = DSMT.n-1;
-			for(PTRMT mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
-				if(mt->muontra.trangthai != 1){
-					ds = GetDauSach(DSDS, mt->muontra.MASACH);
-					strcpy(DSMT.mt[i].MASACH, mt->muontra.MASACH);
-					strcpy(DSMT.mt[i].TenSach, ds->tensach);
-					strcpy(DSMT.mt[i].NgayMuon, mt->muontra.ngaymuon);
-					DSMT.mt[i].TrangThai = mt->muontra.trangthai;
-					DrawItemMT(i--);
-				}
-				if(mt->muontra.trangthai == 0)
-					if(DiffTime(chNow, mt->muontra.ngaymuon) > 7*24*60*60)
-						isQH = true;
-			}
-		}	
-		if(Window == MUON_SACH){
-			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(205, 880, 845, 970);//khung thong bao
-			setcolor(TIPS);
-			settextstyle(BOLD_FONT, HORIZ_DIR, 3);	
-			if(curDGMT->trangthai == 0){
-				// the bi khoa
-				outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
-				return;
-			}
-			else if(DSMT.n >= 3){
-				outtextxy(225, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
-				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
-				return;
-			}
-			else if(isQH){
-				outtextxy(225, 900, "DOC GIA DA MUON SACH QUA 7 NGAY ");
-				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
-				return;
-			}
-			else {
-				btnTimMaSach.draw();
-				edNhapMaSachMuonSach.draw();
-				canBorrow = true;
-				setcolor(TEXT_COLOR_SELECTED);
-				outtextxy(275, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
-			}		
-		}
-		else{
-			settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
-			setcolor(TEXT_COLOR_SELECTED);
-			outtextxy(225, 850, "==> CLICK CHUOT TRAI DE CHON SACH <==");
-		}
-	}
-}
-
-void DrawThongTinSachTra(int itemMT){
-	if(itemMT != -1){
-		curMT = itemMT;		
-		setfillstyle(SOLID_FILL, BG_COLOR);			bar(250+(w-250)/2+5, 240, w, h);		
-		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		setcolor(TEXT_COLOR);		outtextxy(1375, 250, "THONG TIN SACH");
-		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-		setcolor(TEXT_COLOR);	
-		outtextxy(1250, 300, "Ma sach :");			outtextxy(1500, 300, DSMT.mt[curMT].MASACH);		
-		outtextxy(1250, 350, "Ten sach : ");		outtextxy(1500, 350, DSMT.mt[curMT].TenSach);	
-		outtextxy(1250, 400, "Ngay muon :");		outtextxy(1500, 400, DSMT.mt[curMT].NgayMuon);		
-		rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
-		if(subWindow == XAC_NHAN_TRA_SACH){
-			edNhapNgayTraSach.draw();
-			btnXacNhanTraSach.draw();
-			btnLamMatSach.draw();		
-			settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-			setcolor(TIPS);
-			outtextxy(250+(w-250)/2 + 30, 700, mess);			
-		}else if(subWindow == XAC_NHAN_LAM_MAT_SACH){
-			DrawLamMatSach();
-		}
-	}
-}
- 
-void DrawLamMatSach(){
-	setcolor(TEXT_COLOR);
-	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-	rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
-	outtextxy(1400, 600, "LAM MAT SACH ?");
-	rectangle(1150, 625, w-100, 850);
-	setcolor(TIPS);
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	outtextxy(1175, 650, "The doc gia se bi khoa");
-	outtextxy(1175, 700, "Sach se chuyen qua trang thai: DA THANH LY");
-	outtextxy(1175, 750, "Doc gia phai den sach moi co the tiep tuc muon sach");
-	outtextxy(1175, 800, "Xac nhan lam mat sach ??");
-	
-	btnXacNhanLamMatSach.draw();
-	btnHuyLamMatSach.draw();
-}
-
-void DrawThongTinSach(){
-	setfillstyle(SOLID_FILL, BG_COLOR);
-	bar(1095, 300, w, h);
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setcolor(TEXT_COLOR);
-	if(curSachMT != NULL){
-		setfillstyle(SOLID_FILL, BORDER_COLOR);		rectangle(1100, 375, w-100, 625);
-		outtextxy(1375, 350, "THONG TIN SACH");
-		outtextxy(1200, 400, "Ma sach :");		outtextxy(1500, 400, curSachMT->MASACH);	
-		outtextxy(1200, 450, "Ten sach : ");	outtextxy(1500, 450, curDSMT->tensach);		
-		outtextxy(1200, 500, "Trang thai :");	outtextxy(1500, 500, TrangThaiSach[curSachMT->trangthai]);
-		outtextxy(1200, 550, "Vi tri :");		outtextxy(1500, 550, curSachMT->vitri);
-		
-		if(curSachMT->trangthai == 0){
-			setcolor(TEXT_COLOR_SELECTED);
-			outtextxy(1250, 600, "=> DOC GIA CO THE MUON CUON SACH NAY !");
-			canMT = true;	// Co the muon sach
-		}else if(curSachMT->trangthai == 1){
-			setcolor(TIPS);
-			outtextxy(1250, 600, "=> DA CO NGUOI MUON CUON SACH NAY !");
-			return;
-		}else{
-			setcolor(TIPS);
-			outtextxy(1250, 600, "=> SACH DA THANH LY, KHONG THE MUON !");
-			return;
-		}
-		edNhapNgayMuonSach.draw();
-		btnXacNhanMuonSach.draw();
-	}else{
-		setcolor(TIPS);
-		outtextxy(w/2+350, 300, "Khong tim thay sach nay!");
-	}
-}
  
 void DrawMuonSach(){
 	curMenuMuonTra = -1;
@@ -449,77 +520,6 @@ void DrawMuonSach(){
 	memset(edNhapMaDGMuonSach.content, 0, sizeof(edNhapMaDGMuonSach.content));
 	edNhapMaDGMuonSach.draw();
 	btnTimMaDG.draw();
-}
-
-void DrawTraSach(){	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_COLOR);
-	outtextxy(w/2 - textwidth(DauSachTitle)/2, 15, TraSach);
-	
-	memset(edNhapMaDGMuonSach.content, 0, sizeof(edNhapMaDGMuonSach.content));
-	edNhapMaDGMuonSach.draw();
-	btnTimMaDG.draw();
-}
- 
-void DrawTopTen(DS_DauSach &DSDS){
-	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	setcolor(TEXT_COLOR);
-	outtextxy(w/2 - textwidth(TopTen)/2-85, 15, TopTen);
-	
-	setfillstyle(SOLID_FILL, BG_COLOR);
-	bar(150, 180, w, h);
-	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	
-	char t[][20] = {"STT", "ISBN", "Ten sach", "So trang", "Tac gia", "NXB", "The loai", "So luot muon"};
-	
-	settextstyle(3, HORIZ_DIR, 3);
-	setfillstyle(USER_FILL, PANEL);
-	setbkcolor(PANEL);
-	setcolor(BG_COLOR);
-	
-	bar(MUONTRA[0], 250, MUONTRA[8], 320);
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	setlinestyle(SOLID_LINE,0, 3);
-	setcolor(BG_COLOR);
-	for(int i=0; i<8; i++){
-		outtextxy((MUONTRA[i+1]+MUONTRA[i])/2 - textwidth(t[i])/2, 285-textheight(t[i])/2, t[i]);
-	}
-	
-	setbkcolor(BG_COLOR);
-	
-	//COTMUONTRA
-	setcolor(BORDER_COLOR);
-	rectangle(MUONTRA[0], 250, MUONTRA[8], 850);
-	
-	for(int i=0; i < 7; i++){
-		setlinestyle(SOLID_LINE, 0, 1);
-		line(MUONTRA[i+1], 250, MUONTRA[i+1], 850);
-	}
-	
-	TopSach topsach(DSDS);
-	char ch[20];
-	for(int i=0; i < (topsach.n < 10 ? topsach.n : 10); i++){
-		itoa(i+1, ch, 10);																	
-		outtextxy((MUONTRA[0]+MUONTRA[1])/2-textwidth(ch)/2, 350 + i*50, ch);
-		
-		outtextxy(MUONTRA[1]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->ISBN);
-		
-		outtextxy(MUONTRA[2]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tensach);
-		
-		itoa(DSDS.nodes[topsach.list[i].indexDS]->sotrang, ch, 10);							
-		outtextxy(MUONTRA[3]+20, 350 + i*50, ch);
-		
-		outtextxy(MUONTRA[4]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tacgia);
-		
-		itoa(DSDS.nodes[topsach.list[i].indexDS]->nxb, ch, 10);								
-		outtextxy((MUONTRA[5]+MUONTRA[6])/2-textwidth(ch)/2, 350 + i*50, ch);
-		
-		outtextxy(MUONTRA[6]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->theloai);
-		
-		itoa(topsach.list[i].cnt, ch, 10);													
-		outtextxy((MUONTRA[7]+MUONTRA[8])/2-textwidth(ch)/2, 350 + i*50, ch);
-	} 
 }
 
 

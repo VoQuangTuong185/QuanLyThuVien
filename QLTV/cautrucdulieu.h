@@ -630,10 +630,9 @@ void RemoveDocGia_SpecialCase(DocGiaPTR &node, DocGiaPTR &removeNode){
 	}
 }
 
-void RemoveDocGia(DocGiaPTR &node, int maDocGia){
+int RemoveDocGia(DocGiaPTR &node, int maDocGia){
 	if(node == NULL) {
-		printf("K the xoa doc gia \n");
-		return;
+		return 0;
 	}
 	if(maDocGia < node->docgia.MATHE) 
 		RemoveDocGia(node->left, maDocGia);
@@ -650,6 +649,7 @@ void RemoveDocGia(DocGiaPTR &node, int maDocGia){
 		// Neu chi xoa doc gia chua tung muon sach, thi cau lenh nay khong can thiet
 		DeleteAllMuonTra(removeNode->docgia.mt);		
 		delete removeNode;
+		return 1;
 	}
 }
 
