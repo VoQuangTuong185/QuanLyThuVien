@@ -145,7 +145,7 @@ Button btnTopTen(233, w/2 +30, 70, 150, 50, "  TOP 10", -1);
 
 // Muon sach
 EditText edNhapMaDGMuonSach(1111, 460, 150, 620, 50, "Nhap ma the :", "", "Nhap ma the doc gia vao day");
-EditText edNhapMaSachMuonSach(1112, w/2+150, 240, 600, 50, "Nhap ma sach :", "", "Nhap ma sach doc gia muon vao day");
+EditText edNhapMaSachMuonSach(1112, w/2+150, 240, 600, 50, "Nhap ma sach :", "", "Nhap ma sach can muon (VD: TDK-1)");
 EditText edNhapNgayMuonSach(1113, w/2+200, 700, 600, 50, "Ngay muon :", "", "01/01/2020");
 Button btnTimMaDG(241, 1110, 150, 100, 50, "TIM", 0);
 Button btnTimMaSach(242, w-200, 240, 100, 50, "TIM", 0);
@@ -240,11 +240,9 @@ void ScanTimDauSach(DS_DauSach &DSDS,EditText* &txt, int &n, int maxn, char c){
 	}
 }
 
-bool NumberOnly(int n, char c, bool Daunoi){
+bool NumberOnly(int n, char c){
 	int daunoi = 0;
-	char ch{ daunoi };
-	(Daunoi) ? ch = 45 : ch = 32; //phim ',' //phim 'space' _	
-	if(c >= '0' && c <= '9' ||(c==ch)){
+	if(c >= '0' && c <= '9'){
 		if((n == 0 && c != '0')|| (n>0))
 			return true; 		
 	}
@@ -313,7 +311,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 		}else if(n < maxn){
 			switch (type){			
                 case ONLY_NUMBER: //nhap so
-                if(NumberOnly(n, c, false))
+                if(NumberOnly(n, c))
 						txt->content[n++] = c;	
                 break;
                 
@@ -323,7 +321,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case TEXT_NUM_ADD_COMMA_UPPERCASE://chi chu thuong hoac theo nguoi dung nhap vao + dau phay
-                if((TextOnly(c,true)) || NumberOnly(n, c, false))
+                if((TextOnly(c,true)) || NumberOnly(n, c))
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
 					else
@@ -331,7 +329,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case TEXT_NUMBER://chu + so
-                if(TextOnly(c,false) || NumberOnly(n, c, false)){
+                if(TextOnly(c,false) || NumberOnly(n, c)){
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
 					else
@@ -359,7 +357,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case DELETE_SPACE_UPPERCASE://xoa space dau va space giua, form ISBN: TDK
-                if(TextOnly(c, false) || NumberOnly(n, c, false)){
+                if(TextOnly(c, false) || NumberOnly(n, c)){
                 	if(KiemTraNhapLieu(txt,n,c) == 0 || KiemTraNhapLieu(txt,n,c) == -1)
                 		txt->content[n++] = '\0';
 					else
