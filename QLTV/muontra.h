@@ -279,6 +279,7 @@ void DrawThongTinSach(){
 	bar(1095, 300, w, h);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
+	
 	if(curSachMT != NULL){
 		setfillstyle(SOLID_FILL, BORDER_COLOR);		rectangle(1100, 375, w-100, 625);
 		outtextxy(1375, 350, "THONG TIN SACH");
@@ -306,6 +307,9 @@ void DrawThongTinSach(){
 		setcolor(TIPS);
 		outtextxy(w/2+350, 300, "Khong tim thay sach nay!");
 	}
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+	setcolor(TIPS);
+	outtextxy(1175, 840,  mess);
 }
 
 void DrawThongTinSachTra(int itemMT){
@@ -325,10 +329,9 @@ void DrawThongTinSachTra(int itemMT){
 			btnLamMatSach.draw();		
 			settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 			setcolor(TIPS);
-			outtextxy(250+(w-250)/2 + 30, 700, mess);			
-		}else if(subWindow == XAC_NHAN_LAM_MAT_SACH){
+			outtextxy(1200, 650,  mess);			
+		}else if(subWindow == XAC_NHAN_LAM_MAT_SACH)
 			DrawLamMatSach();
-		}
 	}
 }
 
@@ -390,11 +393,11 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						Edit = &edNhapNgayMuonSach;					
 					else if(btnXacNhanMuonSach.isMouseHover(mx, my)){
 						if(!CheckDate(edNhapNgayMuonSach.content)){
-							strcpy(mess, "THONG BAO : Ngay muon khong hop le");
+							strcpy(mess, "THONG BAO : NGAY MUON KHONG HOP LE (VD: 25/11/2022)");
 							DrawThongTinSach();
 						}
 						else if(CompareDate(edNhapNgayMuonSach.content, GetSystemDate()) > 0){
-							strcpy(mess, "THONG BAO : Ngay muon khong the muon hon ngay hien tai");
+							strcpy(mess, "THONG BAO : NGAY MUON KHONG THE TRUOC HIEN TAI");
 							DrawThongTinSach();
 						}
 						else{

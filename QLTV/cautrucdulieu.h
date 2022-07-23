@@ -651,7 +651,8 @@ int RemoveDocGia(DocGiaPTR &node, int maDocGia){
 		else if(node->left == NULL)//co cay con ben phai
 			node = node->right;
 		else//co 2 cay con
-			RemoveDocGia_SpecialCase(node->right, removeNode);	
+			RemoveDocGia_SpecialCase(node->right, removeNode);
+				
 		// Neu chi xoa doc gia chua tung muon sach, thi cau lenh nay khong can thiet
 		DeleteAllMuonTra(removeNode->docgia.mt);		
 		delete removeNode;

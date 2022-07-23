@@ -13,6 +13,9 @@ char mess[50];
 char *TrangThaiSach[15] = {"CHO MUON DUOC", "DA CHO MUON", "DA THANH LY"};
 char thongBao[50];
 
+bool check_dau_noi = false;
+int count_numbers = 0;
+
 char AppTitle[] = "Phan Mem Quan Ly Thu Vien";
 char DauSachTitle[] = "DANH SACH DAU SACH";
 char ThemDauSach[] = "THEM DAU SACH";
@@ -237,23 +240,23 @@ void ScanTimDauSach(DS_DauSach &DSDS,EditText* &txt, int &n, int maxn, char c){
 	}
 }
 
-bool NumberOnly(int n, char c){
-	if(c >= '0' && c <= '9'){
+bool NumberOnly(int n, char c, bool Daunoi){
+	int daunoi = 0;
+	char ch{ daunoi };
+	(Daunoi) ? ch = 45 : ch = 32; //phim ',' //phim 'space' _	
+	if(c >= '0' && c <= '9' ||(c==ch)){
 		if((n == 0 && c != '0')|| (n>0))
 			return true; 		
 	}
     return false;
 }
 
-bool TextOnly(char c, bool COMMA){
+bool TextOnly(char c, bool Comma){
 	int comma = 0;
 	char ch{ comma };
-	if(COMMA)
-		ch = 44;	//phim ','
-	else 
-		ch = 32; //phim 'space' _
+	(Comma) ? ch = 44 : ch = 32; //phim ',' //phim 'space' _
 		
-	if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')|| (c==' ')||(c==ch)||(c=='-'))
+	if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')|| (c==' ')||(c==ch))
 		return true;   
     return false;
 }
@@ -295,13 +298,22 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 		char c = getch();
 		if(c == BACKSPACE && type != TIM_DAU_SACH){
 			if(n > 0){
+				if (type == TIM_MA_SACH){
+					if (txt->content[n-1] == '-'){
+						check_dau_noi = false;
+					}
+					else if (txt->content[n-1] == '0' || txt->content[n-1] == '1' || txt->content[n-1] == '2'|| txt->content[n-1] == '3'|| txt->content[n-1] == '4'|| 
+					txt->content[n-1] == '5' || txt->content[n-1] == '6'|| txt->content[n-1] == '7'|| txt->content[n-1] == '8'|| txt->content[n-1] == '9'){
+						count_numbers -=1;
+					}
+				}
 				txt->content[n--] = ' ';
 				txt->content[n] = '\0';
 			}
 		}else if(n < maxn){
 			switch (type){			
                 case ONLY_NUMBER: //nhap so
-                if(NumberOnly(n,c))
+                if(NumberOnly(n, c, false))
 						txt->content[n++] = c;	
                 break;
                 
@@ -311,7 +323,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case TEXT_NUM_ADD_COMMA_UPPERCASE://chi chu thuong hoac theo nguoi dung nhap vao + dau phay
-                if((TextOnly(c,true)) || NumberOnly(n,c))
+                if((TextOnly(c,true)) || NumberOnly(n, c, false))
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
 					else
@@ -319,7 +331,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case TEXT_NUMBER://chu + so
-                if(TextOnly(c,false) || NumberOnly(n,c)){
+                if(TextOnly(c,false) || NumberOnly(n, c, false)){
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
 					else
@@ -347,13 +359,11 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case DELETE_SPACE_UPPERCASE://xoa space dau va space giua, form ISBN: TDK
-                if(TextOnly(c,false) || NumberOnly(n,c)){
-                	if(KiemTraNhapLieu(txt,n,c) == 0 || KiemTraNhapLieu(txt,n,c) == -1){
+                if(TextOnly(c, false) || NumberOnly(n, c, false)){
+                	if(KiemTraNhapLieu(txt,n,c) == 0 || KiemTraNhapLieu(txt,n,c) == -1)
                 		txt->content[n++] = '\0';
-					}
-					else {
+					else
 						txt->content[n++] = toupper(c); 
-					}
 				}
                 break;
                 
@@ -362,12 +372,32 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 				    txt->content[n++] = c;
                 break;
                 
-                case TIM_MA_SACH://so gioi han
-                if(TextOnly(c,false)|| NumberOnly(n,c))  
-   					if (KiemTraNhapLieu(txt,n,c) == 0)  
-						txt->content[n++] = '\0';              					   
-					else 
-						txt->content[n++] = toupper(c);               			
+                case TIM_MA_SACH://format: TDK-001 
+					if(n == 0){
+					    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+   							txt->content[n++] = toupper(c);	
+					}
+					else {
+						if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c=='-') && (txt->content[n-1] != '-') && (!check_dau_noi)){
+							txt->content[n++] = toupper(c);
+							if (c=='-')
+								check_dau_noi =true;
+						}				
+						else if ((c >= '0' && c <= '9') && (check_dau_noi) && count_numbers<3){
+							count_numbers++;
+							txt->content[n++] = c;
+						}						
+					}	    												             			
+                break;
+                
+                case DATE_ONLY://format: 20/11/2022
+					int count = 0;
+					for(int i=0; i<n; i++)
+						if(txt->content[i] == '/') count++;					
+					if(c >= '0' && c <= '9')
+						txt->content[n++] = c;
+					else if(c == '/' && count < 2 && n> 0 && txt->content[n-1] != '/')
+						txt->content[n++] = c;				
                 break;
             }
             if(type == TIM_DAU_SACH)
@@ -536,12 +566,10 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				Scan(DSDS, Edit, 5, ONLY_NUMBER);
 			else if(Edit == &edNhapMaSachMuonSach)
 				Scan(DSDS, Edit, 15, TIM_MA_SACH);
-//			else if(Edit == &edNhapNgayMuonSach){
-//				Scan(Edit, 10, DATE_TIME);
-//			}		
-//			if(Edit == &edNhapNgayTraSach){
-//				Scan(Edit, 10, DATE_TIME);
-//			}
+			else if(Edit == &edNhapNgayMuonSach)
+				Scan(DSDS, Edit, 10, DATE_ONLY);		
+			else if(Edit == &edNhapNgayTraSach)
+				Scan(DSDS, Edit, 10, DATE_ONLY);
 		}
 	else
 		ClearScreen(4);

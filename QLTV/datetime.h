@@ -1,7 +1,8 @@
+
 char* GetSystemDate(){
 	time_t curTime = time(0);
 	tm* now = localtime(&curTime);
-	char ch[11];
+	char ch[11] = {0};
 	sprintf(ch, "%d/%d/%d", now->tm_mday, now->tm_mon+1, 1900+now->tm_year);
 	return ch;
 }
@@ -9,8 +10,7 @@ char* GetSystemDate(){
 
 int* SplitDate(char s[]){
 	int *a = new int[3];
-	for(int i=0; i<3; i++) 
-		a[i] = -1;
+	for(int i=0; i<3; i++) a[i] = -1;
 	string txt;
 	int index = 0;
 	int n = strlen(s);
@@ -21,8 +21,9 @@ int* SplitDate(char s[]){
 			int x = atoi(txt.c_str());
 			a[index++] = x;
 			txt = "";
-		}else
+		}else{
 			txt += s[i];
+		}
 	}
 	return a;
 }
@@ -35,15 +36,12 @@ bool isLeapYear(int year){
 }
 
 int DayOfMonth(int month, int year){
-	if(month < 1 || month > 12) 
-		return 0;
+	if(month < 1 || month > 12) return 0;
 	
 	switch(month){
 		case 2:
-			if(isLeapYear(year)) 
-				return 29;
-			else 
-				return 28;
+			if(isLeapYear(year)) return 29;
+			else return 28;
 		case 4:
 		case 6:
 		case 9:
@@ -55,10 +53,8 @@ int DayOfMonth(int month, int year){
 bool CheckDate(char* s){
 	int *a = SplitDate(s);
 	bool res = true;
-	if(a[2] < 1900 || a[1] <= 0 || a[1] > 12 || a[0] <= 0) 
-		res = false;
-	if(a[0] > DayOfMonth(a[1], a[2])) 
-		res = false;
+	if(a[2] < 1900 || a[1] <= 0 || a[1] > 12 || a[0] <= 0) res = false;
+	if(a[0] > DayOfMonth(a[1], a[2])) res = false;
 	delete a;
 	return res;
 }
@@ -89,22 +85,15 @@ int CompareDate(char *date1, char *date2){
 	int *a = SplitDate(date1);
 	int *b = SplitDate(date2);
 	
-	if(a[2] < b[2]) 
-		return -1;
-	else if(a[2] > b[2]) 
-		return 1;
+	if(a[2] < b[2]) return -1;
+	else if(a[2] > b[2]) return 1;
 	else{
-		if(a[1] < b[1]) 
-			return -1;
-		else if(a[1] > b[1]) 
-			return 1;
+		if(a[1] < b[1]) return -1;
+		else if(a[1] > b[1]) return 1;
 		else{
-			if(a[0] < b[0]) 
-				return -1;
-			else if(a[0] > b[0]) 
-				return 1;
-			else 
-				return 0;
+			if(a[0] < b[0]) return -1;
+			else if(a[0] > b[0]) return 1;
+			else return 0;
 		}
 	}
 	return 0;
