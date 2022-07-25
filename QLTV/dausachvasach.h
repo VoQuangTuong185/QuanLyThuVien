@@ -764,6 +764,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			if(btnBack.isMouseHover(mx, my)){
 				SetMenuSelect(DSDS, DSDG, 100);
 				Window = DANH_SACH_DAU_SACH;
+				subWindow = CONFIRM_POPUP_NONE;
 				memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));		
 				DrawTrangConDSDS(DSDS);	
 			}
