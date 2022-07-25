@@ -1,13 +1,28 @@
-void TangDan(int a[], int n){
-    int tg;
-    for(int i = 0; i < n - 1; i++)
-        for(int j = i + 1; j < n; j++)
-            if(a[i] > a[j]){
-                // Hoan vi 2 so a[i] va a[j]
-                tg = a[i];
-                a[i] = a[j];
-                a[j] = tg;        
-            }
+void Sort(int A[], int q, int r) {
+    int temp;
+    int i = q;
+    int j = r;
+    int x = A[(q + r) / 2]; 
+    do { 
+        while (A[i] < x) i++;
+        while (A[j] > x) j--; 
+        if (i <= j) 
+        {
+            temp = A[i];
+            A[i] = A[j];
+            A[j] = temp;
+            i++;
+            j--;
+        }
+    } while (i <= j);
+    if (q < j) 
+        Sort(A, q, j);
+    if (i < r) 
+        Sort(A, i, r);
+}
+
+void Quick_Sort(int A[], int n) {
+    Sort(A, 0, n - 1); 
 }
 
 void CreateFileMaTheDocGia(){
@@ -28,14 +43,14 @@ void CreateFileMaTheDocGia(){
 			k++;
 		}
 		j=k;
-		TangDan(a,k);
+		Quick_Sort(a,k);
 	}
 	for(int i=0;i<count;i++){
 		cout<<TheDocGiaBST[i]<<"\t";
 	}
 	
 	fstream fileMaTheDocGia;
-	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);
+	fileMaTheDocGia.open("data_MaTheDocGia_quicksort.txt", ios::out | ios::trunc);
 	fileMaTheDocGia << count << endl;	
 	for(int i=0; i<count; i++)
 		fileMaTheDocGia << TheDocGiaBST[i]<<"\t";
@@ -236,3 +251,4 @@ void WriteDocGiaToFile(DocGiaPTR &root){
 	fileMuonTra.close();
 	fileDocGia.close();
 }
+

@@ -547,9 +547,8 @@ int CheckDeteleDauSach(DS_DauSach &DSDS, int curDauSach){
 	else {
 		for (int i = 0; i<DSDS.nodes[curDauSach]->soluong-1; i++){
 			SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First,i);
-			if (nodeSelect->sach.trangthai == 1){
+			if (nodeSelect->sach.trangthai == 1)
 				return 0;
-			}
 		}
 	}
 	return 1;
@@ -678,7 +677,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				if(btnBack.isMouseHover(mx, my)){	
 					Edit = NULL;
 					Window = DANH_SACH_DAU_SACH;
-				    DrawTrangConDSDS(DSDS);							
+				    DrawTrangConDSDS(DSDS);	
+					DrawListDSDS(DSDS);						
 				}			
 				else if(btnDeleteDauSach.isMouseHover(mx, my)){
 					if (CheckDeteleDauSach(DSDS, curDauSach)){

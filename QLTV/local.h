@@ -647,7 +647,6 @@ void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG, int menuID){
 			DrawMenu();	
 		else if(menuID == btnQLDauSach.id){
 			Window = DANH_SACH_DAU_SACH;
-			subWindow = THEM_SACH;
 		    DrawDanhSachDauSach();	
 		    DrawListDSDS(DSDS);
 		}		

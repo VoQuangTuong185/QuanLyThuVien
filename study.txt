@@ -3,7 +3,7 @@
 - làm sao để xác định độc giả mượn quá hạn
 - làm sao random không trùng
 
-- cây nhị phân tìm kiếm nhanh nhất : cây tìm kiếm nhị phân cân bằng hoàn toàn
+- cây nhị phân tìm kiếm nhanh nhất : cây tìm kiếm nhị phân cân bằng hoàn toàn vì mỗi lần so sánh ở 1 nhánh, loại bỏ được 50% số lượng node => Log2N
 => lưu ý: k dùng thuật toán cân bằng cây mà viết thuật toán để xin số, sao cho vẫn dùng thuật toán
 insert_node đưa vào cây nhị phân tìm kiếm bình thường nhưng cây vẫn là cây tự động cân bằng (cây nhị phân tìm kiếm cân bằng hoàn toàn)
 => không đi cân bằng cây
@@ -13,3 +13,9 @@ insert_node đưa vào cây nhị phân tìm kiếm bình thường nhưng cây 
 				//return -X , voi X la khoang cach thu tu cua ki tu chuoi 2 so voi thu tu cua ki tu chuoi 1 trong ASCII, neu ki tu dau 2 chuoi bang nhau, 
 					//tiep tuc so ki tu tiep theo
 				//return X, tuong tu nhu tren, nhung la chenh lech cua chuoi 1 so voi chuoi 2
+
+- tổng số nút của cây nhị phân đầy là (2^d)-1 với d là chiều cao
+
+- tìm kiếm trên cây nhị phân suy biến (luôn chạy về 1 phía) => không hiệu quả
+ 
+-nắm các trường hợp khi xoá 1 nút khỏi cây tìm kiếm nhị phân

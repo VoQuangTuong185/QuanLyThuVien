@@ -274,7 +274,23 @@ void DrawLamMatSach(){
 	btnHuyLamMatSach.draw();
 }
 
-void DrawThongTinSach(){
+bool CheckDuplicateISBN_by_MaSach(DS_DauSach &DSDS){
+	DauSach *ds;
+	if(curDGMT->mt.chuaTra > 0){	
+		DSMT.n = curDGMT->mt.chuaTra;
+		int i = DSMT.n-1;
+		for(PTRMT mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
+			if(mt->muontra.trangthai == 0){
+				ds = GetDauSach(DSDS, mt->muontra.MASACH);
+				if (strcmp(ds->ISBN, curDSMT->ISBN)==0)
+					return true;
+			}
+		}
+		return false;
+	}	
+}
+
+void DrawThongTinSach(DS_DauSach &DSDS){
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar(1095, 300, w, h);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
@@ -288,6 +304,11 @@ void DrawThongTinSach(){
 		outtextxy(1200, 500, "Trang thai :");	outtextxy(1500, 500, TrangThaiSach[curSachMT->trangthai]);
 		outtextxy(1200, 550, "Vi tri :");		outtextxy(1500, 550, curSachMT->vitri);
 		
+		if (CheckDuplicateISBN_by_MaSach(DSDS)){
+			setcolor(TIPS);
+			outtextxy(1130, 600, "THONG BAO : DOC GIA DA MUON SACH THUOC DAU SACH NAY ROI !");
+			return;						
+		}
 		if(curSachMT->trangthai == 0){
 			setcolor(TEXT_COLOR_SELECTED);
 			outtextxy(1250, 600, "=> DOC GIA CO THE MUON CUON SACH NAY !");
@@ -383,7 +404,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						else
 							curSachMT = GetSach(curDSMT->First, edNhapMaSachMuonSach.content);
 						strcpy(edNhapNgayMuonSach.content, GetSystemDate());
-						DrawThongTinSach();
+						DrawThongTinSach(DSDS);
 					}
 				}
 				else if(edNhapMaSachMuonSach.isMouseHover(mx, my))
@@ -394,13 +415,13 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					else if(btnXacNhanMuonSach.isMouseHover(mx, my)){
 						if(!CheckDate(edNhapNgayMuonSach.content)){
 							strcpy(mess, "THONG BAO : NGAY MUON KHONG HOP LE (VD: 25/11/2022)");
-							DrawThongTinSach();
+							DrawThongTinSach(DSDS);
 						}
 						else if(CompareDate(edNhapNgayMuonSach.content, GetSystemDate()) > 0){
 							strcpy(mess, "THONG BAO : NGAY MUON KHONG THE TRUOC HIEN TAI");
-							DrawThongTinSach();
+							DrawThongTinSach(DSDS);
 						}
-						else{
+						else{							
 						// 0: DANG MUON
 						MuonTra muon(curSachMT->MASACH, edNhapNgayMuonSach.content, "", 0);
 						InsertLast_MuonTra(curDGMT->mt, muon);							
@@ -410,7 +431,6 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						UpdateNodeSach(nodeSach, sach);							
 						// Tang so luot muon sach cua Dau Sach
 						curDSMT->soluotmuon ++;		curDSMT = NULL;		curSachMT = NULL;	canMT = false;							
-						memset(edNhapMaSachMuonSach.content, 0, sizeof(edNhapMaSachMuonSach.content));
 						DrawThongTinDocGia(DSDS, DSDG);									
 						}
 					}
@@ -451,7 +471,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							DrawThongTinSachTra(curMT);
 						}else if(CompareDate(edNhapNgayTraSach.content, GetSystemDate()) > 0){
 							strcpy(mess, "THONG BAO : Ngay muon khong the muon hon ngay hien tai");
-							DrawThongTinSach();
+							DrawThongTinSach(DSDS);
 						}else{
 							//DA TRA 
 							MuonTra tra(DSMT.mt[curMT].MASACH, DSMT.mt[curMT].NgayMuon, edNhapNgayTraSach.content, 1);
@@ -483,7 +503,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						MuonTra tra(DSMT.mt[curMT].MASACH, DSMT.mt[curMT].NgayMuon, "", 2);
 						Update_MuonTra(curDGMT->mt, tra);							
 						curDSMT = GetDauSach(DSDS, DSMT.mt[curMT].MASACH);							
-						NodeSach *nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
+						SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
 						Sach sach = nodeSach->sach;
 						sach.trangthai = 2; 	// DA THANH LY
 						UpdateNodeSach(nodeSach, sach);								

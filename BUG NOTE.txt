@@ -1,18 +1,9 @@
 - chưa tìm hiểu kỹ check năm xuất bản hợp lệ của window : THEM_DAU_SACH, HIEU_CHINH_DAU_SACH
 
-- tìm hiểu sprintf, const char * (Like the message says, conversion from const char* to char* (which C++ inherited from ancient C language which didn't have const) has been deprecated.)
-
-- chưa ràng buộc nếu đầu sách có sách đã cho mượn thì k được DELETE đầu sách window HIEU_CHINH_DAU_SACH
-
-- chưa lược bỏ tối đa biến toàn cục (truyền tham biến vào hàm)
+- tìm hiểu sprintf, const char * (Like the message says, conversion from const char* to char* 
+(which C++ inherited from ancient C language which didn't have const) has been deprecated.)
 
 - chưa tìm hiểu insert_last
-
-- chưa tìm hiểu DSDS
-
-- còn lỗi nhập liệu tìm MASACH (có dấu -)
-
-- lỗi chưa sửa được ngày mượn
 
 - chưa thêm phím < > de di chuyen qua lai khi edit chữ trong khung
 
@@ -20,4 +11,16 @@
 
 - [Warning] address of local variable 'ch' returned [-Wreturn-local-addr]
 
-- chưa làm nút thoát sẽ giải phóng bộ nhớ các ctdl
+- các hàm nhập đang bị chậm
+
+- còn lỗi chưa load list độc giả sau xoá
+
+- top 10 chưa reset khi trả sách (629-docgia.h) -có thể không phải lỗi
+
+- chưa xài hàm sắp xếp xịn nhất : CreateFileMaTheDocGia()
+
+- chưa xem kỹ hàm tạo ngày, check độc giả quá hạn, hàm bắt lỗi nhập ngày mượn, trả sách
+
+- chưa xem queue.h và các hàm sử dụng nó
+
+- chưa xem qua cách xác định độc giả quá hạn
