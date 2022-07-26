@@ -15,12 +15,10 @@
 
 - còn lỗi chưa load list độc giả sau xoá
 
-- top 10 chưa reset khi trả sách (629-docgia.h) -có thể không phải lỗi
-
-- chưa xài hàm sắp xếp xịn nhất : CreateFileMaTheDocGia()
-
 - chưa xem kỹ hàm tạo ngày, check độc giả quá hạn, hàm bắt lỗi nhập ngày mượn, trả sách
 
 - chưa xem queue.h và các hàm sử dụng nó
 
 - chưa xem qua cách xác định độc giả quá hạn
+
+- có mấy hàm insert thì k cần & ở con trỏ first

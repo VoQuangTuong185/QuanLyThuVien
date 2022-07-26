@@ -201,8 +201,6 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		
 		DSMT.n = 0;
 		DauSach *ds;
-		char chNow[15];
-		strcpy(chNow, GetSystemDate());
 		bool isQH = false;
 		if(curDGMT->mt.chuaTra > 0){	
 			DSMT.n = curDGMT->mt.chuaTra;
@@ -217,7 +215,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					DrawItemMT(i--);
 				}
 				if(mt->muontra.trangthai == 0)
-					if(DiffTime(chNow, mt->muontra.ngaymuon) > 7*24*60*60)
+					if(DiffTime(GetSystemDate(), mt->muontra.ngaymuon) > 7*24*60*60)
 						isQH = true;
 			}
 		}	
@@ -363,6 +361,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	ButtonEffect(btnTraSach);
 	ButtonEffect(btnTopTen);
 	if(GetAsyncKeyState(VK_LBUTTON)){
+		memset(mess, 0, sizeof(mess));
 		if(btnBackToMenu.isMouseHover(mx, my))
 			SetMenuSelect(DSDS, DSDG, 0);	
 		else if(btnMuonSach.isMouseHover(mx, my) && (Window != MUON_SACH)){
@@ -414,10 +413,10 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						Edit = &edNhapNgayMuonSach;					
 					else if(btnXacNhanMuonSach.isMouseHover(mx, my)){
 						if(!CheckDate(edNhapNgayMuonSach.content)){
-							strcpy(mess, "THONG BAO : NGAY MUON KHONG HOP LE (VD: 25/11/2022)");
+							strcpy(mess, "THONG BAO : DINH DANG KHONG HOP LE (VD: 25/11/2022)");
 							DrawThongTinSach(DSDS);
 						}
-						else if(CompareDate(edNhapNgayMuonSach.content, GetSystemDate()) > 0){
+						else if(CompareDate(edNhapNgayMuonSach.content, GetSystemDate())==-1){
 							strcpy(mess, "THONG BAO : NGAY MUON KHONG THE TRUOC HIEN TAI");
 							DrawThongTinSach(DSDS);
 						}
@@ -466,10 +465,10 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						if(!CheckDate(edNhapNgayTraSach.content)){
 							strcpy(mess, "THONG BAO : Ngay nhap vao khong hop le");
 							DrawThongTinSachTra(curMT);
-						}else if(CompareDate(edNhapNgayTraSach.content, DSMT.mt[curMT].NgayMuon) < 0){
+						}else if(CompareDate(edNhapNgayTraSach.content, DSMT.mt[curMT].NgayMuon)==1){
 							strcpy(mess, "THONG BAO : Ngay tra sach khong the som hon ngay muon sach");
 							DrawThongTinSachTra(curMT);
-						}else if(CompareDate(edNhapNgayTraSach.content, GetSystemDate()) > 0){
+						}else if(CompareDate(edNhapNgayTraSach.content, GetSystemDate())==-1){
 							strcpy(mess, "THONG BAO : Ngay muon khong the muon hon ngay hien tai");
 							DrawThongTinSach(DSDS);
 						}else{

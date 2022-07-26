@@ -50,7 +50,7 @@ void CreateFileMaTheDocGia(){
 	}
 	
 	fstream fileMaTheDocGia;
-	fileMaTheDocGia.open("data_MaTheDocGia_quicksort.txt", ios::out | ios::trunc);
+	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);
 	fileMaTheDocGia << count << endl;	
 	for(int i=0; i<count; i++)
 		fileMaTheDocGia << TheDocGiaBST[i]<<"\t";

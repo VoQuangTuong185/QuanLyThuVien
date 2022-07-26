@@ -10,7 +10,8 @@ int XXX[8] = {200, 380, 900, 1050, 1400, 1500, w-200, 600}; //phan tu cuoi cung 
 int XDMS[4] = {(w/2)-450, (w/2)-250, (w/2)+100, (w/2)+450};
 
 char mess[50];
-char *TrangThaiSach[15] = {"CHO MUON DUOC", "DA CHO MUON", "DA THANH LY"};
+//char *TrangThaiSach[3] means "declare TrangThaiSach as and array of 3 pointers to char"
+char *TrangThaiSach[3] = {"CHO MUON DUOC", "DA CHO MUON", "DA THANH LY"};
 char thongBao[50];
 
 bool check_dau_noi = false;
@@ -88,8 +89,8 @@ Button btnNo(255, w/2 + 50, 490, 100, 30, "No", 0);
 
 //////////////////////////////////////////KHU TU TRI CUA DOCGIA VA MUONSACH /////////////////////////////////////////////////
 char DocGiaTitle[] = "DANH SACH DOC GIA";
-char *PhaiDocGia[5] = {"NAM", "NU"};
-char *TTTDocGia[10] = {"KHOA", "HOAT DONG"};
+char *PhaiDocGia[2] = {"NAM", "NU"};
+char *TTTDocGia[2] = {"KHOA", "HOAT DONG"};
 char TTMuonTra[][10] = {"DANG MUON", "DA TRA", "LAM MAT"};
 char ThemDocGia[] = "THEM DOC GIA";
 char HieuChinhDocGia[] = "HIEU CHINH DOC GIA";
@@ -499,7 +500,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				else if(Edit == &edThemSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
 				else if(Edit == &edThemTacGia)
-					Scan(DSDS, Edit, 30, SPACE_TEXT);
+					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
 				else if(Edit == &edThemNXB)
 					Scan(DSDS, Edit, 4, ONLY_NUMBER);
 				else if(Edit == &edThemTheLoai)
@@ -512,8 +513,8 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 					Scan(DSDS, Edit, 30, TEXT_NUMBER);
 				else if(Edit == &edHieuChinhSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
-				else if(Edit == &edThemTacGia)
-					Scan(DSDS, Edit, 30, SPACE_TEXT);
+				else if(Edit == &edHieuChinhTacGia)
+					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
 				else if(Edit == &edHieuChinhNXB)
 					Scan(DSDS, Edit, 4, ONLY_NUMBER);
 				else if(Edit == &edHieuChinhTheLoai)

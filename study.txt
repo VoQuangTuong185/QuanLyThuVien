@@ -19,3 +19,12 @@ insert_node đưa vào cây nhị phân tìm kiếm bình thường nhưng cây 
 - tìm kiếm trên cây nhị phân suy biến (luôn chạy về 1 phía) => không hiệu quả
  
 -nắm các trường hợp khi xoá 1 nút khỏi cây tìm kiếm nhị phân
+
+*time_t là kiểu dữ liệu, ko phải để đo đạc cái gì hết. Chữ _t nghĩa là “type”. time_t viết tắt cho time_type là kiểu dữ liệu “thời gian”.
+
+biến kiểu time_t có giá trị là số giây tính từ epoch (1970-01-01 00:00:00 UTC)
+
+time(0) là hàm trong thư viện ctime, nhận vào 1 con trỏ, thực hiện lưu giá trị x là số giây tính từ epoch vào nơi mà con trỏ đó trỏ tới, và trả về x. Nếu con trỏ đó là NULL thì chỉ trả về x*
+
+
+Hàm int sprintf(char *str, const char *format,...) trong Thư viện C chuẩn gửi output đã được định dạng tới một chuỗi str.

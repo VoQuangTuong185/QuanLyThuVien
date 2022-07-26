@@ -312,7 +312,6 @@ void DrawListSach(DS_DauSach &DSDS){
 	for(int i = 0; node != NULL && i < 8; node = node->next){//duyet tiep tu con tro vi tri
 		DrawItemSach(node->sach, i++);
 	}	
-	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	char chPage[20];
 	sprintf(chPage, "TRANG %d / %d", curPageSach, totalPageSach);
@@ -357,16 +356,13 @@ bool CheckDauSach(DS_DauSach &DSDS,EditText &ISBN,EditText &TenSach,EditText &So
 		Edit->draw();
 		return false;
 	}
-	
 	//kiem tra nxb hop le
-	char chDate[11];
-	strcpy(chDate, GetSystemDate());
-	int *d = SplitDate(chDate);
+	int *d = SplitDate(GetSystemDate());
 	int year = d[2];
 	delete[] d;
 	int y = NXB.toInt();
 	if(y > year){
-		strcpy(mess, "NXB khong the lon hon nam hien tai");
+		strcpy(mess, "NXB KHONG THE LON HON NAM HIEN TAI");
 		Edit = &NXB;
 		Edit->draw();
 		return false;
@@ -620,13 +616,12 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	//WINDOW THEM DAU SACH
 	else if(Window == THEM_DAU_SACH){
 		ButtonEffect(btnBack);	
-		if(mx >(w/2)-400 && mx < (w/2)+400 && my >210 && my <700){			
-			ButtonEffect(btnThemDauSach);	
-			ButtonEffect(btnClearThemDauSach);	
-		}
+		ButtonEffect(btnThemDauSach);	
+		ButtonEffect(btnClearThemDauSach);
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			if(btnBack.isMouseHover(mx, my)){
-				Window = DANH_SACH_DAU_SACH;	
+				Window = DANH_SACH_DAU_SACH;
+				ClearScreen(2);	
 				DrawTrangConDSDS(DSDS);	
 			}
 			else if(btnClearThemDauSach.isMouseHover(mx, my)){
@@ -655,8 +650,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 								edThemNXB.toInt(), 
 								edThemTheLoai.trim());
 				
-					if(AddDauSach(DSDS, dausach))
-						strcpy(mess, "Them dau sach thanh cong!");
+					if(AddDauSach(DSDS, dausach)){
+						strcpy(mess, "Them dau sach thanh cong!");						
+					}
 					else 
 						strcpy(mess, "Them dau sach that bai, hay thu lai!");
 				}
@@ -785,127 +781,127 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				(nodeSelect->sach.trangthai == 0) ? canEditTrangThai = true : canEditTrangThai = false;
 				DrawTrangConDSDS(DSDS);	
 			}
-		}			
-	}	    
-	if(subWindow == NHAP_SACH){
-		ItemEvent(DSDS);
-		ButtonEffect(btnNhapSoLuongSach);
-		ButtonEffect(btnPrevDMS);
-		ButtonEffect(btnNextDMS);
-		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(btnPrevDMS.isMouseHover(mx, my)){
-				if(curPageSach > 1){
-					--curPageSach;					
-					DrawListSach(DSDS);
-				}
-			}
-			else if(btnNextDMS.isMouseHover(mx, my)){
-				if(curPageSach < totalPageSach){
-					++curPageSach;
-					DrawListSach(DSDS);
-				}
-			}
-			else if(edNhapSoLuongSach.isMouseHover(mx, my)){
-				memset(mess, 0, sizeof(mess));
-				Edit = &edNhapSoLuongSach;	
-			}
-			else if(btnNhapSoLuongSach.isMouseHover(mx, my)){
-				if(strlen(edNhapSoLuongSach.content) != 0){
-					totalNhapSach = edNhapSoLuongSach.toInt();
-					curNhapSach = 1;
-					subWindow = THEM_SACH;
-					memset(edThemViTriSach.content, 0, sizeof(edThemViTriSach.content));
-					strcpy(mess, "");
-					DrawTrangConDSDS(DSDS);		
-				}	
-				else{
-					strcpy(mess, "Ban chua nhap so luong sach can them");
-					setcolor(TIPS);
-					settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-					outtextxy((w/2)-350 + textwidth(ThongBao), 875-textheight(mess)/2, mess);
-				}		
-			}
 		}
-	}
-	else if(subWindow == THEM_SACH){
-		ButtonEffect(btnThemSach);
-		ButtonEffect(btnBackToNhapSach);
-		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(btnBackToNhapSach.isMouseHover(mx, my)){
-				subWindow = NHAP_SACH;	
-				DrawTrangConDSDS(DSDS);	
-			}
-			else if(btnThemSach.isMouseHover(mx, my)){
-				// Check them sach
-				if(CheckSach(edThemTrangThaiSach,edThemViTriSach,true)){
-					Sach sach(edThemMaSach.content, edThemTrangThaiSach.toInt(), edThemViTriSach.content);
-					InsertLast_NodeSach(DSDS.nodes[curDauSach]->First, sach);
-					DSDS.nodes[curDauSach] -> soluong++;							
-					++curNhapSach;							
-					strcpy(mess, "Them sach thanh cong!");
-					subWindow = THEM_SACH;						
-					DrawTrangConDSDS(DSDS);	
-					DrawListSach(DSDS);
-					if(curNhapSach > totalNhapSach){//them du so luong sach can them thi quay ve trang nhap so luong sach
-						subWindow = NHAP_SACH;
-						curNhapSach = -1;
-						totalNhapSach = 0;
-						DrawTrangConDSDS(DSDS);	
+		if(subWindow == NHAP_SACH){
+			ItemEvent(DSDS);
+			ButtonEffect(btnNhapSoLuongSach);
+			ButtonEffect(btnPrevDMS);
+			ButtonEffect(btnNextDMS);
+			if(GetAsyncKeyState(VK_LBUTTON)){
+				if(btnPrevDMS.isMouseHover(mx, my)){
+					if(curPageSach > 1){
+						--curPageSach;					
+						DrawListSach(DSDS);
 					}
-				}											
-				memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));						
-			}
-			else if(edThemMaSach.isMouseHover(mx, my)){
-				strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
-				setcolor(TIPS);
-				outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
-			}
-			else if(edThemTrangThaiSach.isMouseHover(mx, my))
-				Edit = &edThemTrangThaiSach;		
-			else if(edThemViTriSach.isMouseHover(mx, my))
-				Edit = &edThemViTriSach;				
-		}
-	}
-	else if(subWindow == HIEU_CHINH_SACH){
-		ButtonEffect(btnHieuChinhSach);
-		ButtonEffect(btnBackToNhapSach);
-		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(btnBackToNhapSach.isMouseHover(mx, my)){	
-				subWindow = NHAP_SACH;
-				DrawTrangConDSDS(DSDS);	
-			}
-			else if(btnHieuChinhSach.isMouseHover(mx, my)){
-				// Check hieu chinh sach
-				if(CheckSach(edHieuChinhTrangThaiSach,edHieuChinhViTriSach,false)){
-					SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curSach);
-					Sach sach(edHieuChinhMaSach.content, edHieuChinhTrangThaiSach.toInt(), edHieuChinhViTriSach.content);
-					if(UpdateNodeSach(nodeSelect, sach)){
-						setfillstyle(SOLID_FILL, BG_COLOR);
-						bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);			
-						strcpy(mess, "Hieu chinh sach thanh cong!");
+				}
+				else if(btnNextDMS.isMouseHover(mx, my)){
+					if(curPageSach < totalPageSach){
+						++curPageSach;
+						DrawListSach(DSDS);
+					}
+				}
+				else if(edNhapSoLuongSach.isMouseHover(mx, my)){
+					memset(mess, 0, sizeof(mess));
+					Edit = &edNhapSoLuongSach;	
+				}
+				else if(btnNhapSoLuongSach.isMouseHover(mx, my)){
+					if(strlen(edNhapSoLuongSach.content) != 0){
+						totalNhapSach = edNhapSoLuongSach.toInt();
+						curNhapSach = 1;
+						subWindow = THEM_SACH;
+						memset(edThemViTriSach.content, 0, sizeof(edThemViTriSach.content));
+						strcpy(mess, "");
+						DrawTrangConDSDS(DSDS);		
+					}	
+					else{
+						strcpy(mess, "Ban chua nhap so luong sach can them");
 						setcolor(TIPS);
 						settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-						outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
-					}			
+						outtextxy((w/2)-350 + textwidth(ThongBao), 875-textheight(mess)/2, mess);
+					}		
 				}
-				DrawListSach(DSDS);	
 			}
-			else if(edThemMaSach.isMouseHover(mx, my)){
-				strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
-				setcolor(TIPS);
-				outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
-			}
-			else if(edHieuChinhViTriSach.isMouseHover(mx, my))
-				Edit = &edHieuChinhViTriSach;
-			else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && canEditTrangThai)
-				Edit = &edHieuChinhTrangThaiSach;
-			else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && (!canEditTrangThai)){
-				settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-				strcpy(mess, "Chi duoc phep sua CO THE MUON -> DA THANH LY!!");
-				setcolor(TIPS);
-				outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);					
-			}				
 		}
-	}	
+		else if(subWindow == THEM_SACH){
+			ButtonEffect(btnThemSach);
+			ButtonEffect(btnBackToNhapSach);
+			if(GetAsyncKeyState(VK_LBUTTON)){
+				if(btnBackToNhapSach.isMouseHover(mx, my)){
+					subWindow = NHAP_SACH;	
+					DrawTrangConDSDS(DSDS);	
+				}
+				else if(btnThemSach.isMouseHover(mx, my)){
+					// Check them sach
+					if(CheckSach(edThemTrangThaiSach,edThemViTriSach,true)){
+						Sach sach(edThemMaSach.content, edThemTrangThaiSach.toInt(), edThemViTriSach.content);
+						InsertLast_NodeSach(DSDS.nodes[curDauSach]->First, sach);
+						DSDS.nodes[curDauSach] -> soluong++;							
+						++curNhapSach;							
+						strcpy(mess, "Them sach thanh cong!");
+						subWindow = THEM_SACH;						
+						DrawTrangConDSDS(DSDS);	
+						DrawListSach(DSDS);
+						if(curNhapSach > totalNhapSach){//them du so luong sach can them thi quay ve trang nhap so luong sach
+							subWindow = NHAP_SACH;
+							curNhapSach = -1;
+							totalNhapSach = 0;
+							DrawTrangConDSDS(DSDS);	
+						}
+					}											
+					memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));						
+				}
+				else if(edThemMaSach.isMouseHover(mx, my)){
+					strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
+					setcolor(TIPS);
+					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
+				}
+				else if(edThemTrangThaiSach.isMouseHover(mx, my))
+					Edit = &edThemTrangThaiSach;		
+				else if(edThemViTriSach.isMouseHover(mx, my))
+					Edit = &edThemViTriSach;				
+			}
+		}
+		else if(subWindow == HIEU_CHINH_SACH){
+			ButtonEffect(btnHieuChinhSach);
+			ButtonEffect(btnBackToNhapSach);
+			if(GetAsyncKeyState(VK_LBUTTON)){
+				if(btnBackToNhapSach.isMouseHover(mx, my)){	
+					subWindow = NHAP_SACH;
+					DrawTrangConDSDS(DSDS);	
+				}
+				else if(btnHieuChinhSach.isMouseHover(mx, my)){
+					// Check hieu chinh sach
+					if(CheckSach(edHieuChinhTrangThaiSach,edHieuChinhViTriSach,false)){
+						SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curSach);
+						Sach sach(edHieuChinhMaSach.content, edHieuChinhTrangThaiSach.toInt(), edHieuChinhViTriSach.content);
+						if(UpdateNodeSach(nodeSelect, sach)){
+							setfillstyle(SOLID_FILL, BG_COLOR);
+							bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);			
+							strcpy(mess, "Hieu chinh sach thanh cong!");
+							setcolor(TIPS);
+							settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+							outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
+						}			
+					}
+					DrawListSach(DSDS);	
+				}
+				else if(edThemMaSach.isMouseHover(mx, my)){
+					strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
+					setcolor(TIPS);
+					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
+				}
+				else if(edHieuChinhViTriSach.isMouseHover(mx, my))
+					Edit = &edHieuChinhViTriSach;
+				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && canEditTrangThai)
+					Edit = &edHieuChinhTrangThaiSach;
+				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && (!canEditTrangThai)){
+					settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+					strcpy(mess, "Chi duoc phep sua CO THE MUON -> DA THANH LY!!");
+					setcolor(TIPS);
+					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);					
+				}				
+			}
+		}			
+	}	    	
 }
 
