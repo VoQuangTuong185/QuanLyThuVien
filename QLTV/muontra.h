@@ -28,54 +28,44 @@ void DrawTopTen(DS_DauSach &DSDS){
 	bar(150, 180, w, h);
 	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-	
-	char t[][20] = {"STT", "ISBN", "Ten sach", "So trang", "Tac gia", "NXB", "The loai", "So luot muon"};
+	char t[][20] = {"STT", "ISBN", "Ten sach", "So trang", "Tac gia", "NXB", "The loai", "So luot muon"};	
 	
 	settextstyle(3, HORIZ_DIR, 3);
 	setfillstyle(USER_FILL, PANEL);
 	setbkcolor(PANEL);
 	setcolor(BG_COLOR);
-	
 	bar(MUONTRA[0], 250, MUONTRA[8], 320);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setlinestyle(SOLID_LINE,0, 3);
 	setcolor(BG_COLOR);
-	for(int i=0; i<8; i++){
+	for(int i=0; i<8; i++)
 		outtextxy((MUONTRA[i+1]+MUONTRA[i])/2 - textwidth(t[i])/2, 285-textheight(t[i])/2, t[i]);
-	}
 	
-	setbkcolor(BG_COLOR);
-	
+	setbkcolor(BG_COLOR);	
 	//COTMUONTRA
 	setcolor(BORDER_COLOR);
-	rectangle(MUONTRA[0], 250, MUONTRA[8], 850);
-	
+	rectangle(MUONTRA[0], 250, MUONTRA[8], 850);	
 	for(int i=0; i < 7; i++){
 		setlinestyle(SOLID_LINE, 0, 1);
 		line(MUONTRA[i+1], 250, MUONTRA[i+1], 850);
-	}
-	
+	}	
 	TopSach topsach(DSDS);
 	char ch[20];
 	for(int i=0; i < (topsach.n < 10 ? topsach.n : 10); i++){
-		itoa(i+1, ch, 10);																	
+		itoa(i+1, ch, 10);//STT																
 		outtextxy((MUONTRA[0]+MUONTRA[1])/2-textwidth(ch)/2, 350 + i*50, ch);
-		
-		outtextxy(MUONTRA[1]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->ISBN);
-		
+		outtextxy(MUONTRA[1]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->ISBN);		
 		outtextxy(MUONTRA[2]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tensach);
-		
-		itoa(DSDS.nodes[topsach.list[i].indexDS]->sotrang, ch, 10);							
-		outtextxy(MUONTRA[3]+20, 350 + i*50, ch);
-		
+				
+		itoa(DSDS.nodes[topsach.list[i].indexDS]->sotrang, ch, 10);		
+		outtextxy(MUONTRA[3]+20, 350 + i*50, ch);		
 		outtextxy(MUONTRA[4]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tacgia);
-		
-		itoa(DSDS.nodes[topsach.list[i].indexDS]->nxb, ch, 10);								
-		outtextxy((MUONTRA[5]+MUONTRA[6])/2-textwidth(ch)/2, 350 + i*50, ch);
-		
+				
+		itoa(DSDS.nodes[topsach.list[i].indexDS]->nxb, ch, 10);			
+		outtextxy((MUONTRA[5]+MUONTRA[6])/2-textwidth(ch)/2, 350 + i*50, ch);	
 		outtextxy(MUONTRA[6]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->theloai);
-		
-		itoa(topsach.list[i].cnt, ch, 10);													
+				
+		itoa(topsach.list[i].count, ch, 10);							
 		outtextxy((MUONTRA[7]+MUONTRA[8])/2-textwidth(ch)/2, 350 + i*50, ch);
 	} 
 }

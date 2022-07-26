@@ -112,6 +112,22 @@ void DrawBorderDSDocGiaQuaHan(){
 		line(XXXQH[i], 150, XXXQH[i], 750);
 }
 
+//char* MASACH_QUAHAN(DocGia &docgia){
+//	char* ch = new char;
+//	if(docgia->mt.chuaTra > 0){	
+//		DSMT.n = docgia->mt.chuaTra;
+//		int i = DSMT.n-1;
+//		for(PTRMT mt = docgia->mt.First; mt != NULL; mt = mt->next){
+//			if(mt->muontra.trangthai == 0){
+//				if(DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) > soNgayQH[n]*24*60*60){
+//					sprintf(ch, "%d", mt->muontra.MASACH);
+//					return ch;
+//				}
+//			}
+//		}
+//	}	
+//}
+
 void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN){
 	setcolor(TEXT_COLOR);
 	i %= 13;
@@ -138,6 +154,7 @@ void DrawItemDocGiaQuaHan(DocGia &docgia, int soNgayQH, int i){
 	char ch[4];
 	sprintf(ch, "%d", soNgayQH);
 	outtextxy(XXXQH[5]+50, 220 + i*40, ch);
+	//outtextxy(XXXQH[5]+50, 240 + i*40, MASACH_QUAHAN(docgia));
 }
 
 void DrawListDocGia(TreeDocgia &DSDG, bool reload){

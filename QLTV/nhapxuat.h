@@ -115,7 +115,7 @@ void ReadDauSachFromFile(DS_DauSach &DSDS){
 		getline(fileDMS, lineDMS);		m = atoi(lineDMS.c_str());		dausach->soluong = m;		
 		for(int j=0; j<m; j++){
 			Sach sach;	
-			//c_str(): chuyen 1 std::string thanh 1 const char* (1 chuoi kieu C++ thanh chuoi kieu C) de lam viec voi ham strcpy(char*, char*)	
+		//c_str(): chuyen 1 std::string thanh 1 const char* (1 chuoi kieu C++ thanh chuoi kieu C) de lam viec voi ham strcpy(char*, char*)	
 			fileDMS.getline(sach.MASACH,sizeof(sach.MASACH));	
 			fileDMS >> sach.trangthai;		fileDMS.ignore();
 			fileDMS.getline(sach.vitri,sizeof(sach.vitri));	

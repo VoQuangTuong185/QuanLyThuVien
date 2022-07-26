@@ -297,7 +297,7 @@ DauSach* GetDauSachByISBN(DS_DauSach &DSDS, char* isbn){
 
 struct LuotMuonSach{
 	int indexDS;	// vi tri cua DauSach
-	int cnt;		// so luot muon
+	int count;		// so luot muon
 };	
 
 struct TopSach{
@@ -309,7 +309,7 @@ struct TopSach{
 		list = new LuotMuonSach[n];
 		for(int i=0; i<n; i++){
 			list[i].indexDS = i;
-			list[i].cnt = DSDS.nodes[i]->soluotmuon;
+			list[i].count = DSDS.nodes[i]->soluotmuon;
 		}
 		sort();
 	}
@@ -320,10 +320,10 @@ struct TopSach{
 	void partition(int low, int high){
 		int i = low, j = high;
 		LuotMuonSach tmp;
-		int pivot = list[(low+high)/2].cnt;
+		int pivot = list[(low+high)/2].count;
 		do{
-			while(list[i].cnt > pivot) i++;
-			while(list[j].cnt < pivot) j--;
+			while(list[i].count > pivot) i++;
+			while(list[j].count < pivot) j--;
 			if(i <= j){
 				tmp = list[i];
 				list[i] = list[j];

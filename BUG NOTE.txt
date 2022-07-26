@@ -22,3 +22,5 @@
 - chưa xem qua cách xác định độc giả quá hạn
 
 - có mấy hàm insert thì k cần & ở con trỏ first
+
+- chưa xem top 10
