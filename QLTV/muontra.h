@@ -17,7 +17,7 @@ struct DSMuonTra{
 	}
 };
 
-DSMuonTra DSMT;
+DSMuonTra DSMTS;
 
 void DrawTopTen(DS_DauSach &DSDS){
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
@@ -103,7 +103,7 @@ void DrawTrangConDSMT(DS_DauSach &DSDS){
 
 int GetItemMTPosition(int y){
 	int pos = (y-675+8)/40;
-	if(pos >= DSMT.n) return -1;
+	if(pos >= DSMTS.n) return -1;
 	return pos;
 }
 
@@ -130,10 +130,10 @@ void DrawBorderDSMT(){
 void DrawItemMT(int i){
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	outtextxy(XMT[0]+10, 675+i*40, DSMT.mt[i].MASACH);
-	outtextxy(XMT[1]+10, 675+i*40, DSMT.mt[i].TenSach);
-	outtextxy(XMT[2]+10, 675+i*40, DSMT.mt[i].NgayMuon);
-	outtextxy(XMT[3]+10, 675+i*40, TTMuonTra[DSMT.mt[i].TrangThai]);
+	outtextxy(XMT[0]+10, 675+i*40, DSMTS.mt[i].MASACH);
+	outtextxy(XMT[1]+10, 675+i*40, DSMTS.mt[i].TenSach);
+	outtextxy(XMT[2]+10, 675+i*40, DSMTS.mt[i].NgayMuon);
+	outtextxy(XMT[3]+10, 675+i*40, TTMuonTra[DSMTS.mt[i].TrangThai]);
 }
 
 void DrawLineSachMuon(bool current){
@@ -189,19 +189,19 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		setcolor(TEXT_COLOR);					outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 572, DSDM);		
 		DrawBorderDSMT();
 		
-		DSMT.n = 0;
+		DSMTS.n = 0;
 		DauSach *ds;
 		bool isQH = false;
 		if(curDGMT->mt.chuaTra > 0){	
-			DSMT.n = curDGMT->mt.chuaTra;
-			int i = DSMT.n-1;
+			DSMTS.n = curDGMT->mt.chuaTra;
+			int i = DSMTS.n-1;
 			for(PTRMT mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
 				if(mt->muontra.trangthai != 1){
 					ds = GetDauSach(DSDS, mt->muontra.MASACH);
-					strcpy(DSMT.mt[i].MASACH, mt->muontra.MASACH);
-					strcpy(DSMT.mt[i].TenSach, ds->tensach);
-					strcpy(DSMT.mt[i].NgayMuon, mt->muontra.ngaymuon);
-					DSMT.mt[i].TrangThai = mt->muontra.trangthai;
+					strcpy(DSMTS.mt[i].MASACH, mt->muontra.MASACH);
+					strcpy(DSMTS.mt[i].TenSach, ds->tensach);
+					strcpy(DSMTS.mt[i].NgayMuon, mt->muontra.ngaymuon);
+					DSMTS.mt[i].TrangThai = mt->muontra.trangthai;
 					DrawItemMT(i--);
 				}
 				if(mt->muontra.trangthai == 0)
@@ -219,7 +219,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
 				return;
 			}
-			else if(DSMT.n >= 3){
+			else if(DSMTS.n >= 3){
 				outtextxy(225, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
 				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
 				return;
@@ -265,8 +265,8 @@ void DrawLamMatSach(){
 bool CheckDuplicateISBN_by_MaSach(DS_DauSach &DSDS){
 	DauSach *ds;
 	if(curDGMT->mt.chuaTra > 0){	
-		DSMT.n = curDGMT->mt.chuaTra;
-		int i = DSMT.n-1;
+		DSMTS.n = curDGMT->mt.chuaTra;
+		int i = DSMTS.n-1;
 		for(PTRMT mt = curDGMT->mt.First; mt != NULL; mt = mt->next){
 			if(mt->muontra.trangthai == 0){
 				ds = GetDauSach(DSDS, mt->muontra.MASACH);
@@ -328,9 +328,9 @@ void DrawThongTinSachTra(int itemMT){
 		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		setcolor(TEXT_COLOR);		outtextxy(1375, 250, "THONG TIN SACH");
 		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 		setcolor(TEXT_COLOR);	
-		outtextxy(1250, 300, "Ma sach :");			outtextxy(1500, 300, DSMT.mt[curMT].MASACH);		
-		outtextxy(1250, 350, "Ten sach : ");		outtextxy(1500, 350, DSMT.mt[curMT].TenSach);	
-		outtextxy(1250, 400, "Ngay muon :");		outtextxy(1500, 400, DSMT.mt[curMT].NgayMuon);		
+		outtextxy(1250, 300, "Ma sach :");			outtextxy(1500, 300, DSMTS.mt[curMT].MASACH);		
+		outtextxy(1250, 350, "Ten sach : ");		outtextxy(1500, 350, DSMTS.mt[curMT].TenSach);	
+		outtextxy(1250, 400, "Ngay muon :");		outtextxy(1500, 400, DSMTS.mt[curMT].NgayMuon);		
 		rectangle(1150, 275, 1800, 450);//khung thong tin sach tra		
 		if(subWindow == XAC_NHAN_TRA_SACH){
 			edNhapNgayTraSach.draw();
@@ -455,7 +455,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						if(!CheckDate(edNhapNgayTraSach.content)){
 							strcpy(mess, "THONG BAO : Ngay nhap vao khong hop le");
 							DrawThongTinSachTra(curMT);
-						}else if(CompareDate(edNhapNgayTraSach.content, DSMT.mt[curMT].NgayMuon)==1){
+						}else if(CompareDate(edNhapNgayTraSach.content, DSMTS.mt[curMT].NgayMuon)==1){
 							strcpy(mess, "THONG BAO : Ngay tra sach khong the som hon ngay muon sach");
 							DrawThongTinSachTra(curMT);
 						}else if(CompareDate(edNhapNgayTraSach.content, GetSystemDate())==-1){
@@ -463,10 +463,10 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							DrawThongTinSach(DSDS);
 						}else{
 							//DA TRA 
-							MuonTra tra(DSMT.mt[curMT].MASACH, DSMT.mt[curMT].NgayMuon, edNhapNgayTraSach.content, 1);
+							MuonTra tra(DSMTS.mt[curMT].MASACH, DSMTS.mt[curMT].NgayMuon, edNhapNgayTraSach.content, 1);
 							Update_MuonTra(curDGMT->mt, tra);							
-							curDSMT = GetDauSach(DSDS, DSMT.mt[curMT].MASACH);							
-							SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
+							curDSMT = GetDauSach(DSDS, DSMTS.mt[curMT].MASACH);							
+							SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMTS.mt[curMT].MASACH);
 							Sach sach = nodeSach->sach;
 							sach.trangthai = 0; 	// CHO MUON DUOC
 							UpdateNodeSach(nodeSach, sach);							
@@ -489,10 +489,10 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(curMT != -1 && curDGMT != NULL){
 					if(btnXacNhanLamMatSach.isMouseHover(mx, my)){
-						MuonTra tra(DSMT.mt[curMT].MASACH, DSMT.mt[curMT].NgayMuon, "", 2);
+						MuonTra tra(DSMTS.mt[curMT].MASACH, DSMTS.mt[curMT].NgayMuon, "", 2);
 						Update_MuonTra(curDGMT->mt, tra);							
-						curDSMT = GetDauSach(DSDS, DSMT.mt[curMT].MASACH);							
-						SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMT.mt[curMT].MASACH);
+						curDSMT = GetDauSach(DSDS, DSMTS.mt[curMT].MASACH);							
+						SachPTR nodeSach = GetNodeSachByMASACH(curDSMT->First, DSMTS.mt[curMT].MASACH);
 						Sach sach = nodeSach->sach;
 						sach.trangthai = 2; 	// DA THANH LY
 						UpdateNodeSach(nodeSach, sach);								

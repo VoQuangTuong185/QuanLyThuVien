@@ -102,7 +102,7 @@ char DSDM[] = "CAC SACH DANG MUON";
 
 // X Danh sach Doc Gia
 int XXXDG[8] = {200, 380, 1100, 1350, 1450, w-200, w-200, 600};
-int XXXQH[8] = {200, 380, 1000, 1150, 1250, 1500, w-200};
+int XXXQH[9] = {200, 350, 750, 900, 1050, 1150, 1300, w-200};
 
 int MUONTRA[] = {150, 200, 300, 750, 850, 1250, 1350, w-300, w-150}; //phan tu cuoi cung la vi tri cac edit box
 // X Muon Tra sach
@@ -206,10 +206,10 @@ int curItemMT = -1, curMT = -1;
 int startIndexSach = -1;
 bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
 
-void DrawDanhSachDocGia(TreeDocgia &DSDG);
+void DrawDanhSachDocGia(TreeDocgia &DSDG, DS_DauSach &DSDS);
 void DrawThemDocGia(int TheDocGiaBSTC[], bool genNewID = true);
 void DrawMuonSach();
-void ItemDocGiaEvent(TreeDocgia &DSDG);
+void ItemDocGiaEvent(TreeDocgia &DSDG, DS_DauSach &DSDS);
 void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]);
 void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG);
 void WriteDauSachToFile(DS_DauSach &DSDS);
@@ -653,7 +653,7 @@ void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG, int menuID){
 		}		
 		else if(menuID == btnQLDocGia.id){
 			Window = DANH_SACH_DOC_GIA;
-			DrawDanhSachDocGia(DSDG);
+			DrawDanhSachDocGia(DSDG, DSDS);
 		}	
 		else if(menuID == btnQLSach.id){
 			Window = MUON_SACH;

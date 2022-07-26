@@ -134,13 +134,13 @@ KE 1, NGAN 2
 0
 0
 0
-0
+1
 11
 TDK-0
 0
 KE 1, NGAN 1
 TDK-1
-0
+1
 KE 1, NGAN 2
 TDK-2
 0
