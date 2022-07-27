@@ -329,7 +329,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 						txt->content[n++] = toupper(c);
                 break;
                 
-                case TEXT_NUMBER://chu + so
+                case TEXT_NUMBER://chu + so co phan biet hoa thuong
                 if(TextOnly(c,false) || NumberOnly(n, c)){
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
@@ -488,15 +488,14 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 		Edit->content[n] = '\0';
 		
 		if(CurrentMenu == btnQLDauSach.id){
-			if(Window == DANH_SACH_DAU_SACH && Edit == &edTimDauSach){
+			if(Window == DANH_SACH_DAU_SACH && Edit == &edTimDauSach)
 				Scan(DSDS, Edit, 20, TIM_DAU_SACH);			
-			}
 				
 			else if(Window == THEM_DAU_SACH){
 				if(Edit == &edThemISBN)
 					Scan(DSDS, Edit, 10, DELETE_SPACE_UPPERCASE);
 				else if(Edit == &edThemTenSach)
-					Scan(DSDS, Edit, 30, TEXT_NUMBER);
+					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
 				else if(Edit == &edThemSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
 				else if(Edit == &edThemTacGia)
@@ -510,7 +509,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				if(Edit == &edHieuChinhISBN)
 					Scan(DSDS, Edit, 10, DELETE_SPACE_UPPERCASE);
 				else if(Edit == &edHieuChinhTenSach)
-					Scan(DSDS, Edit, 30, TEXT_NUMBER);
+					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
 				else if(Edit == &edHieuChinhSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
 				else if(Edit == &edHieuChinhTacGia)
@@ -725,6 +724,11 @@ void DrawMenu(){
 			case MUON_TRA:
 			{
 				strcpy(confirm, "Mo file MUON TRA loi, thoat ung dung?");
+				break;				
+			} 
+			case DSDS_FULL:
+			{
+				strcpy(confirm, "DSDS bi day, co the thieu du lieu, thoat ung dung?");
 				break;				
 			} 
 			default :

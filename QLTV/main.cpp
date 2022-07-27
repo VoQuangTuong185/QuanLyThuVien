@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 	ReadDauSachFromFile(DSDS);
 	ReadDocGiaFromFile(root);
 	//CreateFileMaTheDocGia();
-	int TheDocGiaBSTC[MaxTheDocGia];
+	int TheDocGiaBSTC[MAX_DOC_GIA];
 	ReadMaTheDocGia(TheDocGiaBSTC);
 	DrawMenu();
 	while(true){

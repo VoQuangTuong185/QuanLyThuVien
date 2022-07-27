@@ -26,13 +26,12 @@ void Quick_Sort(int A[], int n) {
 }
 
 void CreateFileMaTheDocGia(){
-	const int MaxTheDocGia = 10000;
-	int a[MaxTheDocGia];
+	int a[MAX_DOC_GIA];
 	a[0]=0;
-	a[1]= MaxTheDocGia;//MaxTheDocGia
+	a[1]= MAX_DOC_GIA;
 	int j=2;
 	int k=2;
-	int TheDocGiaBST[MaxTheDocGia];
+	int TheDocGiaBST[MAX_DOC_GIA];
 	int count = 0;
 	while(a[1]!=1)
 	{
@@ -106,22 +105,25 @@ void ReadDauSachFromFile(DS_DauSach &DSDS){
 	//co 4 loai: doc tung ky tu(variable is char), doc tung dong (getline), doc tung tu(variable is string ), doc file CSV 
 		fileDauSach.getline(dausach->ISBN,sizeof(dausach->ISBN));
 		fileDauSach.getline(dausach->tensach,sizeof(dausach->tensach));
-		fileDauSach >> dausach->sotrang;			fileDauSach.ignore();
+		fileDauSach >> dausach->sotrang;								fileDauSach.ignore();
 		fileDauSach.getline(dausach->tacgia,sizeof(dausach->tacgia));
-		fileDauSach >> dausach->nxb;			fileDauSach.ignore();
+		fileDauSach >> dausach->nxb;									fileDauSach.ignore();
 		fileDauSach.getline(dausach->theloai,sizeof(dausach->theloai));
 			
 		fileDMS >> dausach->soluotmuon;	fileDMS.ignore();						
 		getline(fileDMS, lineDMS);		m = atoi(lineDMS.c_str());		dausach->soluong = m;		
 		for(int j=0; j<m; j++){
 			Sach sach;	
-		//c_str(): chuyen 1 std::string thanh 1 const char* (1 chuoi kieu C++ thanh chuoi kieu C) de lam viec voi ham strcpy(char*, char*)	
 			fileDMS.getline(sach.MASACH,sizeof(sach.MASACH));	
 			fileDMS >> sach.trangthai;		fileDMS.ignore();
 			fileDMS.getline(sach.vitri,sizeof(sach.vitri));	
 			InsertLast_NodeSach(dausach->First, sach);
 		}
-		InsertLastDauSach(DSDS, dausach);
+		if (!InsertLastDauSach(DSDS, dausach)){
+			openFileSuccess = false;
+			error = DSDS_FULL;
+			return;				
+		}
 	}
 	fileDauSach.close();
 	fileDMS.close();

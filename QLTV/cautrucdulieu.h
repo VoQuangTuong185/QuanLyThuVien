@@ -138,12 +138,12 @@ struct DS_DauSach{
 	}
 };
 
-void InsertLastDauSach(DS_DauSach &DSDS, DauSach * dausach){
-	// su dung khi doc file
-	if(DSDS.n > MAXLIST_DAUSACH)
-		printf("DSDS day \n");
-	else
-		DSDS.nodes[DSDS.n++] = dausach;
+bool InsertLastDauSach(DS_DauSach &DSDS, DauSach * dausach){
+	if(DSDS.n < MAXLIST_DAUSACH){
+		DSDS.nodes[DSDS.n++] = dausach;	
+		return true;
+	}	
+	return false;			
 }
 
 int ExistsDauSach(DS_DauSach &DSDS, char* ISBN){
@@ -178,8 +178,7 @@ bool IsInclude(const char* typing , const char* tenSach){
 	return false;
 }
 
-// Loc danh sach cac Dau Sach co chua string "strFind", Luu vi tri cua cac Dau Sach vao 1 mang: listIndexDauSachSearch[], 
-//Size cua list se duoc luu vao bien: size_array
+//Loc danh sach cac Dau Sach co chua string "strFind", Luu vi tri cua cac Dau Sach vao 1 mang: listIndexDauSachSearch[], 
 void GetListNodes(DS_DauSach &DSDS, const char* strFind, int &size_array){
 	size_array = 0;
 	for(int i=0; i < DSDS.n; i++)
@@ -189,7 +188,7 @@ void GetListNodes(DS_DauSach &DSDS, const char* strFind, int &size_array){
 
 //Them DauSach vao vi tri position trong DSDS
 void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
-	for(int i = DSDS.n; i > position; i--)//chay tu cuoi
+	for(int i = DSDS.n; i > position; i--)
 		DSDS.nodes[i] = DSDS.nodes[i-1]; //swap node position => position +1	
 	DSDS.nodes[position] = dausach; //them node moi vao vi tri
 	DSDS.n++; 
@@ -197,7 +196,7 @@ void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
 
 //Them DauSach vao vi tri thich hop theo de tai cho
 bool Insert_DauSach_Order(DS_DauSach &DSDS, DauSach *dausach){
-	if(DSDS.n > MAXLIST_DAUSACH)
+	if(DSDS.n > MAXLIST_DAUSACH-1)
 		return 0;
 	else{
 		for(int i=0; i<DSDS.n; i++){
@@ -237,17 +236,15 @@ bool UpdateDauSach(DS_DauSach &DSDS, DauSach* dausach, int i){
 
 int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
    int i = ExistsDauSach(DSDS,ISBN);
-   if (i==-1) {
-   	return -1;
-   }//khong tim thay dau sach can xoa
-   else  
-   { 
-   	 delete DSDS.nodes[i];
-     for (int j=i+1; j <DSDS.n; j++)
-       DSDS.nodes[j-1]=DSDS.nodes[j];
+   if (i==-1) 
+   		return -1;
+   else { 
+   		delete DSDS.nodes[i];
+    	for (int j=i+1; j <DSDS.n; j++)
+    		DSDS.nodes[j-1]=DSDS.nodes[j];
        
-     DSDS.n--;  
-     return 1;
+    	DSDS.n--;  
+    	return 1;
 	}
 }
 
