@@ -134,7 +134,7 @@ KE 1, NGAN 2
 0
 0
 0
-1
+2
 11
 TDK-0
 0
@@ -143,7 +143,7 @@ TDK-1
 1
 KE 1, NGAN 2
 TDK-2
-0
+1
 KE 1, NGAN 3
 TDK-3
 0

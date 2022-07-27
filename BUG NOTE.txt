@@ -9,18 +9,18 @@
 
 - chưa xem các hàm trong view.h
 
-- [Warning] address of local variable 'ch' returned [-Wreturn-local-addr]
-
 - các hàm nhập đang bị chậm
 
-- còn lỗi chưa load list độc giả sau xoá
-
-- chưa xem kỹ hàm tạo ngày, check độc giả quá hạn, hàm bắt lỗi nhập ngày mượn, trả sách
+- còn lỗi chưa load list độc giả sau xoá cuối
 
 - chưa xem queue.h và các hàm sử dụng nó
 
-- chưa xem qua cách xác định độc giả quá hạn
+- chưa xem kỹ cách xác định độc giả quá hạn
 
 - có mấy hàm insert thì k cần & ở con trỏ first
 
 - chưa xem top 10
+
+		if (node->sach.trangthai == 1){
+			ds = GetDauSach(DSDS, node->sach.MASACH);	
+		}

@@ -142,66 +142,61 @@ void InsertLastDauSach(DS_DauSach &DSDS, DauSach * dausach){
 	// su dung khi doc file
 	if(DSDS.n > MAXLIST_DAUSACH)
 		printf("DSDS day \n");
-	else{
+	else
 		DSDS.nodes[DSDS.n++] = dausach;
-	}
 }
 
 int ExistsDauSach(DS_DauSach &DSDS, char* ISBN){
-	for(int i=0; i<DSDS.n; i++){
-		if(strcmp(DSDS.nodes[i]->ISBN, ISBN) == 0){
+	for(int i=0; i<DSDS.n; i++)
+		if(strcmp(DSDS.nodes[i]->ISBN, ISBN) == 0)
 			return i;
-		}
-	}
 	return -1;
 }
 
-bool IsInclude(const char* find, const char* origin){
+bool IsInclude(const char* typing , const char* tenSach){
 	//convert const char* to string to use "find function"
-	string find_S = find; 
-	string origin_S = origin;
+	string Typing = typing; 
+	string TenSach = tenSach;
 	
-	int index;//position start found "find_S" inside "origin_S"
+	//position start found "Typing" inside "TenSach"	
+	int index;
 	
-	//add space to "find_S" and "origin_S" to support finding use "strstr" function
-	string find_space = find_S + " ";
-	string space_find_space = " " + find_S + " ";
-	string origin_space = origin_S + " ";
+	//add space to "Typing" and "TenSach" to support finding use "strstr" function
+	string Typing_Space = Typing + " "; //search 'HA_' inside 'HA_MAN'
+	string Space_Typing_Space = " " + Typing + " "; //search '_HA_' inside 'lINH VU THIEN HA_'
+	string TenSach_Space = TenSach + " "; 
 	
-	//Using strstr() and converting string to c-string.
-	//return true if " Blog" inside "The first Blog", distinguish space character " "
-	if((index = origin_S.find(find_S,0)) != string::npos){
-		if(((index==0) && (strstr(origin_S.c_str(),find_space.c_str()))) || ((index!=0) && (strstr(origin_space.c_str(),space_find_space.c_str()))))
-			return true;
-		else 
-			return false;
-	}
-	else 
-		return false;
+	//converting string to c-string and Using strstr()
+	//strstr : A pointer to the first occurrence in str1 of the entire sequence of characters specified in str2
+	//a null pointer if the sequence is not present in str1
+	//str1: 'This is a simple string'
+	//str2: 'simple'
+	//=> 'simple string'
+	if((index = TenSach.find(Typing)) != string::npos)
+		if(index==0 && strstr(TenSach.c_str(),Typing_Space.c_str()) || index!=0 && strstr(TenSach_Space.c_str(),Space_Typing_Space.c_str()))		
+			return true;		
+	return false;
 }
 
 // Loc danh sach cac Dau Sach co chua string "strFind", Luu vi tri cua cac Dau Sach vao 1 mang: listIndexDauSachSearch[], 
 //Size cua list se duoc luu vao bien: size_array
 void GetListNodes(DS_DauSach &DSDS, const char* strFind, int &size_array){
 	size_array = 0;
-	for(int i=0; i < DSDS.n; i++){
-		if(IsInclude(strFind, DSDS.nodes[i]->tensach)){
+	for(int i=0; i < DSDS.n; i++)
+		if(IsInclude(strFind, DSDS.nodes[i]->tensach))
 			listIndexDauSachSearch[size_array++] = i;
-		}
-	}
 }
 
 //Them DauSach vao vi tri position trong DSDS
-void InsertDauSach(DS_DauSach &DSDS, DauSach * dausach, int position){
+void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
 	for(int i = DSDS.n; i > position; i--)//chay tu cuoi
-		DSDS.nodes[i] = DSDS.nodes[i-1]; //swap node position => position +1
-		
+		DSDS.nodes[i] = DSDS.nodes[i-1]; //swap node position => position +1	
 	DSDS.nodes[position] = dausach; //them node moi vao vi tri
 	DSDS.n++; 
 }
 
 //Them DauSach vao vi tri thich hop theo de tai cho
-bool AddDauSach(DS_DauSach &DSDS, DauSach *dausach){
+bool Insert_DauSach_Order(DS_DauSach &DSDS, DauSach *dausach){
 	if(DSDS.n > MAXLIST_DAUSACH)
 		return 0;
 	else{
@@ -223,7 +218,7 @@ bool AddDauSach(DS_DauSach &DSDS, DauSach *dausach){
 }
 
 //Cap nhat DauSach tai vi tri i, noi dung la dausach
-bool UpdateDauSach(DS_DauSach &DSDS, DauSach * dausach, int i){
+bool UpdateDauSach(DS_DauSach &DSDS, DauSach* dausach, int i){
 	if(i >= DSDS.n || i < 0) return 0;
 	else {
 		// Gan dia chi con tro DMS First vao dausach moi
@@ -232,11 +227,10 @@ bool UpdateDauSach(DS_DauSach &DSDS, DauSach * dausach, int i){
 		dausach->soluotmuon = DSDS.nodes[i]->soluotmuon;
 		
 		delete DSDS.nodes[i];
-		for(int j=i; j<DSDS.n; j++){
+		for(int j=i; j<DSDS.n; j++)
 			DSDS.nodes[j] = DSDS.nodes[j+1];//lui nhung node phia sau i lai 1 index, de thay the cho i da bi xoa
-		}
 		DSDS.n--;
-		AddDauSach(DSDS, dausach);//dam bao them lai dung thu thu de bai yeu cau
+		Insert_DauSach_Order(DSDS, dausach);//dam bao them lai dung thu thu de bai yeu cau
 		return 1;
 	}
 }

@@ -116,13 +116,13 @@ void DrawHieuChinhDauSach(){
 
 void DrawThemSach(DS_DauSach &DSDS){
 	//auto create ma sach sau moi lan load trang them sach
-	if(curNhapSach == 1) 
-		startIndexSach = DSDS.nodes[curDauSach]->soluong;
+	if(CurrentNhapSach == 1) 
+		startIndexSach = DSDS.nodes[CurrentDauSach]->soluong;
 	else 
 		startIndexSach++;
 	
 	char id[15];
-	sprintf(id, "%s-%d", DSDS.nodes[curDauSach]->ISBN, startIndexSach); //s: chuoi ky tu, d(or i) : so nguyen he thap phan co dau
+	sprintf(id, "%s-%d", DSDS.nodes[CurrentDauSach]->ISBN, startIndexSach); //s: chuoi ky tu, d(or i) : so nguyen he thap phan co dau
 	strcpy(edThemMaSach.content, id);	
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
@@ -138,7 +138,7 @@ void DrawThemSach(DS_DauSach &DSDS){
 	strcpy(edThemTrangThaiSach.content, "0");
 	memset(edThemViTriSach.content, 0, sizeof(edThemViTriSach.content));
 	char ch[30], c[3];
-	sprintf(ch, "%s %d / %d", ThemSach, curNhapSach, totalNhapSach);
+	sprintf(ch, "%s %d / %d", ThemSach, CurrentNhapSach, totalNhapSach);
 		
 	settextstyle(BOLD_FONT, HORIZ_DIR, 3);
 	setcolor(BG_COLOR);
@@ -194,7 +194,7 @@ void DrawHieuChinhSach(){
 }
 
 void GetHieuChinhDauSach(DS_DauSach &DSDS,int i){
-	curDauSach = i;
+	CurrentDauSach = i;
 	ClearScreen(3);
 	
 	char ch[10];
@@ -241,7 +241,7 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	setcolor(TEXT_COLOR);
 	if(strlen(edTimDauSach.content) == 0){
 		totalPageDauSach = (DSDS.n-1) / 13 + 1;
-		for(int i = 13*(curPageDauSach-1); i < 13*curPageDauSach ; i++){
+		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
 			if (i >= DSDS.n) 
 				break;
 			DrawItemDauSach(DSDS,i, -1);
@@ -249,7 +249,7 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	}else{
 		totalPageDauSach = (sizeListIndexDauSachSearch-1) / 13 + 1;
 		int j = 0;
-		for(int i = 13*(curPageDauSach-1); i < 13*curPageDauSach ; i++){
+		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
 			if (i >= sizeListIndexDauSachSearch) 
 				break;
 			DrawItemDauSach(DSDS,listIndexDauSachSearch[i], j++);
@@ -259,7 +259,7 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	setcolor(TEXT_BUTTON_DEFAULT);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	char chPage[20];
-	sprintf(chPage, "TRANG %d / %d", curPageDauSach, totalPageDauSach);
+	sprintf(chPage, "TRANG %d / %d", CurrentPageDauSach, totalPageDauSach);
 	outtextxy((XXX[0]+XXX[6])/2 - textwidth(chPage)/2, 785, chPage);
 }
 
@@ -282,9 +282,9 @@ void DrawListSach(DS_DauSach &DSDS){
 	setcolor(TEXT_BUTTON_DEFAULT);
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
-	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DanhMucSach)/2-textwidth(DSDS.nodes[curDauSach]->tensach)/2, 20,DanhMucSach);		
+	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DanhMucSach)/2-textwidth(DSDS.nodes[CurrentDauSach]->tensach)/2, 20,DanhMucSach);		
 	setcolor(TEXT_COLOR_SELECTED);	
-	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DSDS.nodes[curDauSach]->tensach)/2+130, 20, DSDS.nodes[curDauSach]->tensach);
+	outtextxy((XDMS[0] + XDMS[3])/2-textwidth(DSDS.nodes[CurrentDauSach]->tensach)/2+130, 20, DSDS.nodes[CurrentDauSach]->tensach);
 	
 	setfillstyle(USER_FILL, PANEL);
 	bar((w/2)-448, 102, (w/2)+449, 150);
@@ -303,18 +303,18 @@ void DrawListSach(DS_DauSach &DSDS){
 	setcolor(BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	
-	totalPageSach = (DSDS.nodes[curDauSach]->soluong - 1) / 8 + 1;	
+	totalPageSach = (DSDS.nodes[CurrentDauSach]->soluong - 1) / 8 + 1;	
 	setbkcolor(BG_COLOR);
 	setcolor(TEXT_COLOR);
 	
-	SachPTR node = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1));//tro toi sach can duyet current page/total page
+	SachPTR node = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1));//tro toi sach can duyet current page/total page
 	//cuurent page = 0 thi con tro First bat dau duyet tu sach thu 0, current page = 1 thi bat dau tu sach thu 8
-	for(int i = 0; node != NULL && i < 8; node = node->next){//duyet tiep tu con tro vi tri
-		DrawItemSach(node->sach, i++);
-	}	
+	DauSach *ds;
+	for(int i = 0; node != NULL && i < 8; node = node->next)//duyet tiep tu con tro vi tri
+		DrawItemSach(node->sach, i++);	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	char chPage[20];
-	sprintf(chPage, "TRANG %d / %d", curPageSach, totalPageSach);
+	sprintf(chPage, "TRANG %d / %d", CurrentPageSach, totalPageSach);
 	outtextxy(w/2 - textwidth(chPage)/2, 510, chPage);
 }
 
@@ -440,16 +440,16 @@ void DrawTrangConDSDS(DS_DauSach &DSDS){
 
 void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
-	bar(XXX[0], 230 + curItem*40 - 8, XXX[6], 230+(curItem+1)*40-8);
+	bar(XXX[0], 230 + CurrentItem*40 - 8, XXX[6], 230+(CurrentItem+1)*40-8);
 	
 	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
 	
 	if(strlen(edTimDauSach.content) == 0)
-		DrawItemDauSach(DSDS,(curPageDauSach-1)*13 + curItem, -1);
+		DrawItemDauSach(DSDS,(CurrentPageDauSach-1)*13 + CurrentItem, -1);
 	else
-		DrawItemDauSach(DSDS,listIndexDauSachSearch[(curPageDauSach-1)*13 + curItem], curItem);							
+		DrawItemDauSach(DSDS,listIndexDauSachSearch[(CurrentPageDauSach-1)*13 + CurrentItem], CurrentItem);							
 	
 	//DrawBorderList
 	setlinestyle(SOLID_LINE, 0, 3);
@@ -463,11 +463,11 @@ void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
 
 void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
-	bar(XDMS[0], 170 + curItemSach*40 - 8, XDMS[3], 170+(curItemSach+1)*40-8);			
+	bar(XDMS[0], 170 + CurrentItemSach*40 - 8, XDMS[3], 170+(CurrentItemSach+1)*40-8);			
 	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curItemSach)->sach, curItemSach);
+	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentItemSach)->sach, CurrentItemSach);
 	
 	//DrawBorderDMS
 	setlinestyle(SOLID_LINE, 0, 3);
@@ -479,7 +479,7 @@ void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
 
 int GetItemDauSachPosition(DS_DauSach &DSDS,int y){
 	int pos = (y-230+8)/40;
-	int i = 13*(curPageDauSach-1) + pos;
+	int i = 13*(CurrentPageDauSach-1) + pos;
 	if(strlen(edTimDauSach.content) == 0){
 		if(i >= DSDS.n) 
 			return -1;		
@@ -493,8 +493,8 @@ int GetItemDauSachPosition(DS_DauSach &DSDS,int y){
 
 int GetItemSachPosition(DS_DauSach &DSDS,int y){
 	int pos = (y-170+8)/40;
-	int i = 8*(curPageSach-1) + pos;
-	if(i >= DSDS.nodes[curDauSach]->soluong) 
+	int i = 8*(CurrentPageSach-1) + pos;
+	if(i >= DSDS.nodes[CurrentDauSach]->soluong) 
 		return -1;
 	else 
 		return pos;
@@ -502,47 +502,47 @@ int GetItemSachPosition(DS_DauSach &DSDS,int y){
 
 void ItemEvent(DS_DauSach &DSDS){
 	if((mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){	//mouse inside table	
-		if(curItem != GetItemDauSachPosition(DSDS,my)){
-			if(curItem != -1)
+		if(CurrentItem != GetItemDauSachPosition(DSDS,my)){
+			if(CurrentItem != -1)
 				Draw_Line_DSDS(DSDS, false);
 			
-			curItem = GetItemDauSachPosition(DSDS,my);
+			CurrentItem = GetItemDauSachPosition(DSDS,my);
 			
-			if(curItem != -1)
+			if(CurrentItem != -1)
 				Draw_Line_DSDS(DSDS, true);
 		}
 	}
 	else if (!(mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){//mouse outside table
-		if(curItem != -1){
+		if(CurrentItem != -1){
 			Draw_Line_DSDS(DSDS, false);
-			curItem = -1;
+			CurrentItem = -1;
 		}
 	}
 	//DANH MUC SACH
 	else if(mx > XDMS[0] && mx < XDMS[3] && my > 170-8 && my < 170+8*40-8){	//mouse inside table	
-		if(curItemSach != GetItemSachPosition(DSDS, my)){
-			if(curItemSach != -1)
+		if(CurrentItemSach != GetItemSachPosition(DSDS, my)){
+			if(CurrentItemSach != -1)
 				Draw_Line_DMS(DSDS, false);
 				
-			curItemSach = GetItemSachPosition(DSDS, my);
+			CurrentItemSach = GetItemSachPosition(DSDS, my);
 			
-			if(curItemSach != -1)
+			if(CurrentItemSach != -1)
 				Draw_Line_DMS(DSDS, true);							
 		}
 	}else{//mouse outside table
-		if(curItemSach != -1){
+		if(CurrentItemSach != -1){
 			Draw_Line_DMS(DSDS, false);
-			curItemSach = -1;
+			CurrentItemSach = -1;
 		}
 	}
 }
 
-int CheckDeteleDauSach(DS_DauSach &DSDS, int curDauSach){
-	if(DSDS.nodes[curDauSach]->soluotmuon == 0)
+int CheckDeteleDauSach(DS_DauSach &DSDS, int CurrentDauSach){
+	if(DSDS.nodes[CurrentDauSach]->soluotmuon == 0)
 		return 1;
 	else {
-		for (int i = 0; i<DSDS.nodes[curDauSach]->soluong-1; i++){
-			SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First,i);
+		for (int i = 0; i<DSDS.nodes[CurrentDauSach]->soluong-1; i++){
+			SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First,i);
 			if (nodeSelect->sach.trangthai == 1)
 				return 0;
 		}
@@ -561,14 +561,14 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		ButtonEffect(btnNext);
 		ButtonEffect(btnQuayVe);		
 		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(curItem != -1){
+			if(CurrentItem != -1){
 				Window = HIEU_CHINH_DAU_SACH;
 				subWindow = CONFIRM_POPUP_NONE;
 				strcpy(mess, "");
 				if(strlen(edTimDauSach.content) == 0) 
-					GetHieuChinhDauSach(DSDS, 13*(curPageDauSach-1) + curItem);
+					GetHieuChinhDauSach(DSDS, 13*(CurrentPageDauSach-1) + CurrentItem);
 				else 
-					GetHieuChinhDauSach(DSDS, listIndexDauSachSearch[13*(curPageDauSach-1) + curItem]);
+					GetHieuChinhDauSach(DSDS, listIndexDauSachSearch[13*(CurrentPageDauSach-1) + CurrentItem]);
 			}
 			if(edTimDauSach.isMouseHover(mx, my))
 				Edit = &edTimDauSach;						
@@ -585,27 +585,27 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				SetMenuSelect(DSDS, DSDG, 0);
 				
 			else if(btnPrev.isMouseHover(mx, my)){
-				if(curPageDauSach > 1){
-					--curPageDauSach;
+				if(CurrentPageDauSach > 1){
+					--CurrentPageDauSach;
 					ClearScreen(5);
 					DrawListDSDS(DSDS);
 				}
 			}else if(btnNext.isMouseHover(mx, my)){
-				if(curPageDauSach < totalPageDauSach){
-					++curPageDauSach;
+				if(CurrentPageDauSach < totalPageDauSach){
+					++CurrentPageDauSach;
 					ClearScreen(5);
 					DrawListDSDS(DSDS);
 				}
 			}	
 		}	
 		else if(GetAsyncKeyState(VK_RBUTTON)){
-			if(curItem != -1){
+			if(CurrentItem != -1){
 				Window = DANH_MUC_SACH;
 				subWindow = NHAP_SACH;
 				Edit = NULL;		
-				if(strlen(edTimDauSach.content) == 0) curDauSach = 13*(curPageDauSach-1) + curItem;
-				else curDauSach = listIndexDauSachSearch[13*(curPageDauSach-1) + curItem];		
-				curPageSach = 1;	
+				if(strlen(edTimDauSach.content) == 0) CurrentDauSach = 13*(CurrentPageDauSach-1) + CurrentItem;
+				else CurrentDauSach = listIndexDauSachSearch[13*(CurrentPageDauSach-1) + CurrentItem];		
+				CurrentPageSach = 1;	
 				Edit = NULL;
 				memset(mess, 0, sizeof(mess));
 				ClearScreen(1);
@@ -649,10 +649,8 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 								edThemTacGia.trim(), 
 								edThemNXB.toInt(), 
 								edThemTheLoai.trim());
-				
-					if(AddDauSach(DSDS, dausach)){
+					if(Insert_DauSach_Order(DSDS, dausach))
 						strcpy(mess, "Them dau sach thanh cong!");						
-					}
 					else 
 						strcpy(mess, "Them dau sach that bai, hay thu lai!");
 				}
@@ -677,7 +675,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					DrawListDSDS(DSDS);						
 				}			
 				else if(btnDeleteDauSach.isMouseHover(mx, my)){
-					if (CheckDeteleDauSach(DSDS, curDauSach)){
+					if (CheckDeteleDauSach(DSDS, CurrentDauSach)){
 						strcpy(confirm, "XAC NHAN XOA DAU SACH?");
 						Edit = NULL;
 						subWindow = CONFIRM_POPUP;
@@ -696,20 +694,20 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				else if(btnHieuChinhDauSach.isMouseHover(mx, my)){
 					// check truoc khi hieu chinh
 					if(CheckDauSach(DSDS,edHieuChinhISBN,edHieuChinhTenSach,edHieuChinhSoTrang,edHieuChinhTacGia,edHieuChinhNXB,edHieuChinhTheLoai, false)){
-						DauSach * dausach = new DauSach(edHieuChinhISBN.trim(), 
+						DauSach* dausach = new DauSach(edHieuChinhISBN.trim(), 
 									edHieuChinhTenSach.trim(), 
 									edHieuChinhSoTrang.toInt(), 
 									edHieuChinhTacGia.trim(), 
 									edHieuChinhNXB.toInt(), 
 									edHieuChinhTheLoai.trim());	
-						if(UpdateDauSach(DSDS, dausach, curDauSach))
+						if(UpdateDauSach(DSDS, dausach, CurrentDauSach))
 							strcpy(mess, "HIEU CHINH DAU SACH THANH CONG!");
 						else						
 							strcpy(mess, "HIEU CHINH DAU SACH THAT BAI!");
 					}
 					DrawHieuChinhDauSach();
 				}										
-				else if(curDauSach != -1){
+				else if(CurrentDauSach != -1){
 						if(edHieuChinhISBN.isMouseHover(mx, my)){
 							strcpy(mess, "ISBN khong the chinh sua!");
 							setcolor(TIPS);
@@ -732,14 +730,14 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			ButtonEffect(btnNo);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
-					if (DeleteDauSach(DSDS,DSDS.nodes[curDauSach]->ISBN) ==1){
+					if (DeleteDauSach(DSDS,DSDS.nodes[CurrentDauSach]->ISBN) ==1){
 							ClearScreen(3);	
 							memset(edHieuChinhISBN.content, 0, sizeof(edHieuChinhISBN.content));
 							strcpy(mess, "Xoa dau sach thanh cong !!");
 							setcolor(TIPS);
 							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 					}
-					else if (DeleteDauSach(DSDS,DSDS.nodes[curDauSach]->ISBN) == -1){
+					else if (DeleteDauSach(DSDS,DSDS.nodes[CurrentDauSach]->ISBN) == -1){
 							strcpy(mess, "Dau sach khong ton tai !");
 							setcolor(TIPS);
 							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
@@ -766,13 +764,13 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			}
 		}
 		else if(GetAsyncKeyState(VK_RBUTTON)){
-			if(curItemSach != -1){
+			if(CurrentItemSach != -1){
 				Window = DANH_MUC_SACH;
 				subWindow = HIEU_CHINH_SACH;
-				curSach = curItemSach;
+				CurrentSach = CurrentItemSach;
 				strcpy(mess, "");
 				
-				SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curSach);
+				SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentSach);
 				strcpy(edHieuChinhMaSach.content, nodeSelect->sach.MASACH);
 				char ch[2];
 				itoa(nodeSelect->sach.trangthai, ch, 10);
@@ -789,14 +787,14 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			ButtonEffect(btnNextDMS);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnPrevDMS.isMouseHover(mx, my)){
-					if(curPageSach > 1){
-						--curPageSach;					
+					if(CurrentPageSach > 1){
+						--CurrentPageSach;					
 						DrawListSach(DSDS);
 					}
 				}
 				else if(btnNextDMS.isMouseHover(mx, my)){
-					if(curPageSach < totalPageSach){
-						++curPageSach;
+					if(CurrentPageSach < totalPageSach){
+						++CurrentPageSach;
 						DrawListSach(DSDS);
 					}
 				}
@@ -807,7 +805,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				else if(btnNhapSoLuongSach.isMouseHover(mx, my)){
 					if(strlen(edNhapSoLuongSach.content) != 0){
 						totalNhapSach = edNhapSoLuongSach.toInt();
-						curNhapSach = 1;
+						CurrentNhapSach = 1;
 						subWindow = THEM_SACH;
 						memset(edThemViTriSach.content, 0, sizeof(edThemViTriSach.content));
 						strcpy(mess, "");
@@ -834,16 +832,16 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					// Check them sach
 					if(CheckSach(edThemTrangThaiSach,edThemViTriSach,true)){
 						Sach sach(edThemMaSach.content, edThemTrangThaiSach.toInt(), edThemViTriSach.content);
-						InsertLast_NodeSach(DSDS.nodes[curDauSach]->First, sach);
-						DSDS.nodes[curDauSach] -> soluong++;							
-						++curNhapSach;							
+						InsertLast_NodeSach(DSDS.nodes[CurrentDauSach]->First, sach);
+						DSDS.nodes[CurrentDauSach] -> soluong++;							
+						++CurrentNhapSach;							
 						strcpy(mess, "Them sach thanh cong!");
 						subWindow = THEM_SACH;						
 						DrawTrangConDSDS(DSDS);	
 						DrawListSach(DSDS);
-						if(curNhapSach > totalNhapSach){//them du so luong sach can them thi quay ve trang nhap so luong sach
+						if(CurrentNhapSach > totalNhapSach){//them du so luong sach can them thi quay ve trang nhap so luong sach
 							subWindow = NHAP_SACH;
-							curNhapSach = -1;
+							CurrentNhapSach = -1;
 							totalNhapSach = 0;
 							DrawTrangConDSDS(DSDS);	
 						}
@@ -860,6 +858,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				else if(edThemViTriSach.isMouseHover(mx, my))
 					Edit = &edThemViTriSach;				
 			}
+			else if(GetAsyncKeyState(VK_RBUTTON)){
+
+			}
 		}
 		else if(subWindow == HIEU_CHINH_SACH){
 			ButtonEffect(btnHieuChinhSach);
@@ -872,7 +873,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				else if(btnHieuChinhSach.isMouseHover(mx, my)){
 					// Check hieu chinh sach
 					if(CheckSach(edHieuChinhTrangThaiSach,edHieuChinhViTriSach,false)){
-						SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[curDauSach]->First, 8*(curPageSach-1) + curSach);
+						SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentSach);
 						Sach sach(edHieuChinhMaSach.content, edHieuChinhTrangThaiSach.toInt(), edHieuChinhViTriSach.content);
 						if(UpdateNodeSach(nodeSelect, sach)){
 							setfillstyle(SOLID_FILL, BG_COLOR);
@@ -900,6 +901,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);					
 				}				
+			}
+			else if(GetAsyncKeyState(VK_RBUTTON)){
+
 			}
 		}			
 	}	    	

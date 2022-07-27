@@ -165,15 +165,15 @@ bool openFileSuccess = true;
 Window Window;
 SubWindow subWindow;
 errorOpenfile error;
-int curMenu = 0, curMenuMuonTra;
-int curItem = -1, curItemSach = -1, curDauSach = -1, curSach = -1;
-int totalNhapSach = 0, curNhapSach = 0;
+int CurrentMenu = 0, CurrentMenuMuonTra;
+int CurrentItem = -1, CurrentItemSach = -1, CurrentDauSach = -1, CurrentSach = -1;
+int totalNhapSach = 0, CurrentNhapSach = 0;
 
 int mx = -1, my = -1;//VI TRI CHUOT
 bool canEditTrangThai = true;
 
-int totalPageDauSach = 1, curPageDauSach = 1;
-int totalPageSach = 1, curPageSach = 1;
+int totalPageDauSach = 1, CurrentPageDauSach = 1;
+int totalPageSach = 1, CurrentPageSach = 1;
 
 void PopUp(char* confirm);
 void ReadDauSachFromFile(DS_DauSach &DSDS);
@@ -190,19 +190,19 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 
 //////////////////////////////////////////KHU TU TRI CUA DOCGIA VA MUONSACH /////////////////////////////////////////////////
 DocGiaPTR root = NULL;
-DocGia *curDGMT = NULL;
-Sach *curSachMT = NULL;
-DauSach * curDSMT = NULL;
+DocGia* CurrentDGMT = NULL;
+Sach* CurrentSachMT = NULL;
+DauSach* CurrentDSMT = NULL;
 bool sortDGByName = false;
 bool canBorrow = false; //Doc gia co dang bi khoa hay khong de hien thi thanh tim kiem ma sach
 bool canMT = false; // Doc Gia co the muon ma sach X hay khong?
 
 int sizeofArrayMaTheDocGia;
 
-int totalPageDG = 1, curPageDG = 1;
-int totalPageDGQuaHan = 1, curPageDGQuaHan = 1;
-int curItemDG = -1, curDG = -1;
-int curItemMT = -1, curMT = -1;
+int totalPageDG = 1, CurrentPageDG = 1;
+int totalPageDGQuaHan = 1, CurrentPageDGQuaHan = 1;
+int CurrentItemDG = -1, CurrentDG = -1;
+int CurrentItemMT = -1, CurrentMT = -1;
 int startIndexSach = -1;
 bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
 
@@ -218,7 +218,7 @@ void WriteMaTheDocGia(int TheDocGiaBSTC[]);
 
 void Load_Found_DS(DS_DauSach &DSDS,EditText* &txt,int &n){
 	GetListNodes(DSDS, txt->content, sizeListIndexDauSachSearch);
-	curPageDauSach = 1;
+	CurrentPageDauSach = 1;
 	ClearScreen(5);
 	DrawListDSDS(DSDS);		
 }
@@ -487,7 +487,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 		Edit->draw();
 		Edit->content[n] = '\0';
 		
-		if(curMenu == btnQLDauSach.id){
+		if(CurrentMenu == btnQLDauSach.id){
 			if(Window == DANH_SACH_DAU_SACH && Edit == &edTimDauSach){
 				Scan(DSDS, Edit, 20, TIM_DAU_SACH);			
 			}
@@ -538,7 +538,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				}													
 			}				
 		}
-		else if(curMenu == btnQLDocGia.id){
+		else if(CurrentMenu == btnQLDocGia.id){
 			if(Window == THEM_DOC_GIA){
 				if(Edit == &edThemHoDocGia)
 					Scan(DSDS, Edit, 18, SPACE_TEXT_UPPERCASE);
@@ -560,7 +560,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 					Scan(DSDS, Edit, 1, LIMIT_CHARACTER, '0', '1');
 			}
 		}
-		else if(curMenu == btnQLSach.id){
+		else if(CurrentMenu == btnQLSach.id){
 			if(Edit == &edNhapMaDGMuonSach)
 				Scan(DSDS, Edit, 5, ONLY_NUMBER);
 			else if(Edit == &edNhapMaSachMuonSach)
@@ -629,22 +629,22 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 void Event(DS_DauSach &DSDS,TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 	mx = mousex(); my = mousey();
 	KeyBoardEvent(DSDS);
-	if(curMenu == 0)
+	if(CurrentMenu == 0)
 		MenuEvent(DSDS, DSDG, TheDocGiaBSTC);
-	else if(curMenu == btnQLDauSach.id)
+	else if(CurrentMenu == btnQLDauSach.id)
 		DauSachEvent(DSDS, DSDG);
-	else if(curMenu == btnQLDocGia.id)
+	else if(CurrentMenu == btnQLDocGia.id)
 		DocGiaEvent(DSDS, DSDG, TheDocGiaBSTC);
-	else if(curMenu == btnQLSach.id)
+	else if(CurrentMenu == btnQLSach.id)
 		MuonTraEvent(DSDS, DSDG);
 } 
 
 void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG, int menuID){
-	if(curMenu != menuID){
-		curMenu = menuID;
+	if(CurrentMenu != menuID){
+		CurrentMenu = menuID;
 		ClearScreen(0);
 		
-		if(curMenu == 0)
+		if(CurrentMenu == 0)
 			DrawMenu();	
 		else if(menuID == btnQLDauSach.id){
 			Window = DANH_SACH_DAU_SACH;

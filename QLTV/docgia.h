@@ -2,9 +2,9 @@ int GetItemDocGiaPosition(TreeDocgia &DSDG, int y){
 	int pos = (y-220+8)/40;
 	int i;
 	if(btnTatCaDocGia.isChoose)
-		i = 13*(curPageDG-1) + pos;
+		i = 13*(CurrentPageDG-1) + pos;
 	else
-		i = 13*(curPageDGQuaHan-1) + pos;
+		i = 13*(CurrentPageDGQuaHan-1) + pos;
 	if(i >= DSDG.n) 
 		return -1;
 	return pos;
@@ -51,7 +51,7 @@ void DrawHieuChinhDocGia(){
 } 
 
 void GetHieuChinhDocGia(TreeDocgia &DSDG, int i){
-	curDG = i;
+	CurrentDG = i;
 	ClearScreen(7);//clear content
 	
 	char ch[10];
@@ -157,12 +157,12 @@ void DrawListDocGia(TreeDocgia &DSDG, bool reload, DS_DauSach &DSDS){
 		else
 			DSDG.SapXepDocGia(MODE_MA_THE);	
 		totalPageDG = (DSDG.n-1)/13 + 1;
-		for(int i=13*(curPageDG-1); i < 13*curPageDG; i++){
+		for(int i=13*(CurrentPageDG-1); i < 13*CurrentPageDG; i++){
 			if(i >= DSDG.n) break;
 			DrawItemDocGia(*DSDG.nodes[i], i, false);
 		}	
 		// num page		
-		sprintf(chPage, "TRANG %d / %d", curPageDG, totalPageDG);
+		sprintf(chPage, "TRANG %d / %d", CurrentPageDG, totalPageDG);
 		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 		outtextxy(w/2 - textwidth(chPage)/2, 785, chPage);
 		
@@ -173,13 +173,13 @@ void DrawListDocGia(TreeDocgia &DSDG, bool reload, DS_DauSach &DSDS){
 	else if(btnDocGiaQuaHan.isChoose){
 		DrawBorderDSDocGiaQuaHan();	
 		totalPageDGQuaHan = (DSDG.n-1)/13 + 1;
-		for(int i=13*(curPageDGQuaHan-1); i < 13*curPageDGQuaHan; i++){
+		for(int i=13*(CurrentPageDGQuaHan-1); i < 13*CurrentPageDGQuaHan; i++){
 			if(i >= DSDG.n) break;
 			DrawItemDocGia(*DSDG.nodes[i], i, true);
 			DrawItemDocGiaQuaHan(*DSDG.nodes[i], DSDG.soNgayQH[i], i, DSDS);
 		}		
 		// num page
-		sprintf(chPage, "TRANG %d / %d", curPageDGQuaHan, totalPageDGQuaHan);
+		sprintf(chPage, "TRANG %d / %d", CurrentPageDGQuaHan, totalPageDGQuaHan);
 		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 		outtextxy(w/2 - textwidth(chPage)/2, 785, chPage);		
 		btnPrevDocGiaQH.draw();
@@ -197,7 +197,7 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 			ClearScreen(9);
 			btnDocGiaQuaHan.isChoose = false;
 			btnTatCaDocGia.isChoose = true;
-			curItemDG = -1;
+			CurrentItemDG = -1;
 			
 			DrawListDocGia(DSDG, true, DSDS);
 			DrawDanhSachDocGia(DSDG, DSDS);
@@ -216,7 +216,7 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 
 			btnTatCaDocGia.isChoose = false;
 			btnDocGiaQuaHan.isChoose = true;
-			curItemDG = -1;
+			CurrentItemDG = -1;
 			// Get list docgia qua han			
 			DSDG.GetDocGiaQuaHan(root);
 			DrawListDocGia(DSDG, false, DSDS);
@@ -244,41 +244,41 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 
 void DrawLineDocGia(TreeDocgia &DSDG, bool current, DS_DauSach &DSDS){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
-	bar(XXXDG[0], 220 + curItemDG*40 - 8, XXXDG[btnTatCaDocGia.isChoose?5:6], 220+(curItemDG+1)*40-8);
+	bar(XXXDG[0], 220 + CurrentItemDG*40 - 8, XXXDG[btnTatCaDocGia.isChoose?5:6], 220+(CurrentItemDG+1)*40-8);
 	
 	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
 	
 	if(btnTatCaDocGia.isChoose){
-		DrawItemDocGia(*DSDG.nodes[(curPageDG-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, false);
+		DrawItemDocGia(*DSDG.nodes[(CurrentPageDG-1)*13 + CurrentItemDG], (CurrentPageDG-1)*13 + CurrentItemDG, false);
 		DrawBorderDSDocGia();
 	}
 	else{
-		DrawItemDocGia(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDG-1)*13 + curItemDG, true);
-		DrawItemDocGiaQuaHan(*DSDG.nodes[(curPageDGQuaHan-1)*13 + curItemDG], DSDG.soNgayQH[(curPageDGQuaHan-1)*13 + curItemDG], (curPageDGQuaHan-1)*13 + curItemDG, DSDS);
+		DrawItemDocGia(*DSDG.nodes[(CurrentPageDGQuaHan-1)*13 + CurrentItemDG], (CurrentPageDG-1)*13 + CurrentItemDG, true);
+		DrawItemDocGiaQuaHan(*DSDG.nodes[(CurrentPageDGQuaHan-1)*13 + CurrentItemDG], DSDG.soNgayQH[(CurrentPageDGQuaHan-1)*13 + CurrentItemDG], (CurrentPageDGQuaHan-1)*13 + CurrentItemDG, DSDS);
 		DrawBorderDSDocGiaQuaHan();
 	}
 }
 
 void ItemDocGiaEvent(TreeDocgia &DSDG, DS_DauSach &DSDS){
 	if(mx > XXXDG[0] && mx < XXXDG[btnTatCaDocGia.isChoose?5:6] && my > 220-8 && my < 220+13*40-8){		
-		if(curItemDG != GetItemDocGiaPosition(DSDG, my)){
+		if(CurrentItemDG != GetItemDocGiaPosition(DSDG, my)){
 			// khoi phuc item
-			if(curItemDG != -1)
+			if(CurrentItemDG != -1)
 				DrawLineDocGia(DSDG, false, DSDS);	
 											
 			// Ve item hien tai
-			curItemDG = GetItemDocGiaPosition(DSDG, my);
+			CurrentItemDG = GetItemDocGiaPosition(DSDG, my);
 			
-			if(curItemDG != -1)
+			if(CurrentItemDG != -1)
 				DrawLineDocGia(DSDG, true, DSDS);	
 		}
 	}else{
 		// khoi phuc item
-		if(curItemDG != -1){
+		if(CurrentItemDG != -1){
 			DrawLineDocGia(DSDG, false, DSDS);			
-			curItemDG = -1;
+			CurrentItemDG = -1;
 		}
 	}
 }
@@ -385,7 +385,7 @@ void DrawXoaDocGia(TreeDocgia &DSDG, int i){
 	if(i != -1){
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 3);
 		setcolor(TEXT_COLOR);
-		curDG = i;		
+		CurrentDG = i;		
 		char ch[50];
 		sprintf(ch, "%s %s", DSDG.nodes[i]->ho, DSDG.nodes[i]->ten);
 		outtextxy(XXX[7], 300, "Doc gia :");				outtextxy(XXX[7]+450, 300, ch);		
@@ -411,15 +411,15 @@ void DrawTrangConDSDG(TreeDocgia &DSDG, int TheDocGiaBSTC[], DS_DauSach &DSDS){
 	else if(Window == HIEU_CHINH_DOC_GIA){
 		DrawHieuChinhDocGia();
 		if(btnTatCaDocGia.isChoose)
-			GetHieuChinhDocGia(DSDG, 13*(curPageDG-1) + curItemDG);
+			GetHieuChinhDocGia(DSDG, 13*(CurrentPageDG-1) + CurrentItemDG);
 		else
-			GetHieuChinhDocGia(DSDG, 13*(curPageDGQuaHan-1) + curItemDG);
+			GetHieuChinhDocGia(DSDG, 13*(CurrentPageDGQuaHan-1) + CurrentItemDG);
 	}
 	else if(Window == XOA_DOC_GIA){
 		if(btnTatCaDocGia.isChoose)
-			DrawXoaDocGia(DSDG, 13*(curPageDG-1) + curItemDG);
+			DrawXoaDocGia(DSDG, 13*(CurrentPageDG-1) + CurrentItemDG);
 		else
-			DrawXoaDocGia(DSDG, 13*(curPageDGQuaHan-1) + curItemDG);		
+			DrawXoaDocGia(DSDG, 13*(CurrentPageDGQuaHan-1) + CurrentItemDG);		
 	}
 }
 
@@ -475,28 +475,28 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					Window = THEM_DOC_GIA;
 					DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);	
 				} 
-				else if(curItemDG != -1){
+				else if(CurrentItemDG != -1){
 					strcpy(mess, "");
 					Window = HIEU_CHINH_DOC_GIA;
 					DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);	
 				}
 				// Tat ca Doc gia - MODE		
 				else if(btnPrev.isMouseHover(mx, my)){
-					if(curPageDG > 1){
+					if(CurrentPageDG > 1){
 						ClearScreen(8);
-						curPageDG--;
+						CurrentPageDG--;
 						DrawListDocGia(DSDG, false, DSDS);
 					}
 				}else if(btnNext.isMouseHover(mx, my)){
-					if(curPageDG < totalPageDG){
+					if(CurrentPageDG < totalPageDG){
 						ClearScreen(8);
-						curPageDG ++;
+						CurrentPageDG ++;
 						DrawListDocGia(DSDG, false, DSDS);
 					}
 				} 
 			}
 			else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
-				if(curItemDG != -1){
+				if(CurrentItemDG != -1){
 					strcpy(mess, "");
 					Window = XOA_DOC_GIA;
 					subWindow = CONFIRM_POPUP_NONE;
@@ -508,27 +508,27 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 			ButtonEffect(btnNextDocGiaQH);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				// Doc Gia Qua Han - MODE
-				if(curItemDG != -1){
+				if(CurrentItemDG != -1){
 					strcpy(mess, "");
 					Window = HIEU_CHINH_DOC_GIA;
 					DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);	
 				}
 				else if(btnPrevDocGiaQH.isMouseHover(mx, my)){
-					if(curPageDGQuaHan > 1){
-						curPageDGQuaHan--;
+					if(CurrentPageDGQuaHan > 1){
+						CurrentPageDGQuaHan--;
 						ClearScreen(9);
 						DrawListDocGia(DSDG, false, DSDS);
 					}
 				}else if(btnNextDocGiaQH.isMouseHover(mx, my)){
-					if(curPageDGQuaHan < totalPageDGQuaHan){
-						curPageDGQuaHan ++;
+					if(CurrentPageDGQuaHan < totalPageDGQuaHan){
+						CurrentPageDGQuaHan ++;
 						ClearScreen(9);
 						DrawListDocGia(DSDG, false, DSDS);
 					}
 				}				
 			}
 			else if(GetAsyncKeyState(VK_RBUTTON)){//chuot phai
-				if(curItemDG != -1){
+				if(CurrentItemDG != -1){
 					strcpy(mess, "");
 					Window = XOA_DOC_GIA;
 					subWindow = CONFIRM_POPUP_NONE;
@@ -589,7 +589,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 				DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);
 			}
 			else if(btnHieuChinhDocGia.isMouseHover(mx, my)){
-				if(curDG != -1 && CheckDocGia(edHieuChinhMaTheDocGia, edHieuChinhHoDocGia, edHieuChinhTenDocGia, edHieuChinhPhaiDocGia, edHieuChinhTrangThaiTheDocGia, false)){
+				if(CurrentDG != -1 && CheckDocGia(edHieuChinhMaTheDocGia, edHieuChinhHoDocGia, edHieuChinhTenDocGia, edHieuChinhPhaiDocGia, edHieuChinhTrangThaiTheDocGia, false)){
 					DocGia docgia(edHieuChinhMaTheDocGia.toInt(), 
 									edHieuChinhHoDocGia.trim(), 
 									edHieuChinhTenDocGia.trim(), 
@@ -600,11 +600,11 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					ClearScreen(8);
 
 					DrawListDocGia(DSDG, true, DSDS);
-					curDG = -1;
+					CurrentDG = -1;
 				}
 				DrawHieuChinhDocGia();
 			}				
-			else if(curDG != -1){
+			else if(CurrentDG != -1){
 				if(edHieuChinhHoDocGia.isMouseHover(mx, my))
 					Edit = &edHieuChinhHoDocGia;
 				else if(edHieuChinhTenDocGia.isMouseHover(mx, my))
@@ -624,9 +624,9 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					Window = DANH_SACH_DOC_GIA;	
 					DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);
 				}	
-				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && curDG != -1){
+				else if(btnXacNhanXoaDocGia.isMouseHover(mx, my) && CurrentDG != -1){
 					// neu doc gia k muon sach nao thi co the xoa			
-					if(DSDG.nodes[curDG]->mt.total == 0){
+					if(DSDG.nodes[CurrentDG]->mt.total == 0){
 						strcpy(confirm, "XAC NHAN XOA MA THE DOC GIA NAY?");
 						Edit = NULL;
 						subWindow = CONFIRM_POPUP;
@@ -634,11 +634,11 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 					}else{
 						// Doc gia dang muon sach -> k the xoa
 						strcpy(mess, "DOC GIA DA MUON SACH NEN KHONG THE XOA!");
-						DrawXoaDocGia(DSDG, curDG);
+						DrawXoaDocGia(DSDG, CurrentDG);
 					}
 				}			
 			}
-			else if(curDG != -1)
+			else if(CurrentDG != -1)
 				ButtonEffect(btnXacNhanXoaDocGia);			
 		}
 		else if(subWindow == CONFIRM_POPUP){
@@ -646,23 +646,23 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){
 			ButtonEffect(btnNo);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
-					if(delete_ID(DSDG.nodes[curDG]->MATHE) && RemoveDocGia(root, DSDG.nodes[curDG]->MATHE)){
+					if(delete_ID(DSDG.nodes[CurrentDG]->MATHE) && RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
 						strcpy(mess, "XOA DOC GIA THANH CONG!");
-						DrawXoaDocGia(DSDG, curDG);	
+						DrawXoaDocGia(DSDG, CurrentDG);	
 						delay(2000);
-						curDG = -1;
+						CurrentDG = -1;
 						Window = DANH_SACH_DOC_GIA;
 						subWindow = CONFIRM_POPUP_NONE;
 						DrawTrangConDSDG(DSDG, TheDocGiaBSTC, DSDS);														
 					}
 					else{
 						strcpy(mess, "XOA DOC GIA KHONG THANH CONG!");
-						DrawXoaDocGia(DSDG, curDG);	
+						DrawXoaDocGia(DSDG, CurrentDG);	
 					}
 				}
 				else if (btnNo.isMouseHover(mx, my)){
 					subWindow = CONFIRM_POPUP_NONE;
-					DrawXoaDocGia(DSDG, curDG);	
+					DrawXoaDocGia(DSDG, CurrentDG);	
 				}							
 			}
 		}
