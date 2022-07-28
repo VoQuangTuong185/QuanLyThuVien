@@ -387,7 +387,9 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						if(CurrentDSMT == NULL)
 							CurrentSachMT = NULL;
 						else
-							CurrentSachMT = GetSach(CurrentDSMT->First, edNhapMaSachMuonSach.content);
+							for(SachPTR node = CurrentDSMT->First; node != NULL; node = node->next)
+									if(strcmp(node->sach.MASACH, edNhapMaSachMuonSach.content) == 0) 
+										CurrentSachMT = &node->sach;									
 						strcpy(edNhapNgayMuonSach.content, GetSystemDate());
 						DrawThongTinSach(DSDS);
 					}
