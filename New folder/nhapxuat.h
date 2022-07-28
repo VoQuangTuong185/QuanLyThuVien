@@ -212,8 +212,7 @@ int TotalDocGia(DocGiaPTR &root){
 	NodeDocGia node;
 	q.push(*root);
 	while(!q.empty()){
-		node = q.front();	
-		q.pop();
+		node = q.front();	q.pop();
 		cnt++;
 		if(node.left != NULL) q.push(*node.left);
 		if(node.right != NULL) q.push(*node.right);
@@ -237,8 +236,7 @@ void WriteDocGiaToFile(DocGiaPTR &root){
 	fileDocGia << TotalDocGia(root) << endl;
 	while(!q.empty()){
 		// Lay tung doc gia ra - ghi du lieu
-		node = q.front();	
-		q.pop();		
+		node = q.front();	q.pop();		
 		fileDocGia << node->docgia.MATHE << endl;
 		fileDocGia << node->docgia.ho << endl;
 		fileDocGia << node->docgia.ten << endl;

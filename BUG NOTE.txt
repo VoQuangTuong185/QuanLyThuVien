@@ -21,6 +21,4 @@
 
 - chưa xem top 10
 
-		if (node->sach.trangthai == 1){
-			ds = GetDauSach(DSDS, node->sach.MASACH);	
-		}
+- chưa xem cách lưu độc giả => làm như Hoàng , bỏ queue
