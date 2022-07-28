@@ -263,9 +263,9 @@ bool TextOnly(char c, bool Comma){
 int KiemTraNhapLieu(EditText* &txt, int n, char c){
 	if((n == 0 && c == ' ') ||(n != 0 && c == ' ' && txt->content[n-1] == ' '))//xoa bo space dau va 2 space giua 2 chu 
         return 0;
-    else if((n != 0 && txt->content[n-1] == ' ' && c != ' ') || (n == 0 && c != ' '))//viet hoa chu cai dau sau dau cach
+    else if(n != 0 && txt->content[n-1] == ' ' && c != ' ' || n == 0 && c != ' ')//viet hoa chu cai dau sau dau cach
         return 1;
-    else if((n != 0 && c == ' ' && txt->content[n-1] != ' '))//khong bao gom dau space trong chuoi
+    else if(n != 0 && c == ' ' && txt->content[n-1] != ' ')//khong bao gom dau space trong chuoi
         return -1;      
     return 3;//chuoi hop le khong can xu ly
 }
@@ -281,13 +281,12 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 	int mx = -1, my = -1, mrx = -1, mry = -1;
 	int n = strlen(txt->content);
 
-	getmouseclick(WM_LBUTTONDOWN, mx, my);
+	getmouseclick(WM_LBUTTONDOWN, mx, my);	
 	clearmouseclick(WM_LBUTTONDOWN);
-	
-	getmouseclick(WM_RBUTTONDOWN, mrx, mry);
+	getmouseclick(WM_RBUTTONDOWN, mrx, mry);	
 	clearmouseclick(WM_RBUTTONDOWN);
 				
-	if(((mx != -1 && my != -1) || (mrx != -1 && mry != -1)) && (!txt->isMouseHover(mx, my))){
+	if((mx != -1 && my != -1 || mrx != -1 && mry != -1) && !txt->isMouseHover(mx, my)){
 		txt->content[n] = '\0';
 		txt->draw();
 		txt = NULL;
@@ -322,7 +321,7 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 break;
                 
                 case TEXT_NUM_ADD_COMMA_UPPERCASE://chi chu thuong hoac theo nguoi dung nhap vao + dau phay
-                if((TextOnly(c,true)) || NumberOnly(n, c))
+                if(TextOnly(c,true) || NumberOnly(n, c))
                 	if((KiemTraNhapLieu(txt,n,c) == 0))
                 		txt->content[n++] = '\0';
 					else
@@ -357,6 +356,15 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
 				}			                                      
                 break;
                 
+                case SPACE_TEXT_NUM_UPPERCASE://form ABC DEF
+                if(TextOnly(c,false) || NumberOnly(n, c)){
+   					if (KiemTraNhapLieu(txt,n,c) == 0)  
+						txt->content[n++] = '\0';                					   
+					else 
+						txt->content[n++] = toupper(c);                 	
+				}			                                      
+                break;                
+                
                 case DELETE_SPACE_UPPERCASE://xoa space dau va space giua, form ISBN: TDK
                 if(TextOnly(c, false) || NumberOnly(n, c)){
                 	if(KiemTraNhapLieu(txt,n,c) == 0 || KiemTraNhapLieu(txt,n,c) == -1)
@@ -373,16 +381,16 @@ void Scan(DS_DauSach &DSDS, EditText* &txt, int maxn, ScanType type, int startLi
                 
                 case TIM_MA_SACH://format: TDK-001 
 					if(n == 0){
-					    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+					    if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
    							txt->content[n++] = toupper(c);	
 					}
 					else {
-						if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c=='-') && (txt->content[n-1] != '-') && (!check_dau_noi)){
+						if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c=='-') && txt->content[n-1] != '-' && !check_dau_noi){
 							txt->content[n++] = toupper(c);
 							if (c=='-')
 								check_dau_noi =true;
 						}				
-						else if ((c >= '0' && c <= '9') && (check_dau_noi) && count_numbers<3){
+						else if (c >= '0' && c <= '9' && check_dau_noi && count_numbers<3){
 							count_numbers++;
 							txt->content[n++] = c;
 						}						
@@ -495,7 +503,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				if(Edit == &edThemISBN)
 					Scan(DSDS, Edit, 10, DELETE_SPACE_UPPERCASE);
 				else if(Edit == &edThemTenSach)
-					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
+					Scan(DSDS, Edit, 30, SPACE_TEXT_NUM_UPPERCASE);
 				else if(Edit == &edThemSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
 				else if(Edit == &edThemTacGia)
@@ -509,7 +517,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 				if(Edit == &edHieuChinhISBN)
 					Scan(DSDS, Edit, 10, DELETE_SPACE_UPPERCASE);
 				else if(Edit == &edHieuChinhTenSach)
-					Scan(DSDS, Edit, 30, SPACE_TEXT_UPPERCASE);
+					Scan(DSDS, Edit, 30, SPACE_TEXT_NUM_UPPERCASE);
 				else if(Edit == &edHieuChinhSoTrang)
 					Scan(DSDS, Edit, 5, ONLY_NUMBER);
 				else if(Edit == &edHieuChinhTacGia)

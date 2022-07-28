@@ -145,7 +145,7 @@ void WriteDauSachToFile(DS_DauSach &DSDS){
 		fileDMS << DSDS.nodes[i]->soluotmuon << endl;
 		fileDMS << DSDS.nodes[i]->soluong << endl;
 		
-		for(NodeSach* node = DSDS.nodes[i]->First; node != NULL; node = node->next){
+		for(SachPTR node = DSDS.nodes[i]->First; node != NULL; node = node->next){
 			fileDMS << node->sach.MASACH << endl;
 			fileDMS << node->sach.trangthai << endl;
 			fileDMS << node->sach.vitri << endl;

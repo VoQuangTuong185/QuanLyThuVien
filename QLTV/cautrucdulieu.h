@@ -23,7 +23,7 @@ struct NodeSach{
 	Sach sach;
 	NodeSach *next;
 };
-typedef NodeSach * SachPTR;
+typedef NodeSach* SachPTR;
 
 //them vao dau
 void InsertFirst_NodeSach(SachPTR &First, Sach &sach){
@@ -252,26 +252,27 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
 int GetSepPosition(char *s){
 	int n = strlen(s);
 	for(int i=0; i<n; i++)
-		if(s[i] == '-') 
-			return i;	
+		if(s[i] == '-'){
+			cout<<i<<endl;;
+			return i;
+		}				
 	return -1;
 }
 
 //Tim DauSach theo masach, Tra ve node cua DauSach can tim
 //chua su dung va chua tim hieu
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
-	SachPTR node ;	
+	SachPTR node;	
 	int sepPos = GetSepPosition(masach);
 	char isbn[sepPos+1];
 	int indexSach=0;	
 	
 	for(int i=0; i<sepPos; i++) 
-		isbn[i] = masach[i];
-		
+		isbn[i] = masach[i];		
 	isbn[sepPos] = '\0';
 	
 	for(int i=sepPos+1; i<strlen(masach); i++)
-		indexSach = indexSach*10 + (masach[i]-'0');
+		indexSach = indexSach*10 + (masach[i]-48); //48 = '0'
 		
 	for(int i=0; i<DSDS.n; i++)
 		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
