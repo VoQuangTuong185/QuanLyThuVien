@@ -167,7 +167,6 @@ void ItemSachMuonEvent(){
 void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar(15, 210, w, h);//clear phan duoi cua trang tu thanh tim kiem
-	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	if(CurrentDGMT == NULL){
 		setcolor(TIPS);
@@ -176,10 +175,8 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		char ch[30];
 		settextstyle(BOLD_FONT, HORIZ_DIR, 3);
 		setcolor(TEXT_COLOR);
-		outtextxy(400, 250, "THONG TIN DOC GIA");
-		
-		settextstyle(BOLD_FONT, HORIZ_DIR, 2);
-		
+		outtextxy(400, 250, "THONG TIN DOC GIA");	
+		settextstyle(BOLD_FONT, HORIZ_DIR, 2);	
 		outtextxy(275, 300, "Doc gia :");		sprintf(ch, "%s %s", CurrentDGMT->ho, CurrentDGMT->ten);		outtextxy(550, 300, ch);		
 		outtextxy(275, 350, "Ma the :");		sprintf(ch, "%d", CurrentDGMT->MATHE);						outtextxy(550, 350, ch);	
 		outtextxy(275, 400, "Phai :");			outtextxy(550, 400, PhaiDocGia[CurrentDGMT->phai]);		

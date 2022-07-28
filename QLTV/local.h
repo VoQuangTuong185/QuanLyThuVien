@@ -577,17 +577,9 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, int TheDocGiaBSTC[]){	
 	if(openFileSuccess == false){
 		ButtonEffect(btnYes);
-		ButtonEffect(btnNo);
-		if(GetAsyncKeyState(VK_LBUTTON)){
-			if(btnYes.isMouseHover(mx, my)){
+		if(GetAsyncKeyState(VK_LBUTTON))
+			if(btnYes.isMouseHover(mx, my))
 				isExit = true;
-			}
-			else if(btnNo.isMouseHover(mx, my)){
-				openFileSuccess = true;
-				ClearScreen(0);
-				DrawMenu();
-			}
-		}
 	}
 	else{
 		ButtonEffect(btnQLDauSach);

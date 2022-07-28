@@ -649,10 +649,10 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 								edThemTacGia.trim(), 
 								edThemNXB.toInt(), 
 								edThemTheLoai.trim());
-					if(Insert_DauSach_Order(DSDS, dausach))
+					if(Insert_DauSach_Order(DSDS, dausach))	
 						strcpy(mess, "Them dau sach thanh cong!");						
-					else 
-						strcpy(mess, "Them dau sach that bai, hay thu lai!");
+					else  
+						strcpy(mess, "Them dau sach that bai do day bo nho!");
 				}
 				DrawThemDauSach();
 			}

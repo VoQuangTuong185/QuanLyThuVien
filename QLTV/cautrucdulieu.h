@@ -140,7 +140,8 @@ struct DS_DauSach{
 
 bool InsertLastDauSach(DS_DauSach &DSDS, DauSach * dausach){
 	if(DSDS.n < MAXLIST_DAUSACH){
-		DSDS.nodes[DSDS.n++] = dausach;	
+		DSDS.nodes[DSDS.n] = dausach;
+		DSDS.n++;
 		return true;
 	}	
 	return false;			
@@ -196,8 +197,8 @@ void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
 
 //Them DauSach vao vi tri thich hop theo de tai cho
 bool Insert_DauSach_Order(DS_DauSach &DSDS, DauSach *dausach){
-	if(DSDS.n > MAXLIST_DAUSACH-1)
-		return 0;
+	if(DSDS.n +1 > MAXLIST_DAUSACH)//node moi them nam ngoai size bo nho da cap
+		return false;	
 	else{
 		for(int i=0; i<DSDS.n; i++){
 			if(strcmp(dausach->theloai, DSDS.nodes[i]->theloai) < 0){ //insert tang dan theo the loai
@@ -608,12 +609,8 @@ void InsertDocGia(DocGiaPTR &node, DocGia &dg){
 
 DocGiaPTR TimDocGiaTheoMa(DocGiaPTR &root, int MaDocGia){
 	DocGiaPTR node = root;
-	while(node != NULL && node->docgia.MATHE !=MaDocGia){
-		if(MaDocGia < node->docgia.MATHE) 
-			node = node->left;
-		else 
-			node = node->right;
-	}
+	while(node != NULL && node->docgia.MATHE !=MaDocGia)
+		(MaDocGia < node->docgia.MATHE) ? node = node->left : node = node->right;
 	return node;
 }
 
