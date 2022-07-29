@@ -654,6 +654,7 @@ struct Node_ID{
 };
 typedef Node_ID *IDPTR;
 
+//danh sach lien ket don
 struct List_ID{
 	IDPTR First;
 	
@@ -699,16 +700,6 @@ void insertLast_ID(int id){
 	}
 }
 
-void insertAfter_ID(IDPTR nodeBefore, int id){
-	if(nodeBefore == NULL) 
-		printf("khong them phan tu vao danh sach duoc");
-	else {
-		IDPTR newNode = createNode_ID(id);
-		newNode->next = nodeBefore->next;
-		nodeBefore->next = newNode;		
-	}
-}
-
 int deleteFirst_ID (IDPTR &First){ 
 	IDPTR removeNode;
     if (First == NULL)
@@ -732,7 +723,7 @@ int deleteAfter_ID(IDPTR nodeBefore){
 
 //delete ID by id value
 int delete_ID(int id){ 
-	IDPTR removeNode = listID.First;
+	IDPTR beforeRemove = listID.First;
 	if (listID.First==NULL ) 
 		return 0;
 	if (listID.First->id == id){
@@ -740,9 +731,9 @@ int delete_ID(int id){
 		return 1;
 	}	
 	
-	for(removeNode = listID.First; removeNode->next != NULL && removeNode->next->id !=id; removeNode = removeNode->next);
-	if(removeNode->next != NULL)
-		if (deleteAfter_ID(removeNode))
+	for(beforeRemove = listID.First; beforeRemove->next != NULL && beforeRemove->next->id !=id; beforeRemove = beforeRemove->next);
+	if(beforeRemove->next != NULL)
+		if (deleteAfter_ID(beforeRemove))
 			return 1;
 	return 0;
 }
@@ -756,31 +747,34 @@ void Duyet_DG_ID(DocGiaPTR &nodeDG){
 	Duyet_DG_ID(nodeDG->right);
 }
 
+//dslk vong de luu tru 10.000 ma the doc gia tam thoi thoa CAY TIM KIEM NHI PHAN CAN BANG
 struct TheDocGiaBSTC{  
    int MaThe;
    TheDocGiaBSTC *next;
 };
 typedef TheDocGiaBSTC* TDGTS_PTR;
 
+TDGTS_PTR CreateNewNode(int MaThe) {
+    TDGTS_PTR newNode = new TheDocGiaBSTC;
+    newNode->MaThe = MaThe;
+    return newNode;
+}
+
 void InsertFirst_TDGTS(TDGTS_PTR &Last, int MaThe) {
-    TDGTS_PTR p = new TheDocGiaBSTC;
-    p -> MaThe = MaThe;
-    if (Last == NULL)
-        Last = p;
-    else
-    	p -> next = Last -> next;
-    Last -> next = p;
+    TDGTS_PTR newNode  = CreateNewNode(MaThe);
+    if (Last == NULL)  Last = newNode;
+    else  newNode->next = Last->next;
+    Last->next = newNode;
 }
 
 void InsertLast_TDGTS(TDGTS_PTR &Last, int MaThe){
-   TDGTS_PTR p = new TheDocGiaBSTC;
-   p->MaThe = MaThe;
-   if (Last==NULL) p->next=p;
+   TDGTS_PTR newNode  = CreateNewNode(MaThe);
+   if (Last==NULL) newNode->next=newNode;
    else{
-        p->next = Last->next;
-	    Last->next = p;
+        newNode->next = Last->next;
+	    Last->next = newNode;
    }
-   Last = p;
+   Last = newNode;
 }
 
 bool DeleteFirst_TDGTS(TDGTS_PTR & Last) {

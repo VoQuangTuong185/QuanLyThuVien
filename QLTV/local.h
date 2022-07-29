@@ -612,14 +612,8 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 				while(DSDS.n) {
 					DeleteAllNodeSach(DSDS.nodes[DSDS.n-1]->First);
 					delete DSDS.nodes[--DSDS.n];
-				}
-				
-				if(root != NULL){
-					DeleteMemoryDocGia(root->left);
-					DeleteMemoryDocGia(root->right);		
-					DeleteAllMuonTra(root->docgia.mt);		
-					delete root;
-				}
+				}			
+				DeleteMemoryDocGia(root);
 				cout<<"Free memory danh muc sach \n";
 				isExit = true;
 			}		
