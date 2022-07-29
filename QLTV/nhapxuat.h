@@ -207,28 +207,27 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 
 int TotalDocGia(DocGiaPTR &root){
 	if(root == NULL) return 0;
-	int cnt = 0;
 	Queue<NodeDocGia> q;
 	NodeDocGia node;
+
 	q.push(*root);
+	int count = 0;
 	while(!q.empty()){
-		node = q.front();	
+		node = q.front();
 		q.pop();
-		cnt++;
+		count++;
 		if(node.left != NULL) q.push(*node.left);
 		if(node.right != NULL) q.push(*node.right);
 	}
-	return cnt;
+	return count;
 }
  
 void WriteDocGiaToFile(DocGiaPTR &root){
 	if(root== NULL) return;
-	 
 	fstream fileDocGia, fileMuonTra;
 	fileDocGia.open("data_docgia.txt", ios::out | ios::trunc);
 	fileMuonTra.open("data_muontra.txt", ios::out | ios::trunc);
 
-	int i=0;
 	Queue<NodeDocGia*> q;
 	NodeDocGia *node;
 	NodeMuonTra *nodeMT;

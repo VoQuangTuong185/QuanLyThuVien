@@ -474,7 +474,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 			if(GetAsyncKeyState(VK_LBUTTON)){ //chuot trai				
 				if(btnThemMaThe.isMouseHover(mx, my)){
 					Window = THEM_DOC_GIA;
-					DrawTrangConDSDG(DSDG, tdg, DSDS);	
+					DrawTrangConDSDG(DSDG, tdg, DSDS);
 				} 
 				else if(CurrentItemDG != -1){
 					strcpy(mess, "");

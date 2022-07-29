@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
 	int TheDocGiaBSTC[MAX_DOC_GIA];
 	TDGTS_PTR tdg = NULL;
 	ReadMaTheDocGia(tdg);
-	cout<<root->docgia.MATHE;
+	
 	DrawMenu();
 	while(true){
 		Event(DSDS,DSDG, tdg);

@@ -190,7 +190,7 @@ void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
 
 //Them DauSach vao vi tri thich hop theo de tai cho
 bool Insert_DauSach_Order(DS_DauSach &DSDS, DauSach *dausach){
-	if(DSDS.n +1 > MAXLIST_DAUSACH)//node moi them nam ngoai size bo nho da cap
+	if(DSDS.n +1 > MAXLIST_DAUSACH)//node moi them nam ngoai size_array bo nho da cap
 		return false;	
 	else{
 		for(int i=0; i<DSDS.n; i++){
@@ -442,7 +442,7 @@ struct TreeDocgia{
 	ModeDocGia mode;
 	
 	TreeDocgia(){
-		mode = MODE_MA_THE;
+		//mode = MODE_MA_THE;
 	}
 	~TreeDocgia(){	
 	}	
@@ -457,7 +457,7 @@ struct TreeDocgia{
 	void GetAllDocGia(DocGiaPTR &root){
 		Reset();
 		LNR(root);
-		mode = MODE_MA_THE;
+		//mode = MODE_MA_THE;
 	}
 	
 	int compareDG(DocGia *a, DocGia *b){
@@ -466,13 +466,11 @@ struct TreeDocgia{
 		else if(mode == MODE_TEN){
 			//strcmp: 
 				//return 0 neu 2 chuoi giong nhau
-				//return -X , voi X la khoang cach thu tu cua ki tu chuoi 2 so voi thu tu cua ki tu chuoi 1 trong ASCII, neu ki tu dau 2 chuoi bang nhau, 
-					//tiep tuc so ki tu tiep theo
-				//return X, tuong tu nhu tren, nhung la chenh lech cua chuoi 1 so voi chuoi 2
-			if(strcmp(a->ten, b->ten) == 0)
-				return strcmp(a->ho, b->ho); 
-			else
-				return strcmp(a->ten, b->ten);
+				//return -X , gia tri am neu ki tu khac biet dau tien trong *a nho hon ki tu tuong ung trong *b trong ASCII,
+				//            neu ki tu dau 2 chuoi bang nhau, tiep tuc so ki tu tiep theo					
+				//return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII
+			if(strcmp(a->ten, b->ten) == 0)	return strcmp(a->ho, b->ho); 
+			else return strcmp(a->ten, b->ten);
 		}
 	}
 	
@@ -492,6 +490,7 @@ struct TreeDocgia{
 				//tim i dau tien ma nodes[i] >= x tuc la node chinh giua
 				while(compareDG(nodes[i], pivot) < 0)	i++; 
 			}
+			
 			if(j>=i){//neu vi tri cua node co gia tri lon, nam phia truoc node co gia tri nho hon
 				//hoan doi vi tri cho toi khi node co gia tri LON nam sau node co gia tri NHO
 				temp = nodes[i];
@@ -506,10 +505,8 @@ struct TreeDocgia{
 			}
 		}while(i <= j);
 		
-		if(low < j) 
-			Partition(low, j); //phan thu nhat co tu 2 phan tu tro len
-		if(i < high) 
-			Partition(i, high);//phan thu 3 co tu 2 phan tu tro len
+		if(low < j) Partition(low, j);   //phan thu nhat co tu 2 phan tu tro len
+		if(i < high) Partition(i, high); //phan thu 3 co tu 2 phan tu tro len
 	}
 	
 	void SapXepDocGia(ModeDocGia type){
@@ -536,35 +533,33 @@ struct TreeDocgia{
 	}
 	
 	void GetDocGiaQuaHan(NodeDocGia* &TreeDG){
-		Reset();	ResetQH();
+		Reset();	
+		ResetQH();
 		Queue<NodeDocGia*> q;
-		if(TreeDG != NULL) 
+		if(TreeDG != NULL) //push node root cua tree DocGia vo queue
 			q.push(TreeDG);
-		NodeDocGia* nodeDG;
-		bool hasDGQH;
-		int i;
-		
-		while(!q.empty()){
-			nodeDG = q.front();	q.pop();
-			i = 0;
-			soNgayQH[n] = 7;
-			hasDGQH = false;
 			
-			if(nodeDG->docgia.mt.chuaTra > 0){
-				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.First; nodeMT != NULL; nodeMT = nodeMT->next){
-					if(strlen(nodeMT->muontra.ngaytra) == 0){
-						// chua tra sach
-						if(DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) > soNgayQH[n]*24*60*60){
-							soNgayQH[n] = DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) / (24*60*60);
-							hasDGQH = true;
+		NodeDocGia* nodeDG;
+		bool QUAHAN;
+		while(!q.empty()){
+			nodeDG = q.front();	
+			q.pop();
+			soNgayQH[n];
+			QUAHAN = false;
+			if(nodeDG->docgia.mt.chuaTra > 0)
+				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.First; nodeMT != NULL; nodeMT = nodeMT->next)
+					if(strlen(nodeMT->muontra.ngaytra) == 0){// chua tra sach
+						int soNgayMuon = DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon);
+						if(soNgayMuon > 6*24*60*60){
+							soNgayQH[n] = (soNgayMuon / (24*60*60))-6; //NGAY QUA HAN SO VOI 7 NGAY CHO PHEP
+							//cout<<"snqh: "<<n<<":"<<soNgayQH[n]<<endl;
+							nodeDG->docgia.trangthai = 0;						
+							QUAHAN = true;
 						}
-						if(++i >= nodeDG->docgia.mt.chuaTra) break;
 					}
-				}
-			}
-			if(hasDGQH) nodes[n++] = &nodeDG->docgia;			
-			if(nodeDG->left != NULL) q.push(nodeDG->left);
-			if(nodeDG->right != NULL) q.push(nodeDG->right);
+			if(QUAHAN) nodes[n++] = &nodeDG->docgia;  //XU LY NODE			
+			if(nodeDG->left != NULL) q.push(nodeDG->left);  //push node cuoi cung ben trai cua tree DocGia vo queue
+			if(nodeDG->right != NULL) q.push(nodeDG->right); //push node cuoi cung ben phai cua tree DocGia vo queue
 		}
 		SapXepDocGia(MODE_QUA_HAN);
 	}

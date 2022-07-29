@@ -218,7 +218,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					DrawItemMT(i--);
 				}
 				if(mt->muontra.trangthai == 0)
-					if(DiffTime(GetSystemDate(), mt->muontra.ngaymuon) > 7*24*60*60)
+					if(DiffTime(GetSystemDate(), mt->muontra.ngaymuon) > 6*24*60*60)
 						isQH = true;
 			}
 		}	
@@ -229,16 +229,18 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			settextstyle(BOLD_FONT, HORIZ_DIR, 3);	
 			if(CurrentDGMT->trangthai == 0){
 				// the bi khoa
-				outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
-				return;
+				if(isQH){
+					outtextxy(225, 900, "DOC GIA DA MUON SACH QUA 7 NGAY ");
+					outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
+					return;
+				}	
+			    else{
+			    	outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
+				    return;
+				}			
 			}
 			else if(DSMTS.n >= 3){
 				outtextxy(225, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
-				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
-				return;
-			}
-			else if(isQH){
-				outtextxy(225, 900, "DOC GIA DA MUON SACH QUA 7 NGAY ");
 				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
 				return;
 			}
