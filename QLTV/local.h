@@ -143,6 +143,8 @@ Button btnBackToMenu(230, 20, 20, 100, 50, "< MENU");
 Button btnMuonSach(231, w/2 - 350 , 70, 150, 50, " MUON SACH");
 Button btnTraSach(232, w/2 -160, 70, 150, 50, "TRA SACH");
 Button btnTopTen(233, w/2 +30, 70, 150, 50, "TOP 10");
+Button btnTraNgay(314, (XMT[0]+XMT[4])/2-150, 800, 300, 50, "=>> Tra Sach Ngay <<=");
+Button btnMuonNgay(315, (XMT[0]+XMT[4])/2-150, 800, 300, 50, "=>> Muon Sach Ngay <<=");
 
 // Muon sach
 EditText edNhapMaDGMuonSach(1111, 460, 150, 620, 50, "Nhap ma the :", "", "Nhap ma the doc gia vao day");

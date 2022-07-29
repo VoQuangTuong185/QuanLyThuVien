@@ -71,6 +71,9 @@ void DrawTopTen(DS_DauSach &DSDS){
 }
 
 void DrawTraSach(){	
+	btnTraSach.isHover = true;
+	btnTraSach.isChoose = true;
+	btnTraSach.draw();
 	settextstyle(BOLD_FONT, HORIZ_DIR, 4);
 	setcolor(TEXT_COLOR);
 	outtextxy(w/2 - textwidth(DauSachTitle)/2, 15, TraSach);
@@ -102,7 +105,7 @@ void DrawTrangConDSMT(DS_DauSach &DSDS){
 }
 
 int GetItemMTPosition(int y){
-	int pos = (y-675+8)/40;
+	int pos = (y-625+8)/40;
 	if(pos >= DSMTS.n) return -1;
 	return pos;
 }
@@ -113,38 +116,38 @@ void DrawBorderDSMT(){
 	setbkcolor(BG_COLOR);
 	char t[4][15] = {"Ma sach", "Ten sach", "Ngay muon", "Trang thai"};
 	setfillstyle(SOLID_FILL, BORDER_COLOR);
-	rectangle(XMT[0], 600, XMT[4], 825);//khung DSMT
-	rectangle(225, 275, 875, 500);//khung thong tin doc gia
+	rectangle(150, 275, 800, 500);//khung thong tin doc gia
+	rectangle(XMT[0], 550, XMT[4], 775);//khung DSMT
 	if (Window == MUON_SACH)//chi ve khung thong bao cho window MUON_SACH
-		rectangle(200, 875, 875, 975);
+		rectangle(170, 875, 845, 975);
 	
-	int yline = 650;
+	int yline = 600;
 	line(XMT[0], yline, XMT[4], yline);
 	for(int i=0; i<4; i++){
-		line(XMT[i], 600, XMT[i], 825);
-		outtextxy((XMT[i]+XMT[i+1])/2 - textwidth(t[i])/2, (600+yline)/2-textheight(t[i])/2, t[i]);
+		line(XMT[i], 550, XMT[i], 775);
+		outtextxy((XMT[i]+XMT[i+1])/2 - textwidth(t[i])/2, (550+yline)/2-textheight(t[i])/2, t[i]);
 	}
 }
 
 void DrawItemMT(int i){
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor((DSMTS.mt[i].TrangThai == 2) ? PANEL: TEXT_COLOR_SELECTED);	
-	outtextxy(XMT[0]+10, 675+i*40, DSMTS.mt[i].MASACH);
-	outtextxy(XMT[1]+10, 675+i*40, DSMTS.mt[i].TenSach);
-	outtextxy(XMT[2]+10, 675+i*40, DSMTS.mt[i].NgayMuon);
-	outtextxy(XMT[3]+10, 675+i*40, TTMuonTra[DSMTS.mt[i].TrangThai]);
+	outtextxy(XMT[0]+10, 625+i*40, DSMTS.mt[i].MASACH);
+	outtextxy(XMT[1]+10, 625+i*40, DSMTS.mt[i].TenSach);
+	outtextxy(XMT[2]+10, 625+i*40, DSMTS.mt[i].NgayMuon);
+	outtextxy(XMT[3]+10, 625+i*40, TTMuonTra[DSMTS.mt[i].TrangThai]);
 }
 
 void DrawLineSachMuon(bool current){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
-	bar(XMT[0], 675 + CurrentItemMT*40 - 8, XMT[4], 675+(CurrentItemMT+1)*40-8);			
+	bar(XMT[0], 625 + CurrentItemMT*40 - 8, XMT[4], 625+(CurrentItemMT+1)*40-8);			
 	setbkcolor(current ? LINE: BG_COLOR);
 	DrawItemMT(CurrentItemMT);			
 	DrawBorderDSMT();
 }
 
 void ItemSachMuonEvent(){
-	if(mx > XMT[0] && mx < XMT[4] && my > 675-8 && my < 795-8){
+	if(mx > XMT[0] && mx < XMT[4] && my > 625-8 && my < 745-8){
 		if(CurrentItemMT != GetItemMTPosition(my)){
 			// khoi phuc item
 			if(CurrentItemMT != -1)
@@ -174,34 +177,34 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 	}else{	
 		char ch[30];
 		setcolor(TEXT_COLOR);
-		outtextxy(275, 300, "Doc gia :");
-		outtextxy(275, 350, "Ma the :");
-		outtextxy(275, 400, "Phai :");
-		outtextxy(275, 450, "Trang thai the :");
+		outtextxy(225, 300, "Doc gia :");
+		outtextxy(225, 350, "Ma the :");
+		outtextxy(225, 400, "Phai :");
+		outtextxy(225, 450, "Trang thai the :");
 			
 		settextstyle(BOLD_FONT, HORIZ_DIR, 3);
-		outtextxy(410, 250, "THONG TIN DOC GIA");
+		outtextxy(350, 250, "THONG TIN DOC GIA");
 		setcolor(TEXT_COLOR_SELECTED);	
 		settextstyle(BOLD_FONT, HORIZ_DIR, 2);		
 			
 		sprintf(ch, "%s %s", CurrentDGMT->ho, CurrentDGMT->ten);		
-		outtextxy(550, 300, ch);		
+		outtextxy(500, 300, ch);		
 				
 		sprintf(ch, "%d", CurrentDGMT->MATHE);						
-		outtextxy(550, 350, ch);	
+		outtextxy(500, 350, ch);	
 					
-		outtextxy(550, 400, PhaiDocGia[CurrentDGMT->phai]);	
+		outtextxy(500, 400, PhaiDocGia[CurrentDGMT->phai]);	
 			
 		setcolor((CurrentDGMT->trangthai == 0) ? PANEL: TEXT_COLOR_SELECTED);	
-		outtextxy(550, 450, TTTDocGia[CurrentDGMT->trangthai]);	
+		outtextxy(500, 450, TTTDocGia[CurrentDGMT->trangthai]);	
 		
 		settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
 		setcolor(TEXT_COLOR);				
 			
-		outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 572, DSDM);
-				
+		outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 522, DSDM);
+		setlinestyle(SOLID_LINE, 0, 3);		
 		DrawBorderDSMT();
-		
+		(Window == MUON_SACH) ? btnTraNgay.draw() : btnMuonNgay.draw();
 		DSMTS.n = 0;
 		DauSach *ds;
 		bool isQH = false;
@@ -230,18 +233,18 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			if(CurrentDGMT->trangthai == 0){
 				// the bi khoa
 				if(isQH){
-					outtextxy(225, 900, "DOC GIA DA MUON SACH QUA 7 NGAY ");
-					outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
+					outtextxy(200, 900, "       DOC GIA DA MUON SACH QUA 7 NGAY ");
+					outtextxy(200, 925, "  VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
 					return;
 				}	
 			    else{
-			    	outtextxy(225, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
+			    	outtextxy(200, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
 				    return;
 				}			
 			}
 			else if(DSMTS.n >= 3){
-				outtextxy(225, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
-				outtextxy(225, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
+				outtextxy(200, 900, "SO LUONG SACH MUON DA DAT GIOI HAN !");
+				outtextxy(200, 925, "VUI LONG TRA SACH TRUOC KHI MUON SACH MOI");
 				return;
 			}
 			else {
@@ -249,13 +252,13 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				edNhapMaSachMuonSach.draw();
 				canBorrow = true;
 				setcolor(TEXT_COLOR_SELECTED);
-				outtextxy(275, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
+				outtextxy(200, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
 			}		
 		}
 		else{
 			settextstyle(BOLD_FONT, HORIZ_DIR, 3);		
 			setcolor(TEXT_COLOR);
-			outtextxy(225, 850, "==> CLICK CHUOT TRAI DE CHON SACH <==");
+			outtextxy(240, 900, "LUU Y: CLICK CHUOT TRAI DE CHON SACH");
 		}
 	}
 }
@@ -389,16 +392,25 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		else if(btnMuonSach.isMouseHover(mx, my) && (Window != MUON_SACH)){
 			Window = MUON_SACH;
 			DrawTrangConDSMT(DSDS);
+			if(CurrentDGMT!=NULL){
+				CurrentDGMT = &TimDocGiaTheoMa(root, CurrentDGMT->MATHE)->docgia;
+				DrawThongTinDocGia(DSDS, DSDG);					
+			}
 		}else if(btnTraSach.isMouseHover(mx, my) && (Window != TRA_SACH)){
 			Window = TRA_SACH;
 			DrawTrangConDSMT(DSDS);
+			if(CurrentDGMT!=NULL){
+				CurrentDGMT = &TimDocGiaTheoMa(root, CurrentDGMT->MATHE)->docgia;
+				DrawThongTinDocGia(DSDS, DSDG);					
+			}
 		}else if(btnTopTen.isMouseHover(mx, my) && (Window != TOP_TEN)){
 			Window = TOP_TEN;
 			DrawTrangConDSMT(DSDS);
 		}
 	}
 	if(Window == MUON_SACH){
-		ButtonEffect(btnTimMaDG);
+		ButtonEffect(btnTimMaDG);	
+		ButtonEffect(btnTraNgay);	
 		subWindow = CONFIRM_POPUP_NONE;
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			if(edNhapMaDGMuonSach.isMouseHover(mx, my))
@@ -406,12 +418,17 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			else if(btnTimMaDG.isMouseHover(mx, my)){
 				CurrentDGMT = &TimDocGiaTheoMa(root, edNhapMaDGMuonSach.toInt())->docgia;
 				DrawThongTinDocGia(DSDS, DSDG);
-			}					
+			}	
+			else if (btnTraNgay.isMouseHover(mx, my) && CurrentDGMT != NULL){			
+				Window = TRA_SACH;
+				DrawTrangConDSMT(DSDS);
+				CurrentDGMT = &TimDocGiaTheoMa(root, CurrentDGMT->MATHE)->docgia;
+				DrawThongTinDocGia(DSDS, DSDG);		
+			}				
 		}
-		if((CurrentDGMT != NULL) && (canBorrow)){
+		if(canBorrow && CurrentDGMT != NULL){
 			ButtonEffect(btnTimMaSach);
-			if(canMT) 
-				ButtonEffect(btnXacNhanMuonSach);
+			if(canMT) ButtonEffect(btnXacNhanMuonSach);
 			
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(edNhapMaSachMuonSach.isMouseHover(mx, my))
@@ -420,8 +437,7 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					if(strlen(edNhapMaSachMuonSach.content) > 0){
 						// tim Dau Sach co chua Ma Sach can tim
 						CurrentDSMT = GetDauSach(DSDS, edNhapMaSachMuonSach.content);
-						if(CurrentDSMT == NULL)
-							CurrentSachMT = NULL;
+						if(CurrentDSMT == NULL)	CurrentSachMT = NULL;
 						else
 							for(SachPTR node = CurrentDSMT->First; node != NULL; node = node->next)
 									if(strcmp(node->sach.MASACH, edNhapMaSachMuonSach.content) == 0) 
@@ -445,25 +461,30 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							DrawThongTinSach(DSDS);
 						}
 						else{							
-						// 0: DANG MUON
-						MuonTra muon(CurrentSachMT->MASACH, edNhapNgayMuonSach.content, "", 0);
-						InsertLast_MuonTra(CurrentDGMT->mt, muon);							
-						SachPTR nodeSach = GetNodeSachByMASACH(CurrentDSMT->First, CurrentSachMT->MASACH);
-						Sach sach = nodeSach->sach;
-						sach.trangthai = 1; 	// DA CHO MUON
-						UpdateNodeSach(nodeSach, sach);							
-						// Tang so luot muon sach cua Dau Sach
-						CurrentDSMT->soluotmuon ++;		CurrentDSMT = NULL;		CurrentSachMT = NULL;	canMT = false;							
-						DrawThongTinDocGia(DSDS, DSDG);									
+							// 0: DANG MUON
+							MuonTra muon(CurrentSachMT->MASACH, edNhapNgayMuonSach.content, "", 0);
+							InsertLast_MuonTra(CurrentDGMT->mt, muon);							
+							SachPTR nodeSach = GetNodeSachByMASACH(CurrentDSMT->First, CurrentSachMT->MASACH);
+							Sach sach = nodeSach->sach;
+							sach.trangthai = 1; 	// DA CHO MUON
+							UpdateNodeSach(nodeSach, sach);							
+							// Tang so luot muon sach cua Dau Sach
+							CurrentDSMT->soluotmuon ++;		
+							CurrentDSMT = NULL;		
+							CurrentSachMT = NULL;	
+							canMT = false;							
+							DrawThongTinDocGia(DSDS, DSDG);									
 						}
 					}
 				}	
 			}
 		}
 	}
-	else if(Window == TRA_SACH){
-		ItemSachMuonEvent();
+	else if(Window == TRA_SACH){	
 		ButtonEffect(btnTimMaDG);
+		ButtonEffect(btnTraSach);
+		ItemSachMuonEvent();
+		ButtonEffect(btnMuonNgay);
 		if(GetAsyncKeyState(VK_LBUTTON)){
 			if(edNhapMaDGMuonSach.isMouseHover(mx, my))
 				Edit = &edNhapMaDGMuonSach;
@@ -475,6 +496,12 @@ void MuonTraEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				subWindow = XAC_NHAN_TRA_SACH;
 				strcpy(edNhapNgayTraSach.content, GetSystemDate());
 				DrawThongTinSachTra(CurrentItemMT);
+			}
+			else if (btnMuonNgay.isMouseHover(mx, my) && CurrentDGMT != NULL){			
+				Window = MUON_SACH;
+				DrawTrangConDSMT(DSDS);
+				CurrentDGMT = &TimDocGiaTheoMa(root, CurrentDGMT->MATHE)->docgia;
+				DrawThongTinDocGia(DSDS, DSDG);		
 			}			
 		}			
 		if(subWindow == XAC_NHAN_TRA_SACH){
