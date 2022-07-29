@@ -202,7 +202,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 		setcolor(TEXT_COLOR);				
 			
 		outtextxy((XMT[0]+XMT[4])/2 - textwidth(DSDM)/2, 522, DSDM);
-		setlinestyle(SOLID_LINE, 0, 3);		
+		setlinestyle(SOLID_LINE,0, 3);		
 		DrawBorderDSMT();
 		(Window == MUON_SACH) ? btnTraNgay.draw() : btnMuonNgay.draw();
 		DSMTS.n = 0;
@@ -238,7 +238,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					return;
 				}	
 			    else{
-			    	outtextxy(200, 900, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
+			    	outtextxy(200, 910, "THE DOC GIA DANG BI KHOA, KHONG THE MUON SACH");
 				    return;
 				}			
 			}
@@ -252,7 +252,7 @@ void DrawThongTinDocGia(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				edNhapMaSachMuonSach.draw();
 				canBorrow = true;
 				setcolor(TEXT_COLOR_SELECTED);
-				outtextxy(200, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
+				outtextxy(275, 912, "THE DOC GIA CUA BAN CO THE MUON SACH");
 			}		
 		}
 		else{
