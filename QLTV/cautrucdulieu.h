@@ -233,10 +233,9 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
    if (i==-1) 
    		return -1;
    else { 
-   		delete DSDS.nodes[i];
+   		delete DSDS.nodes[i];//xoa vung nho da cap phat cho phan tu thu i
     	for (int j=i+1; j <DSDS.n; j++)
     		DSDS.nodes[j-1]=DSDS.nodes[j];
-       
     	DSDS.n--;  
     	return 1;
 	}
@@ -648,105 +647,7 @@ void DeleteMemoryDocGia(DocGiaPTR &node){
 	}
 }
 
-struct Node_ID{
-	int id;
-	Node_ID *next;
-};
-typedef Node_ID *IDPTR;
-
-//danh sach lien ket don
-struct List_ID{
-	IDPTR First;
-	
-	List_ID(){
-		First = NULL;
-	}
-	~List_ID(){
-		IDPTR removeNode;
-		while(First != NULL){
-			removeNode = First;
-			First = First->next;
-			delete removeNode;
-		}
-	}
-};
-
-// khai bao instance cua List_ID
-List_ID listID;
-
-IDPTR createNode_ID(int id){
-	IDPTR node = new Node_ID;
-	node->id = id;
-	node->next = NULL;
-	return node;
-}
-
-void insertFirst(int id){
-	IDPTR newNode = createNode_ID(id);
-	newNode->next = listID.First;
-	listID.First = newNode;
-}
-
-void insertLast_ID(int id){
-	IDPTR newNode = createNode_ID(id);
-	IDPTR p = createNode_ID(id);
-	if(listID.First == NULL)
-		insertFirst(id);
-	else{
-		p = listID.First;
-		while (p->next != NULL)
-			p=p->next;
-		p->next = newNode;
-	}
-}
-
-int deleteFirst_ID (IDPTR &First){ 
-	IDPTR removeNode;
-    if (First == NULL)
-      return 0;
-    removeNode = First;    // nut can xoa la nut dau
-    First = removeNode->next;
-    delete removeNode; 
-    return 1;
-}
-
-int deleteAfter_ID(IDPTR nodeBefore){
-	IDPTR removeNode ;
-	//neu nodeBefore la null hoac sau nodeBefore khong co node
-	if(nodeBefore == NULL || nodeBefore->next == NULL) 
-		return 0;
-	removeNode = nodeBefore->next;
-	nodeBefore->next = removeNode->next;
-	delete removeNode;
-	return 1;
-}
-
-//delete ID by id value
-int delete_ID(int id){ 
-	IDPTR beforeRemove = listID.First;
-	if (listID.First==NULL ) 
-		return 0;
-	if (listID.First->id == id){
-		deleteFirst_ID(listID.First);
-		return 1;
-	}	
-	
-	for(beforeRemove = listID.First; beforeRemove->next != NULL && beforeRemove->next->id !=id; beforeRemove = beforeRemove->next);
-	if(beforeRemove->next != NULL)
-		if (deleteAfter_ID(beforeRemove))
-			return 1;
-	return 0;
-}
-
-// LNR
-void Duyet_DG_ID(DocGiaPTR &nodeDG){
-	if(nodeDG == NULL) 
-		return;
-	Duyet_DG_ID(nodeDG->left);
-	insertLast_ID(nodeDG->docgia.MATHE);
-	Duyet_DG_ID(nodeDG->right);
-}
-
+//=======================================================================================================================================//
 //dslk vong de luu tru 10.000 ma the doc gia tam thoi thoa CAY TIM KIEM NHI PHAN CAN BANG
 struct TheDocGiaBSTC{  
    int MaThe;

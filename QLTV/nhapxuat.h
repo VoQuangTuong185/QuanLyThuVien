@@ -200,7 +200,6 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 		}		
 		InsertDocGia(root, dg);
 	}
-	Duyet_DG_ID(root);
 	fileMuonTra.close();
 	fileDocGia.close();
 }

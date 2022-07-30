@@ -649,7 +649,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
 					int MaTheBiXoa = DSDG.nodes[CurrentDG]->MATHE;
-					if(delete_ID(DSDG.nodes[CurrentDG]->MATHE) && RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
+					if(RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
 						strcpy(mess, "XOA DOC GIA THANH CONG!");
 						DrawXoaDocGia(DSDG, CurrentDG);	
 						cout<<MaTheBiXoa;

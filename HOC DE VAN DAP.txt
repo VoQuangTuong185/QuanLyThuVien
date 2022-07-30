@@ -1,0 +1,9 @@
+- bài toán sắp xếp file cây nhị phân 100.000sv
+- Quicksort
+- external sort
+- 3.2 3.3 trong thư mục code
+- các trường hợp xoá 1 node cây nhị phân tìm kiếm
+- cây nhị phân nào tìm nhanh nhất
+- Tạo dãy ngẫu nhiên 10000 số từ 1..10000
+-  Insert Order (int *a, int &n, int x) : 
+- Top 10 đầu sách: tìm hiểu
