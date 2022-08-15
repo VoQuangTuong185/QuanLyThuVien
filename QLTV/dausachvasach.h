@@ -18,10 +18,10 @@ void DrawDanhSachDauSach(){
 	setbkcolor(PANEL);
 	setcolor(BG_COLOR);
 	
-	bar(XXX[0], 152, w-200, 215);
+	bar(XDSDS[0], 152, w-200, 215);
 	
 	for(int i=0; i < 6; i++){
-		outtextxy(XXX[i] + (XXX[i+1]-XXX[i])/2 - textwidth(ch[i])/2, 170, ch[i]);
+		outtextxy(XDSDS[i] + (XDSDS[i+1]-XDSDS[i])/2 - textwidth(ch[i])/2, 170, ch[i]);
 	}
 	setbkcolor(BG_COLOR);
 	setcolor(BG_COLOR);	
@@ -53,13 +53,13 @@ void DrawThemDauSach(){
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	outtextxy(XDSDS[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
 	
 	setcolor(TIPS);
-	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+	outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 	
 	edThemISBN.draw();
 	edThemTenSach.draw();
@@ -93,13 +93,13 @@ void DrawHieuChinhDauSach(){
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	outtextxy(XDSDS[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
 	
 	setcolor(TIPS);
-	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+	outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 	
 	edHieuChinhISBN.draw();
 	edHieuChinhTenSach.draw();
@@ -150,8 +150,7 @@ void DrawThemSach(DS_DauSach &DSDS){
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);
-	
-	
+		
 	btnThemSach.draw();
 	edThemMaSach.draw();
 	edThemTrangThaiSach.draw();
@@ -212,41 +211,38 @@ void GetHieuChinhDauSach(DS_DauSach &DSDS,int i){
 }
 
 void DrawItemDauSach(DS_DauSach &DSDS,int i, int j){
-	char chs[10];
-	outtextxy(XXX[0]+10, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->ISBN);
-	outtextxy(XXX[1]+10, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->tensach);
-	if(DSDS.nodes[i]->sotrang > 0){
-		itoa(DSDS.nodes[i]->sotrang, chs, 10);// itoa : chuyen so thanh chuoi (additon '\0' to the end of number to become string), 10 : co so chuyen doi (nhan gia tri -am)
-		outtextxy(XXX[2]+47, 230 + (j!=-1?j:(i%13)) *40, chs);
-	}
-	outtextxy(XXX[3]+10, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->tacgia);
-	if(DSDS.nodes[i]->nxb > 0){
-		itoa(DSDS.nodes[i]->nxb, chs, 10);
-		outtextxy(XXX[4]+25, 230 + (j!=-1?j:(i%13)) *40, chs);
-	}
-	outtextxy(XXX[5]+25, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->theloai);
+	setcolor(strcmp(recentEditISBN,DSDS.nodes[i]->ISBN) ? TEXT_COLOR : TEXT_COLOR_SELECTED);
+	char chs[10]; 
+	outtextxy(XDSDS[0]+10, 230 + (j!=-1? j: (i%13)) *40, DSDS.nodes[i]->ISBN);
+	outtextxy(XDSDS[1]+10, 230 + (j!=-1? j: (i%13)) *40, DSDS.nodes[i]->tensach);
+	itoa(DSDS.nodes[i]->sotrang, chs, 10);// itoa : chuyen so thanh chuoi (additon '\0' to the end of number to become string), 10 : co so chuyen doi (nhan gia tri -am)
+	outtextxy(XDSDS[2]+47, 230 + (j!=-1?j:(i%13)) *40, chs); 
+	outtextxy(XDSDS[3]+10, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->tacgia);
+	itoa(DSDS.nodes[i]->nxb, chs, 10);
+	outtextxy(XDSDS[4]+25, 230 + (j!=-1?j:(i%13)) *40, chs);
+	outtextxy(XDSDS[5]+25, 230 + (j!=-1?j:(i%13)) *40, DSDS.nodes[i]->theloai);
 }
 
 void DrawListDSDS(DS_DauSach &DSDS){
 	//DrawBorderList
 	setlinestyle(SOLID_LINE, 0, 3);
 	setcolor(BORDER_COLOR);
-	rectangle(XXX[0], 150, XXX[6], 750);	
+	rectangle(XDSDS[0], 150, XDSDS[6], 750);	
 	for(int i=0; i < 5; i++){
 		setlinestyle(SOLID_LINE, 0, 1);
-		line(XXX[i+1], 150, XXX[i+1], 750);
+		line(XDSDS[i+1], 150, XDSDS[i+1], 750);
 	}
 	//TINH TOAN SO TRANG
 	settextstyle(3, HORIZ_DIR, 2);
-	setcolor(TEXT_COLOR);
-	if(strlen(edTimDauSach.content) == 0){
+	if(strlen(edTimDauSach.content) == 0){//**
 		totalPageDauSach = (DSDS.n-1) / 13 + 1;
 		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
 			if (i >= DSDS.n) 
 				break;
 			DrawItemDauSach(DSDS,i, -1);
 		}
-	}else{
+	}
+	else{
 		totalPageDauSach = (sizeListIndexDauSachSearch-1) / 13 + 1;
 		int j = 0;
 		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
@@ -260,10 +256,11 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	char chPage[20];
 	sprintf(chPage, "TRANG %d / %d", CurrentPageDauSach, totalPageDauSach);
-	outtextxy((XXX[0]+XXX[6])/2 - textwidth(chPage)/2, 785, chPage);
+	outtextxy((XDSDS[0]+XDSDS[6])/2 - textwidth(chPage)/2, 785, chPage);
 }
 
 void DrawItemSach(Sach &sach, int i){
+	setcolor(strcmp(recentEditMASACH,sach.MASACH) ? TEXT_COLOR : TEXT_COLOR_SELECTED);
 	outtextxy((XDMS[0] + XDMS[1])/2 - textwidth(sach.MASACH)/2, 170 + i*40, sach.MASACH);
 	outtextxy((XDMS[1] + XDMS[2])/2 - textwidth(TrangThaiSach[sach.trangthai])/2, 170 + i*40, TrangThaiSach[sach.trangthai]);
 	outtextxy((XDMS[2] + XDMS[3])/2 - textwidth(sach.vitri)/2, 170 + i*40, sach.vitri);
@@ -307,9 +304,8 @@ void DrawListSach(DS_DauSach &DSDS){
 	setbkcolor(BG_COLOR);
 	setcolor(TEXT_COLOR);
 	
-	SachPTR node = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1));//tro toi sach can duyet current page/total page
-	//cuurent page = 0 thi con tro First bat dau duyet tu sach thu 0, current page = 1 thi bat dau tu sach thu 8
-	DauSach *ds;
+	SachPTR node = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1));//lay con tro first toi sach can duyet current page/total page
+	//current page = 0 thi con tro First bat dau duyet tu sach thu 0, current page = 1 thi bat dau tu sach thu 8
 	for(int i = 0; node != NULL && i < 8; node = node->next)//duyet tiep tu con tro vi tri
 		DrawItemSach(node->sach, i++);	
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
@@ -361,8 +357,8 @@ bool CheckDauSach(DS_DauSach &DSDS,EditText &ISBN,EditText &TenSach,EditText &So
 	int year = d[2];
 	delete[] d;
 	int y = NXB.toInt();
-	if(y > year){
-		strcpy(mess, "NXB KHONG THE LON HON NAM HIEN TAI");
+	if(y > year || y < 1800){
+		strcpy(mess, "NXB LON HON NAM HIEN TAI HOAC NHO HON 1800");
 		Edit = &NXB;
 		Edit->draw();
 		return false;
@@ -440,7 +436,7 @@ void DrawTrangConDSDS(DS_DauSach &DSDS){
 
 void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
 	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
-	bar(XXX[0], 230 + CurrentItem*40 - 8, XXX[6], 230+(CurrentItem+1)*40-8);
+	bar(XDSDS[0], 230 + CurrentItem*40 - 8, XDSDS[6], 230+(CurrentItem+1)*40-8);
 	
 	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
@@ -454,20 +450,21 @@ void Draw_Line_DSDS(DS_DauSach &DSDS, bool current){
 	//DrawBorderList
 	setlinestyle(SOLID_LINE, 0, 3);
 	setcolor(BORDER_COLOR);
-	rectangle(XXX[0], 150, XXX[6], 750);	
+	rectangle(XDSDS[0], 150, XDSDS[6], 750);	
 	for(int i=0; i < 5; i++){
 		setlinestyle(SOLID_LINE, 0, 1);
-		line(XXX[i+1], 150, XXX[i+1], 750);
+		line(XDSDS[i+1], 150, XDSDS[i+1], 750);
 	}
 }
 
 void Draw_Line_DMS(DS_DauSach &DSDS, bool current){
-	setfillstyle(SOLID_FILL, current ? LINE: BG_COLOR);
+	setfillstyle(SOLID_FILL, current ? LINE : BG_COLOR);
 	bar(XDMS[0], 170 + CurrentItemSach*40 - 8, XDMS[3], 170+(CurrentItemSach+1)*40-8);			
 	setbkcolor(current ? LINE: BG_COLOR);
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentItemSach)->sach, CurrentItemSach);
+	
+	DrawItemSach(GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentItemSach)->sach , CurrentItemSach);
 	
 	//DrawBorderDMS
 	setlinestyle(SOLID_LINE, 0, 3);
@@ -501,7 +498,7 @@ int GetItemSachPosition(DS_DauSach &DSDS,int y){
 }
 
 void ItemEvent(DS_DauSach &DSDS){
-	if((mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){	//mouse inside table	
+	if((mx > XDSDS[0] && mx < XDSDS[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){	//mouse inside table	
 		if(CurrentItem != GetItemDauSachPosition(DSDS,my)){
 			if(CurrentItem != -1)
 				Draw_Line_DSDS(DSDS, false);
@@ -512,7 +509,7 @@ void ItemEvent(DS_DauSach &DSDS){
 				Draw_Line_DSDS(DSDS, true);
 		}
 	}
-	else if (!(mx > XXX[0] && mx < XXX[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){//mouse outside table
+	else if (!(mx > XDSDS[0] && mx < XDSDS[6] && my > 230-8 && my < 230+13*40-8) && (Window == DANH_SACH_DAU_SACH)){//mouse outside table
 		if(CurrentItem != -1){
 			Draw_Line_DSDS(DSDS, false);
 			CurrentItem = -1;
@@ -540,14 +537,7 @@ void ItemEvent(DS_DauSach &DSDS){
 int CheckDeteleDauSach(DS_DauSach &DSDS, int CurrentDauSach){
 	if(DSDS.nodes[CurrentDauSach]->soluotmuon == 0)
 		return 1;
-	else {
-		for (int i = 0; i<DSDS.nodes[CurrentDauSach]->soluong-1; i++){
-			SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First,i);
-			if (nodeSelect->sach.trangthai == 1)
-				return 0;
-		}
-	}
-	return 1;
+	return 0;
 }
 
 void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){	
@@ -643,14 +633,16 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			else if(btnThemDauSach.isMouseHover(mx, my)){
 				// check truoc khi add
 				if(CheckDauSach(DSDS,edThemISBN,edThemTenSach,edThemSoTrang,edThemTacGia,edThemNXB,edThemTheLoai, true)){
-					DauSach * dausach = new DauSach(edThemISBN.trim(), 
+					DauSach* dausach = new DauSach(edThemISBN.trim(), 
 								edThemTenSach.trim(), 
 								edThemSoTrang.toInt(), 
 								edThemTacGia.trim(), 
 								edThemNXB.toInt(), 
 								edThemTheLoai.trim());
-					if(Insert_DauSach_Order(DSDS, dausach))	
-						strcpy(mess, "Them dau sach thanh cong!");						
+					if(Insert_DauSach_Order(DSDS, dausach))	{
+						strcpy(mess, "Them dau sach thanh cong!");
+						recentEditISBN = edThemISBN.trim();
+					}						
 					else  
 						strcpy(mess, "Them dau sach that bai do day bo nho!");
 				}
@@ -675,7 +667,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					DrawListDSDS(DSDS);						
 				}			
 				else if(btnDeleteDauSach.isMouseHover(mx, my)){
-					if (CheckDeteleDauSach(DSDS, CurrentDauSach)){
+					if (CheckDeteleDauSach(DSDS, CurrentDauSach)){                                       
 						strcpy(confirm, "XAC NHAN XOA DAU SACH?");
 						Edit = NULL;
 						subWindow = CONFIRM_POPUP;
@@ -684,7 +676,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					else {
 						strcpy(mess, "DAU SACH CO SACH \"DANG CHO MUON\"" " => KHONG THE XOA!");
 						setcolor(TIPS);
-						outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+						outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 					}
 				}
 				else if(btnClearHieuChinhDauSach.isMouseHover(mx, my)){
@@ -700,8 +692,10 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 									edHieuChinhTacGia.trim(), 
 									edHieuChinhNXB.toInt(), 
 									edHieuChinhTheLoai.trim());	
-						if(UpdateDauSach(DSDS, dausach, CurrentDauSach))
+						if(UpdateDauSach(DSDS, dausach, CurrentDauSach)){
 							strcpy(mess, "HIEU CHINH DAU SACH THANH CONG!");
+							recentEditISBN = edHieuChinhISBN.trim();
+						}
 						else						
 							strcpy(mess, "HIEU CHINH DAU SACH THAT BAI!");
 					}
@@ -711,7 +705,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						if(edHieuChinhISBN.isMouseHover(mx, my)){
 							strcpy(mess, "ISBN khong the chinh sua!");
 							setcolor(TIPS);
-							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+							outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 						}else if(edHieuChinhTenSach.isMouseHover(mx, my))
 							Edit = &edHieuChinhTenSach;
 						else if(edHieuChinhSoTrang.isMouseHover(mx, my))
@@ -735,12 +729,12 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							memset(edHieuChinhISBN.content, 0, sizeof(edHieuChinhISBN.content));
 							strcpy(mess, "Xoa dau sach thanh cong !!");
 							setcolor(TIPS);
-							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+							outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 					}
 					else if (DeleteDauSach(DSDS,DSDS.nodes[CurrentDauSach]->ISBN) == -1){
 							strcpy(mess, "Dau sach khong ton tai !");
 							setcolor(TIPS);
-							outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+							outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 					} 
 					subWindow = CONFIRM_POPUP_NONE;	
 					DrawHieuChinhDauSach();
@@ -836,6 +830,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						DSDS.nodes[CurrentDauSach] -> soluong++;							
 						++CurrentNhapSach;							
 						strcpy(mess, "Them sach thanh cong!");
+						recentEditMASACH = edThemMaSach.content;
 						subWindow = THEM_SACH;						
 						DrawTrangConDSDS(DSDS);	
 						DrawListSach(DSDS);
@@ -879,6 +874,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 							setfillstyle(SOLID_FILL, BG_COLOR);
 							bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);			
 							strcpy(mess, "Hieu chinh sach thanh cong!");
+							recentEditMASACH = edHieuChinhMaSach.content;
 							setcolor(TIPS);
 							settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 							outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);

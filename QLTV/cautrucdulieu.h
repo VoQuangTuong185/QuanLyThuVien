@@ -94,7 +94,7 @@ int sizeListIndexDauSachSearch = 0;
 int listIndexDauSachSearch[MAXLIST_DAUSACH];
 
 struct DauSach{
-	char ISBN[11];
+	char ISBN[11]; 
 	char tensach[31];
 	int sotrang;
 	char tacgia[31];
@@ -241,7 +241,7 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
 	}
 }
 
-int GetSepPosition(char *s){
+int ViTriNgatChuoi(char *s){
 	int n = strlen(s);
 	for(int i=0; i<n; i++)
 		if(s[i] == '-')
@@ -253,15 +253,15 @@ int GetSepPosition(char *s){
 //chua su dung va chua tim hieu
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 	SachPTR node;	
-	int sepPos = GetSepPosition(masach);
-	char isbn[sepPos+1];
+	int viTriNgat = ViTriNgatChuoi(masach);
+	char isbn[viTriNgat+1];
 	int maxSL=0;	
 	
-	for(int i=0; i<sepPos; i++) 
+	for(int i=0; i<viTriNgat; i++) 
 		isbn[i] = masach[i];		
-	isbn[sepPos] = '\0';
+	isbn[viTriNgat] = '\0';
 	
-	for(int i=sepPos+1; i<strlen(masach); i++)
+	for(int i=viTriNgat+1; i<strlen(masach); i++)
 		maxSL = maxSL*10 + (masach[i]-48); //48 = '0'
 			
 	for(int i=0; i<DSDS.n; i++)
@@ -287,7 +287,9 @@ struct TopSach{
 			list[i].indexDS = i;
 			list[i].count = DSDS.nodes[i]->soluotmuon;
 		}
-		sort();
+		// Sap xep theo thu tu cnt giam dan
+		// Su dung QuickSort
+		partition(0, n-1);
 	}
 	~TopSach(){
 		delete[] list;
@@ -310,11 +312,6 @@ struct TopSach{
 		
 		if(low < j) partition(low, j);
 		if(i < high) partition(i, high);
-	}
-	void sort(){
-		// Sap xep theo thu tu cnt giam dan
-		// Su dung QuickSort
-		partition(0, n-1);
 	}
 };
 
@@ -456,7 +453,6 @@ struct TreeDocgia{
 	void GetAllDocGia(DocGiaPTR &root){
 		Reset();
 		LNR(root);
-		//mode = MODE_MA_THE;
 	}
 	
 	int compareDG(DocGia *a, DocGia *b){
@@ -484,9 +480,9 @@ struct TreeDocgia{
 				while(soNgayQH[i] > pivotQH) i++;
 				while(soNgayQH[j] < pivotQH) j--;
 			}else{
-				//tim j dau tien ma nodes[j] <= x tuc la node chinh giua
+				//Tìm phan tu dau tiên có gia tri nho hon hay bang x
 				while(compareDG(nodes[j], pivot) > 0) 	j--; 
-				//tim i dau tien ma nodes[i] >= x tuc la node chinh giua
+				//Tìm phan tu dau tiên có gia tri lon hon hay bang x
 				while(compareDG(nodes[i], pivot) < 0)	i++; 
 			}
 			

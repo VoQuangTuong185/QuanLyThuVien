@@ -94,7 +94,7 @@ int sizeListIndexDauSachSearch = 0;
 int listIndexDauSachSearch[MAXLIST_DAUSACH];
 
 struct DauSach{
-	char ISBN[11];
+	char ISBN[11]; 
 	char tensach[31];
 	int sotrang;
 	char tacgia[31];
@@ -190,7 +190,7 @@ void InsertDauSach(DS_DauSach &DSDS, DauSach* dausach, int position){
 
 //Them DauSach vao vi tri thich hop theo de tai cho
 bool Insert_DauSach_Order(DS_DauSach &DSDS, DauSach *dausach){
-	if(DSDS.n +1 > MAXLIST_DAUSACH)//node moi them nam ngoai size bo nho da cap
+	if(DSDS.n +1 > MAXLIST_DAUSACH)//node moi them nam ngoai size_array bo nho da cap
 		return false;	
 	else{
 		for(int i=0; i<DSDS.n; i++){
@@ -233,16 +233,15 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
    if (i==-1) 
    		return -1;
    else { 
-   		delete DSDS.nodes[i];
+   		delete DSDS.nodes[i];//xoa vung nho da cap phat cho phan tu thu i
     	for (int j=i+1; j <DSDS.n; j++)
     		DSDS.nodes[j-1]=DSDS.nodes[j];
-       
     	DSDS.n--;  
     	return 1;
 	}
 }
 
-int GetSepPosition(char *s){
+int ViTriNgatChuoi(char *s){
 	int n = strlen(s);
 	for(int i=0; i<n; i++)
 		if(s[i] == '-')
@@ -254,15 +253,15 @@ int GetSepPosition(char *s){
 //chua su dung va chua tim hieu
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 	SachPTR node;	
-	int sepPos = GetSepPosition(masach);
-	char isbn[sepPos+1];
+	int viTriNgat = ViTriNgatChuoi(masach);
+	char isbn[viTriNgat+1];
 	int maxSL=0;	
 	
-	for(int i=0; i<sepPos; i++) 
+	for(int i=0; i<viTriNgat; i++) 
 		isbn[i] = masach[i];		
-	isbn[sepPos] = '\0';
+	isbn[viTriNgat] = '\0';
 	
-	for(int i=sepPos+1; i<strlen(masach); i++)
+	for(int i=viTriNgat+1; i<strlen(masach); i++)
 		maxSL = maxSL*10 + (masach[i]-48); //48 = '0'
 			
 	for(int i=0; i<DSDS.n; i++)
@@ -288,7 +287,9 @@ struct TopSach{
 			list[i].indexDS = i;
 			list[i].count = DSDS.nodes[i]->soluotmuon;
 		}
-		sort();
+		// Sap xep theo thu tu cnt giam dan
+		// Su dung QuickSort
+		partition(0, n-1);
 	}
 	~TopSach(){
 		delete[] list;
@@ -311,11 +312,6 @@ struct TopSach{
 		
 		if(low < j) partition(low, j);
 		if(i < high) partition(i, high);
-	}
-	void sort(){
-		// Sap xep theo thu tu cnt giam dan
-		// Su dung QuickSort
-		partition(0, n-1);
 	}
 };
 
@@ -442,7 +438,7 @@ struct TreeDocgia{
 	ModeDocGia mode;
 	
 	TreeDocgia(){
-		mode = MODE_MA_THE;
+		//mode = MODE_MA_THE;
 	}
 	~TreeDocgia(){	
 	}	
@@ -457,7 +453,7 @@ struct TreeDocgia{
 	void GetAllDocGia(DocGiaPTR &root){
 		Reset();
 		LNR(root);
-		mode = MODE_MA_THE;
+		//mode = MODE_MA_THE;
 	}
 	
 	int compareDG(DocGia *a, DocGia *b){
@@ -466,13 +462,11 @@ struct TreeDocgia{
 		else if(mode == MODE_TEN){
 			//strcmp: 
 				//return 0 neu 2 chuoi giong nhau
-				//return -X , voi X la khoang cach thu tu cua ki tu chuoi 2 so voi thu tu cua ki tu chuoi 1 trong ASCII, neu ki tu dau 2 chuoi bang nhau, 
-					//tiep tuc so ki tu tiep theo
-				//return X, tuong tu nhu tren, nhung la chenh lech cua chuoi 1 so voi chuoi 2
-			if(strcmp(a->ten, b->ten) == 0)
-				return strcmp(a->ho, b->ho); 
-			else
-				return strcmp(a->ten, b->ten);
+				//return -X , gia tri am neu ki tu khac biet dau tien trong *a nho hon ki tu tuong ung trong *b trong ASCII,
+				//            neu ki tu dau 2 chuoi bang nhau, tiep tuc so ki tu tiep theo					
+				//return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII
+			if(strcmp(a->ten, b->ten) == 0)	return strcmp(a->ho, b->ho); 
+			else return strcmp(a->ten, b->ten);
 		}
 	}
 	
@@ -487,11 +481,12 @@ struct TreeDocgia{
 				while(soNgayQH[i] > pivotQH) i++;
 				while(soNgayQH[j] < pivotQH) j--;
 			}else{
-				//tim j dau tien ma nodes[j] <= x tuc la node chinh giua
+				//Tìm phan tu dau tiên có gia tri nho hon hay bang x
 				while(compareDG(nodes[j], pivot) > 0) 	j--; 
-				//tim i dau tien ma nodes[i] >= x tuc la node chinh giua
+				//Tìm phan tu dau tiên có gia tri lon hon hay bang x
 				while(compareDG(nodes[i], pivot) < 0)	i++; 
 			}
+			
 			if(j>=i){//neu vi tri cua node co gia tri lon, nam phia truoc node co gia tri nho hon
 				//hoan doi vi tri cho toi khi node co gia tri LON nam sau node co gia tri NHO
 				temp = nodes[i];
@@ -506,10 +501,8 @@ struct TreeDocgia{
 			}
 		}while(i <= j);
 		
-		if(low < j) 
-			Partition(low, j); //phan thu nhat co tu 2 phan tu tro len
-		if(i < high) 
-			Partition(i, high);//phan thu 3 co tu 2 phan tu tro len
+		if(low < j) Partition(low, j);   //phan thu nhat co tu 2 phan tu tro len
+		if(i < high) Partition(i, high); //phan thu 3 co tu 2 phan tu tro len
 	}
 	
 	void SapXepDocGia(ModeDocGia type){
@@ -536,35 +529,33 @@ struct TreeDocgia{
 	}
 	
 	void GetDocGiaQuaHan(NodeDocGia* &TreeDG){
-		Reset();	ResetQH();
+		Reset();	
+		ResetQH();
 		Queue<NodeDocGia*> q;
-		if(TreeDG != NULL) 
+		if(TreeDG != NULL) //push node root cua tree DocGia vo queue
 			q.push(TreeDG);
-		NodeDocGia* nodeDG;
-		bool hasDGQH;
-		int i;
-		
-		while(!q.empty()){
-			nodeDG = q.front();	q.pop();
-			i = 0;
-			soNgayQH[n] = 7;
-			hasDGQH = false;
 			
-			if(nodeDG->docgia.mt.chuaTra > 0){
-				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.First; nodeMT != NULL; nodeMT = nodeMT->next){
-					if(strlen(nodeMT->muontra.ngaytra) == 0){
-						// chua tra sach
-						if(DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) > soNgayQH[n]*24*60*60){
-							soNgayQH[n] = DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon) / (24*60*60);
-							hasDGQH = true;
+		NodeDocGia* nodeDG;
+		bool QUAHAN;
+		while(!q.empty()){
+			nodeDG = q.front();	
+			q.pop();
+			soNgayQH[n];
+			QUAHAN = false;
+			if(nodeDG->docgia.mt.chuaTra > 0)
+				for(NodeMuonTra *nodeMT = nodeDG->docgia.mt.First; nodeMT != NULL; nodeMT = nodeMT->next)
+					if(strlen(nodeMT->muontra.ngaytra) == 0){// chua tra sach
+						int soNgayMuon = DiffTime(GetSystemDate(), nodeMT->muontra.ngaymuon);
+						if(soNgayMuon > 6*24*60*60){
+							soNgayQH[n] = (soNgayMuon / (24*60*60))-6; //NGAY QUA HAN SO VOI 7 NGAY CHO PHEP
+							//cout<<"snqh: "<<n<<":"<<soNgayQH[n]<<endl;
+							nodeDG->docgia.trangthai = 0;						
+							QUAHAN = true;
 						}
-						if(++i >= nodeDG->docgia.mt.chuaTra) break;
 					}
-				}
-			}
-			if(hasDGQH) nodes[n++] = &nodeDG->docgia;			
-			if(nodeDG->left != NULL) q.push(nodeDG->left);
-			if(nodeDG->right != NULL) q.push(nodeDG->right);
+			if(QUAHAN) nodes[n++] = &nodeDG->docgia;  //XU LY NODE			
+			if(nodeDG->left != NULL) q.push(nodeDG->left);  //push node cuoi cung ben trai cua tree DocGia vo queue
+			if(nodeDG->right != NULL) q.push(nodeDG->right); //push node cuoi cung ben phai cua tree DocGia vo queue
 		}
 		SapXepDocGia(MODE_QUA_HAN);
 	}
@@ -653,139 +644,35 @@ void DeleteMemoryDocGia(DocGiaPTR &node){
 	}
 }
 
-struct Node_ID{
-	int id;
-	Node_ID *next;
-};
-typedef Node_ID *IDPTR;
-
-struct List_ID{
-	IDPTR First;
-	
-	List_ID(){
-		First = NULL;
-	}
-	~List_ID(){
-		IDPTR removeNode;
-		while(First != NULL){
-			removeNode = First;
-			First = First->next;
-			delete removeNode;
-		}
-	}
-};
-
-// khai bao instance cua List_ID
-List_ID listID;
-
-IDPTR createNode_ID(int id){
-	IDPTR node = new Node_ID;
-	node->id = id;
-	node->next = NULL;
-	return node;
-}
-
-void insertFirst(int id){
-	IDPTR newNode = createNode_ID(id);
-	newNode->next = listID.First;
-	listID.First = newNode;
-}
-
-void insertLast_ID(int id){
-	IDPTR newNode = createNode_ID(id);
-	IDPTR p = createNode_ID(id);
-	if(listID.First == NULL)
-		insertFirst(id);
-	else{
-		p = listID.First;
-		while (p->next != NULL)
-			p=p->next;
-		p->next = newNode;
-	}
-}
-
-void insertAfter_ID(IDPTR nodeBefore, int id){
-	if(nodeBefore == NULL) 
-		printf("khong them phan tu vao danh sach duoc");
-	else {
-		IDPTR newNode = createNode_ID(id);
-		newNode->next = nodeBefore->next;
-		nodeBefore->next = newNode;		
-	}
-}
-
-int deleteFirst_ID (IDPTR &First){ 
-	IDPTR removeNode;
-    if (First == NULL)
-      return 0;
-    removeNode = First;    // nut can xoa la nut dau
-    First = removeNode->next;
-    delete removeNode; 
-    return 1;
-}
-
-int deleteAfter_ID(IDPTR nodeBefore){
-	IDPTR removeNode ;
-	//neu nodeBefore la null hoac sau nodeBefore khong co node
-	if(nodeBefore == NULL || nodeBefore->next == NULL) 
-		return 0;
-	removeNode = nodeBefore->next;
-	nodeBefore->next = removeNode->next;
-	delete removeNode;
-	return 1;
-}
-
-//delete ID by id value
-int delete_ID(int id){ 
-	IDPTR removeNode = listID.First;
-	if (listID.First==NULL ) 
-		return 0;
-	if (listID.First->id == id){
-		deleteFirst_ID(listID.First);
-		return 1;
-	}	
-	
-	for(removeNode = listID.First; removeNode->next != NULL && removeNode->next->id !=id; removeNode = removeNode->next);
-	if(removeNode->next != NULL)
-		if (deleteAfter_ID(removeNode))
-			return 1;
-	return 0;
-}
-
-// LNR
-void Duyet_DG_ID(DocGiaPTR &nodeDG){
-	if(nodeDG == NULL) 
-		return;
-	Duyet_DG_ID(nodeDG->left);
-	insertLast_ID(nodeDG->docgia.MATHE);
-	Duyet_DG_ID(nodeDG->right);
-}
-
+//=======================================================================================================================================//
+//dslk vong de luu tru 10.000 ma the doc gia tam thoi thoa CAY TIM KIEM NHI PHAN CAN BANG
 struct TheDocGiaBSTC{  
    int MaThe;
    TheDocGiaBSTC *next;
 };
 typedef TheDocGiaBSTC* TDGTS_PTR;
 
+TDGTS_PTR CreateNewNode(int MaThe) {
+    TDGTS_PTR newNode = new TheDocGiaBSTC;
+    newNode->MaThe = MaThe;
+    return newNode;
+}
+
 void InsertFirst_TDGTS(TDGTS_PTR &Last, int MaThe) {
-    TDGTS_PTR p = new TheDocGiaBSTC;
-    p -> MaThe = MaThe;
-    if (Last == NULL)
-        Last = p;
-    else
-    	p -> next = Last -> next;
-    Last -> next = p;
+    TDGTS_PTR newNode  = CreateNewNode(MaThe);
+    if (Last == NULL)  Last = newNode;
+    else  newNode->next = Last->next;
+    Last->next = newNode;
 }
 
 void InsertLast_TDGTS(TDGTS_PTR &Last, int MaThe){
-   TDGTS_PTR p = new TheDocGiaBSTC;
-   p->MaThe = MaThe;
-   if (Last==NULL) p->next=p;
+   TDGTS_PTR newNode  = CreateNewNode(MaThe);
+   if (Last==NULL) newNode->next=newNode;
    else{
-        p->next = Last->next;
-	    Last->next = p;
+        newNode->next = Last->next;
+	    Last->next = newNode;
    }
-   Last = p;
+   Last = newNode;
 }
 
 bool DeleteFirst_TDGTS(TDGTS_PTR & Last) {

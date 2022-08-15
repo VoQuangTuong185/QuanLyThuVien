@@ -2,7 +2,7 @@ MS :  1 đg cho phép mượn 2 cuốn cùng đầu sách --> khg đúng
 10000 đs sort thể loại : sort đúng, không tối ưu
 
 - kiểm tra các trường hợp for,while đang chạy đến !NULL thì phải bắt điều kiện k = NULL khi dùng dữ liệu của k,  k=k->next vì có trường 
-hợp đang chạy đến node trước null thì -> sẽ là null =>null k có dữ liệu => báo lỗi
+hợp đang chạy đến node trước null thì -> sẽ là null, =>null k có dữ liệu => báo lỗi
 
 - các thuật toán xoá phần tử có dùng con trỏ next (tuyến tính, dslk đơn, ...) để delete_after theo data: nhớ chú ý đến các trường hơp
 có nhiều phần tử có cùng giá trị nằm gần nhau, sau khi tìm ra được phần tử đầu tiên có data đúng => nối liên kết node before trước node bị

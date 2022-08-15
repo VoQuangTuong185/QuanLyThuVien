@@ -113,7 +113,7 @@ void DrawBorderDSDocGiaQuaHan(){
 }
 
 void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN){
-	setcolor(TEXT_COLOR);
+	setcolor((recentEditDG == docgia.MATHE) ? TEXT_COLOR_SELECTED : TEXT_COLOR);
 	i %= 13;
 	char ch[6];
 	itoa(docgia.MATHE, ch, 10);
@@ -213,7 +213,6 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 	}else if(btnDocGiaQuaHan.isMouseHover(mx, my)){
 		if(!btnDocGiaQuaHan.isChoose){
 			ClearScreen(8);
-
 			btnTatCaDocGia.isChoose = false;
 			btnDocGiaQuaHan.isChoose = true;
 			CurrentItemDG = -1;
@@ -227,14 +226,12 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 		if(!sortDGByName){
 			sortDGByName = true;
 			ClearScreen(8);
-
 			DrawListDocGia(DSDG, false, DSDS);
 		}
 	}else if(btnSapXepMaThe.isMouseHover(mx, my)){
 		if(sortDGByName){
 			sortDGByName = false;
 			ClearScreen(8);
-
 			DrawListDocGia(DSDG, false, DSDS);
 		}
 	}
@@ -474,7 +471,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 			if(GetAsyncKeyState(VK_LBUTTON)){ //chuot trai				
 				if(btnThemMaThe.isMouseHover(mx, my)){
 					Window = THEM_DOC_GIA;
-					DrawTrangConDSDG(DSDG, tdg, DSDS);	
+					DrawTrangConDSDG(DSDG, tdg, DSDS);
 				} 
 				else if(CurrentItemDG != -1){
 					strcpy(mess, "");
@@ -557,6 +554,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 															
 					InsertDocGia(root, docgia);
 					strcpy(mess, "Them doc gia thanh cong!");
+					recentEditDG = edThemMaTheDocGia.toInt();
 					if(DeleteFirst_TDGTS(tdg)){
 						cout<<"xoa thanh cong khoi dslkv";
 						sizeofArrayMaTheDocGia--;
@@ -599,6 +597,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 									edHieuChinhTrangThaiTheDocGia.toInt());
 					UpdateDocGia(root, docgia);
 					strcpy(mess, "Hieu chinh doc gia thanh cong!");
+					recentEditDG = edHieuChinhMaTheDocGia.toInt();
 					ClearScreen(8);
 
 					DrawListDocGia(DSDG, true, DSDS);
@@ -648,12 +647,9 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 			ButtonEffect(btnNo);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
-					int MaTheBiXoa = DSDG.nodes[CurrentDG]->MATHE;
-					if(delete_ID(DSDG.nodes[CurrentDG]->MATHE) && RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
+					if(RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
 						strcpy(mess, "XOA DOC GIA THANH CONG!");
 						DrawXoaDocGia(DSDG, CurrentDG);	
-						cout<<MaTheBiXoa;
-						InsertFirst_TDGTS(tdg, MaTheBiXoa);
 						sizeofArrayMaTheDocGia++;
 						delay(2000);
 						CurrentDG = -1;

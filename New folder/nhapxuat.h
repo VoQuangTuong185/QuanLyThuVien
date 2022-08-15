@@ -44,9 +44,6 @@ void CreateFileMaTheDocGia(){
 		j=k;
 		Quick_Sort(a,k);
 	}
-	for(int i=0;i<count;i++){
-		cout<<TheDocGiaBST[i]<<"\t";
-	}
 	
 	fstream fileMaTheDocGia;
 	fileMaTheDocGia.open("data_MaTheDocGia.txt", ios::out | ios::trunc);
@@ -200,34 +197,33 @@ void ReadDocGiaFromFile(DocGiaPTR &root){
 		}		
 		InsertDocGia(root, dg);
 	}
-	Duyet_DG_ID(root);
 	fileMuonTra.close();
 	fileDocGia.close();
 }
 
 int TotalDocGia(DocGiaPTR &root){
 	if(root == NULL) return 0;
-	int cnt = 0;
 	Queue<NodeDocGia> q;
 	NodeDocGia node;
+
 	q.push(*root);
+	int count = 0;
 	while(!q.empty()){
-		node = q.front();	q.pop();
-		cnt++;
+		node = q.front();
+		q.pop();
+		count++;
 		if(node.left != NULL) q.push(*node.left);
 		if(node.right != NULL) q.push(*node.right);
 	}
-	return cnt;
+	return count;
 }
  
 void WriteDocGiaToFile(DocGiaPTR &root){
 	if(root== NULL) return;
-	 
 	fstream fileDocGia, fileMuonTra;
 	fileDocGia.open("data_docgia.txt", ios::out | ios::trunc);
 	fileMuonTra.open("data_muontra.txt", ios::out | ios::trunc);
 
-	int i=0;
 	Queue<NodeDocGia*> q;
 	NodeDocGia *node;
 	NodeMuonTra *nodeMT;
@@ -236,7 +232,8 @@ void WriteDocGiaToFile(DocGiaPTR &root){
 	fileDocGia << TotalDocGia(root) << endl;
 	while(!q.empty()){
 		// Lay tung doc gia ra - ghi du lieu
-		node = q.front();	q.pop();		
+		node = q.front();	
+		q.pop();		
 		fileDocGia << node->docgia.MATHE << endl;
 		fileDocGia << node->docgia.ho << endl;
 		fileDocGia << node->docgia.ten << endl;

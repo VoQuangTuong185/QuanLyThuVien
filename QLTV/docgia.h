@@ -31,13 +31,13 @@ void DrawHieuChinhDocGia(){
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	outtextxy(XDSDS[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);
 	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
 
 	setcolor(TIPS);
-	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+	outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
 	
 	edHieuChinhMaTheDocGia.draw();
 	edHieuChinhHoDocGia.draw();
@@ -75,7 +75,7 @@ void DrawBorderDSDocGia(){
 	setbkcolor(PANEL);
 	setcolor(BG_COLOR);
 	
-	bar(XXX[0], 152, w-200, 215);	
+	bar(XDSDS[0], 152, w-200, 215);	
 	
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	for(int i=0; i < 5; i++)
@@ -98,7 +98,7 @@ void DrawBorderDSDocGiaQuaHan(){
 	setbkcolor(PANEL);
 	setcolor(BG_COLOR);
 	
-	bar(XXX[0], 152, w-200, 215);		
+	bar(XDSDS[0], 152, w-200, 215);		
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
 	for(int i=0; i < 7; i++)
 		outtextxy(XXXQH[i] + (XXXQH[i+1]-XXXQH[i])/2 - textwidth(ch[i])/2, 170, ch[i]);
@@ -113,7 +113,7 @@ void DrawBorderDSDocGiaQuaHan(){
 }
 
 void DrawItemDocGia(DocGia &docgia, int i, bool QUAHAN){
-	setcolor(TEXT_COLOR);
+	setcolor((recentEditDG == docgia.MATHE) ? TEXT_COLOR_SELECTED : TEXT_COLOR);
 	i %= 13;
 	char ch[6];
 	itoa(docgia.MATHE, ch, 10);
@@ -213,7 +213,6 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 	}else if(btnDocGiaQuaHan.isMouseHover(mx, my)){
 		if(!btnDocGiaQuaHan.isChoose){
 			ClearScreen(8);
-
 			btnTatCaDocGia.isChoose = false;
 			btnDocGiaQuaHan.isChoose = true;
 			CurrentItemDG = -1;
@@ -227,14 +226,12 @@ void ButtonSwitchClick(TreeDocgia &DSDG, DS_DauSach &DSDS){
 		if(!sortDGByName){
 			sortDGByName = true;
 			ClearScreen(8);
-
 			DrawListDocGia(DSDG, false, DSDS);
 		}
 	}else if(btnSapXepMaThe.isMouseHover(mx, my)){
 		if(sortDGByName){
 			sortDGByName = false;
 			ClearScreen(8);
-
 			DrawListDocGia(DSDG, false, DSDS);
 		}
 	}
@@ -343,12 +340,12 @@ void DrawThemDocGia(TDGTS_PTR tdg, bool genNewID){
 	setbkcolor(BG_COLOR);
 	settextstyle(BOLD_FONT, HORIZ_DIR, 2);
 	setcolor(TEXT_COLOR);
-	outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	outtextxy(XDSDS[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	
 	setfillstyle(SOLID_FILL, BG_COLOR);		
 	bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
 	setcolor(TIPS);							
-	outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);	
+	outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);	
 	
 	if(genNewID) {
 		int ID = tdg->next->MaThe;	
@@ -389,18 +386,18 @@ void DrawXoaDocGia(TreeDocgia &DSDG, int i){
 		CurrentDG = i;		
 		char ch[50];
 		sprintf(ch, "%s %s", DSDG.nodes[i]->ho, DSDG.nodes[i]->ten);
-		outtextxy(XXX[7], 300, "Doc gia :");				outtextxy(XXX[7]+450, 300, ch);		
-		outtextxy(XXX[7], 350, "Ma the :");					itoa(DSDG.nodes[i]->MATHE, ch, 10);				outtextxy(XXX[7]+450, 350, ch);	
-		outtextxy(XXX[7], 400, "Phai :");					outtextxy(XXX[7]+450, 400, PhaiDocGia[DSDG.nodes[i]->phai]);		
-		outtextxy(XXX[7], 450, "Trang thai the :");			outtextxy(XXX[7]+450, 450, TTTDocGia[DSDG.nodes[i]->trangthai]);		
-		outtextxy(XXX[7], 500, "So sach dang muon :");		itoa(DSDG.nodes[i]->mt.chuaTra, ch, 10);		outtextxy(XXX[7]+450, 500, ch);		
-		outtextxy(XXX[7], 550, "Tong so sach da muon :");	itoa(DSDG.nodes[i]->mt.total, ch, 10);			outtextxy(XXX[7]+450, 550, ch);	
+		outtextxy(XDSDS[7], 300, "Doc gia :");				outtextxy(XDSDS[7]+450, 300, ch);		
+		outtextxy(XDSDS[7], 350, "Ma the :");					itoa(DSDG.nodes[i]->MATHE, ch, 10);				outtextxy(XDSDS[7]+450, 350, ch);	
+		outtextxy(XDSDS[7], 400, "Phai :");					outtextxy(XDSDS[7]+450, 400, PhaiDocGia[DSDG.nodes[i]->phai]);		
+		outtextxy(XDSDS[7], 450, "Trang thai the :");			outtextxy(XDSDS[7]+450, 450, TTTDocGia[DSDG.nodes[i]->trangthai]);		
+		outtextxy(XDSDS[7], 500, "So sach dang muon :");		itoa(DSDG.nodes[i]->mt.chuaTra, ch, 10);		outtextxy(XDSDS[7]+450, 500, ch);		
+		outtextxy(XDSDS[7], 550, "Tong so sach da muon :");	itoa(DSDG.nodes[i]->mt.total, ch, 10);			outtextxy(XDSDS[7]+450, 550, ch);	
 		btnXacNhanXoaDocGia.draw();
 	}
 	
-	settextstyle(BOLD_FONT, HORIZ_DIR, 2);		setcolor(TEXT_COLOR);		outtextxy(XXX[7]-30, 675-textheight(ThongBao)/2, ThongBao);
+	settextstyle(BOLD_FONT, HORIZ_DIR, 2);		setcolor(TEXT_COLOR);		outtextxy(XDSDS[7]-30, 675-textheight(ThongBao)/2, ThongBao);
 	setfillstyle(SOLID_FILL, BG_COLOR);			bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
-	setcolor(TIPS);								outtextxy(XXX[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);		
+	setcolor(TIPS);								outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);		
 	btnBack.draw();
 }
 
@@ -424,8 +421,8 @@ void DrawTrangConDSDG(TreeDocgia &DSDG, TDGTS_PTR tdg, DS_DauSach &DSDS){
 	}
 }
 
-bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them){
-	if((strcmp(MaThe.content, "OVERFLOW") == 0) && (them)){
+bool CheckDocGia(TreeDocgia &DSDG, EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them){
+	if(them && DSDG.n+1 >= MAX_DOC_GIA){
 		strcpy(mess, "So luong doc gia dat gioi han");
 		return false;
 	}	
@@ -548,15 +545,16 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 				DrawTrangConDSDG(DSDG, tdg, DSDS);
 			}
 			else if(btnThemDocGia.isMouseHover(mx, my)){
-				if(CheckDocGia(edThemMaTheDocGia, edThemHoDocGia, edThemTenDocGia, edThemPhaiDocGia, edThemTrangThaiTheDocGia, true)){
+				if(CheckDocGia(DSDG, edThemMaTheDocGia, edThemHoDocGia, edThemTenDocGia, edThemPhaiDocGia, edThemTrangThaiTheDocGia, true)){
 					DocGia docgia(edThemMaTheDocGia.toInt(), 
 								edThemHoDocGia.trim(), 
 								edThemTenDocGia.trim(), 
 								edThemPhaiDocGia.toInt(), 
 								edThemTrangThaiTheDocGia.toInt());	
-															
+																	
 					InsertDocGia(root, docgia);
 					strcpy(mess, "Them doc gia thanh cong!");
+					recentEditDG = edThemMaTheDocGia.toInt();
 					if(DeleteFirst_TDGTS(tdg)){
 						cout<<"xoa thanh cong khoi dslkv";
 						sizeofArrayMaTheDocGia--;
@@ -591,7 +589,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 				DrawTrangConDSDG(DSDG, tdg, DSDS);
 			}
 			else if(btnHieuChinhDocGia.isMouseHover(mx, my)){
-				if(CurrentDG != -1 && CheckDocGia(edHieuChinhMaTheDocGia, edHieuChinhHoDocGia, edHieuChinhTenDocGia, edHieuChinhPhaiDocGia, edHieuChinhTrangThaiTheDocGia, false)){
+				if(CurrentDG != -1 && CheckDocGia(DSDG, edHieuChinhMaTheDocGia, edHieuChinhHoDocGia, edHieuChinhTenDocGia, edHieuChinhPhaiDocGia, edHieuChinhTrangThaiTheDocGia, false)){
 					DocGia docgia(edHieuChinhMaTheDocGia.toInt(), 
 									edHieuChinhHoDocGia.trim(), 
 									edHieuChinhTenDocGia.trim(), 
@@ -599,6 +597,7 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 									edHieuChinhTrangThaiTheDocGia.toInt());
 					UpdateDocGia(root, docgia);
 					strcpy(mess, "Hieu chinh doc gia thanh cong!");
+					recentEditDG = edHieuChinhMaTheDocGia.toInt();
 					ClearScreen(8);
 
 					DrawListDocGia(DSDG, true, DSDS);
@@ -648,12 +647,9 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 			ButtonEffect(btnNo);
 			if(GetAsyncKeyState(VK_LBUTTON)){
 				if(btnYes.isMouseHover(mx, my)){
-					int MaTheBiXoa = DSDG.nodes[CurrentDG]->MATHE;
 					if(RemoveDocGia(root, DSDG.nodes[CurrentDG]->MATHE)){
 						strcpy(mess, "XOA DOC GIA THANH CONG!");
 						DrawXoaDocGia(DSDG, CurrentDG);	
-						cout<<MaTheBiXoa;
-						InsertFirst_TDGTS(tdg, MaTheBiXoa);
 						sizeofArrayMaTheDocGia++;
 						delay(2000);
 						CurrentDG = -1;

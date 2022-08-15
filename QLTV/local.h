@@ -5,7 +5,7 @@ int h = GetSystemMetrics(SM_CYSCREEN);
 //////////////////////////////////////////KHU TU TRI CUA DAU SACH VA DANH MUC SACH /////////////////////////////////////////////////
 EditText *Edit = NULL;
 // hoanh do x cua Dau Sach de ve cot
-int XXX[8] = {200, 380, 900, 1050, 1400, 1500, w-200, 600}; //phan tu cuoi cung la vi tri cac edit box
+int XDSDS[8] = {200, 380, 900, 1050, 1400, 1500, w-200, 600}; //phan tu cuoi cung la vi tri cac edit box
 // X Danh Muc Sach
 int XDMS[4] = {(w/2)-450, (w/2)-250, (w/2)+100, (w/2)+450};
 
@@ -26,6 +26,9 @@ char DanhMucSach[80] = "DANH MUC SACH: ";
 char NhapSach[] = "NHAP SACH";
 char HieuChinhSach[] = "HIEU CHINH SACH";
 char ThemSach[] = "THEM SACH: ";
+
+char *recentEditISBN = "";
+char *recentEditMASACH = "";
 
 Button btnQLDauSach(100, w/2-325, 200 + 80, 300, 200, "QUAN LY DAU SACH");
 Button btnQLDocGia(101, w/2+25, 200 + 80, 300, 200, "QUAN LY DOC GIA");
@@ -54,31 +57,31 @@ Button btnHieuChinhSach(217, w/2-50, 870, 100, 50, "EDIT");
 Button btnBackToNhapSach(210, XDMS[0], 610, 200, 35, "< BACK TO ADD");
 
 // Button Dau Sach
-EditText edTimDauSach(1000, XXX[1]+50, 70, 650, 50, "Tim dau sach:", "", "Nhap ten sach vao day");
+EditText edTimDauSach(1000, XDSDS[1]+50, 70, 650, 50, "Tim dau sach:", "", "Nhap ten sach vao day");
 Button btnQuayVe(201, 20, 20, 100, 50, "< MENU");
-Button btnPrev(203, XXX[0], 770, 150, 50, "Trang truoc");
-Button btnNext(204, XXX[6]-150, 770, 150, 50, "Trang sau");
-Button btnClearTimDauSach(202, XXX[3]+50, 70, 100, 50, "Reset");
-Button btnAddDauSach(205, XXX[4]-180, 70, 170, 50, "Them Dau Sach");
+Button btnPrev(203, XDSDS[0], 770, 150, 50, "Trang truoc");
+Button btnNext(204, XDSDS[6]-150, 770, 150, 50, "Trang sau");
+Button btnClearTimDauSach(202, XDSDS[3]+50, 70, 100, 50, "Reset");
+Button btnAddDauSach(205, XDSDS[4]-180, 70, 170, 50, "Them Dau Sach");
 
 // Them Dau Sach
-EditText edThemISBN(1002, XXX[7], 310, 700, 40, "ISBN :","","Chu va so, toi da 10 ki tu (bat dau bang chu)");
-EditText edThemTenSach(1003, XXX[7], 360, 700, 40, "Ten sach :","","Chu va so, toi da 30 ki tu (bat dau bang chu)");
-EditText edThemSoTrang(1004, XXX[7], 410, 700, 40, "So trang :","","So, toi da 5 ki tu");
-EditText edThemTacGia(1005, XXX[7], 460, 700, 40, "Tac gia :","","Chu, toi da 30 ki tu");
-EditText edThemNXB(1006, XXX[7], 510, 700, 40, "Nam xuat ban :","","So (dinh dang: 2022)");
-EditText edThemTheLoai(1007, XXX[7], 560, 700, 40, "The loai :","","Chu, toi da 15 ki tu");
+EditText edThemISBN(1002, XDSDS[7], 310, 700, 40, "ISBN :","","Chu va so, toi da 10 ki tu (bat dau bang chu)");
+EditText edThemTenSach(1003, XDSDS[7], 360, 700, 40, "Ten sach :","","Chu va so, toi da 30 ki tu (bat dau bang chu)");
+EditText edThemSoTrang(1004, XDSDS[7], 410, 700, 40, "So trang :","","So, toi da 5 ki tu");
+EditText edThemTacGia(1005, XDSDS[7], 460, 700, 40, "Tac gia :","","Chu, toi da 30 ki tu");
+EditText edThemNXB(1006, XDSDS[7], 510, 700, 40, "Nam xuat ban :","","So (dinh dang: 2022)");
+EditText edThemTheLoai(1007, XDSDS[7], 560, 700, 40, "The loai :","","Chu, toi da 15 ki tu");
 Button btnThemDauSach(205, w/2 - 150, 610, 150, 30, "THEM");
 Button btnClearThemDauSach(250, w/2 + 50, 610, 150, 30, "RESET");
 Button btnBack(206, 20, 20, 100, 50, "<BACK");
 
 // Hieu Chinh Dau Sach
-EditText edHieuChinhISBN(1008, XXX[7], 310, 700, 40, "ISBN :","","Chu va so, toi da 10 ki tu (bat dau bang chu)");
-EditText edHieuChinhTenSach(1009, XXX[7], 360, 700, 40, "Ten sach :","","Chu va so, toi da 30 ki tu (bat dau bang chu)");
-EditText edHieuChinhSoTrang(1010, XXX[7], 410, 700, 40, "So trang :","","So, toi da 5 ki tu");
-EditText edHieuChinhTacGia(1011, XXX[7], 460, 700, 40, "Tac gia :","","Chu, toi da 30 ki tu");
-EditText edHieuChinhNXB(1012, XXX[7], 510, 700, 40,"Nam xuat ban :","","So (dinh dang: 2022)");
-EditText edHieuChinhTheLoai(1013, XXX[7], 560, 700, 40, "The loai :","","Chu, toi da 15 ki tu");
+EditText edHieuChinhISBN(1008, XDSDS[7], 310, 700, 40, "ISBN :","","Chu va so, toi da 10 ki tu (bat dau bang chu)");
+EditText edHieuChinhTenSach(1009, XDSDS[7], 360, 700, 40, "Ten sach :","","Chu va so, toi da 30 ki tu (bat dau bang chu)");
+EditText edHieuChinhSoTrang(1010, XDSDS[7], 410, 700, 40, "So trang :","","So, toi da 5 ki tu");
+EditText edHieuChinhTacGia(1011, XDSDS[7], 460, 700, 40, "Tac gia :","","Chu, toi da 30 ki tu");
+EditText edHieuChinhNXB(1012, XDSDS[7], 510, 700, 40,"Nam xuat ban :","","So (dinh dang: 2022)");
+EditText edHieuChinhTheLoai(1013, XDSDS[7], 560, 700, 40, "The loai :","","Chu, toi da 15 ki tu");
 Button btnHieuChinhDauSach(251, w/2 - 200, 610, 100, 30, "SAVE");
 Button btnClearHieuChinhDauSach(252, w/2-50, 610, 100, 30, "RESET");
 Button btnDeleteDauSach(253, w/2 + 100, 610, 100, 30, "DELETE");
@@ -115,24 +118,24 @@ Button btnSapXepTen(213, XXXDG[1], 80, 100, 50, "TEN");
 Button btnSapXepMaThe(214, XXXDG[1]+100, 80, 100, 50, "MA THE");
 Button btnThemMaThe(303, XXXDG[5]-150, 80, 150, 50, "THEM DOC GIA");
 Button btnQuayVeMenu(305, 20, 20, 100, 50, "< MENU");
-Button btnPrevDocGiaQH(215, XXX[0], 770, 150, 50, "Trang truoc");
-Button btnNextDocGiaQH(216, XXX[6]-150, 770, 150, 50, "Trang sau");
+Button btnPrevDocGiaQH(215, XDSDS[0], 770, 150, 50, "Trang truoc");
+Button btnNextDocGiaQH(216, XDSDS[6]-150, 770, 150, 50, "Trang sau");
 
 // Them Doc Gia
-EditText edThemMaTheDocGia(1002, XXX[7], 310, 700, 40, "Ma the:","","auto");
-EditText edThemHoDocGia(1003, XXX[7], 360, 700, 40, "Ho va ten dem:","","Toi da 18 ki tu");
-EditText edThemTenDocGia(1004, XXX[7], 410, 700, 40, "Ten:","","Toi da 10 ki tu");
-EditText edThemPhaiDocGia(1005, XXX[7], 460, 700, 40, "Phai [0,1]:","","0: Nam   -   1: Nu", PhaiDocGia);
-EditText edThemTrangThaiTheDocGia(1006, XXX[7], 510, 700, 40, "Trang thai [0,1]:","1","0: Khoa  -  1: Hoat dong", TTTDocGia);
+EditText edThemMaTheDocGia(1002, XDSDS[7], 310, 700, 40, "Ma the:","","auto");
+EditText edThemHoDocGia(1003, XDSDS[7], 360, 700, 40, "Ho va ten dem:","","Toi da 18 ki tu");
+EditText edThemTenDocGia(1004, XDSDS[7], 410, 700, 40, "Ten:","","Toi da 10 ki tu");
+EditText edThemPhaiDocGia(1005, XDSDS[7], 460, 700, 40, "Phai [0,1]:","","0: Nam   -   1: Nu", PhaiDocGia);
+EditText edThemTrangThaiTheDocGia(1006, XDSDS[7], 510, 700, 40, "Trang thai [0,1]:","1","0: Khoa  -  1: Hoat dong", TTTDocGia);
 Button btnClearFormDocGia(304, w/2 + 50, 610, 150, 30, "RESET");
 Button btnThemDocGia(205, w/2 - 150, 610, 150, 30, "THEM");
 
 // Hieu Chinh Doc Gia
-EditText edHieuChinhMaTheDocGia(1002, XXX[7], 310, 700, 40, "Ma the:","","khong cho phep");
-EditText edHieuChinhHoDocGia(1003, XXX[7], 360, 700, 40, "Ho va ten dem:","","Toi da 18 ki tu");
-EditText edHieuChinhTenDocGia(1004, XXX[7], 410, 700, 40, "Ten:","","Toi da 10 ki tu");
-EditText edHieuChinhPhaiDocGia(1005, XXX[7], 460, 700, 40, "Phai [0,1]:","","0: Nam   -   1: Nu", PhaiDocGia);
-EditText edHieuChinhTrangThaiTheDocGia(1006, XXX[7], 510, 700, 40, "Trang thai [0,1]:","1","0: Khoa  -  1: Hoat dong", TTTDocGia);
+EditText edHieuChinhMaTheDocGia(1002, XDSDS[7], 310, 700, 40, "Ma the:","","khong cho phep");
+EditText edHieuChinhHoDocGia(1003, XDSDS[7], 360, 700, 40, "Ho va ten dem:","","Toi da 18 ki tu");
+EditText edHieuChinhTenDocGia(1004, XDSDS[7], 410, 700, 40, "Ten:","","Toi da 10 ki tu");
+EditText edHieuChinhPhaiDocGia(1005, XDSDS[7], 460, 700, 40, "Phai [0,1]:","","0: Nam   -   1: Nu", PhaiDocGia);
+EditText edHieuChinhTrangThaiTheDocGia(1006, XDSDS[7], 510, 700, 40, "Trang thai [0,1]:","1","0: Khoa  -  1: Hoat dong", TTTDocGia);
 Button btnHieuChinhDocGia(205, w/2 - 150, 610, 150, 30, "HIEU CHINH");
 
 // Xoa doc gia
@@ -163,6 +166,7 @@ Button btnHuyLamMatSach(302, w-400, 875, 200, 50, "HUY");
 
 bool isExit = false;
 bool openFileSuccess = true;
+int recentEditDG = 0;
 
 Window Window;
 SubWindow subWindow;
@@ -206,7 +210,7 @@ int totalPageDGQuaHan = 1, CurrentPageDGQuaHan = 1;
 int CurrentItemDG = -1, CurrentDG = -1;
 int CurrentItemMT = -1, CurrentMT = -1;
 int startIndexSach = -1;
-bool CheckDocGia(EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
+bool CheckDocGia(TreeDocgia &DSDG, EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them);
 
 void DrawDanhSachDocGia(TreeDocgia &DSDG, DS_DauSach &DSDS);
 void DrawThemDocGia(TDGTS_PTR tdg, bool genNewID = true);
@@ -771,7 +775,7 @@ void ClearScreen(int choice){
 			
 		case 5: //clear noi dung cua list DAU SACH, DOC GIA
 			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XXX[0], 230, XXX[6], 750);
+			bar(XDSDS[0], 230, XDSDS[6], 750);
 			break;
 			
 		case 6: //Clear Content ThemDocGia

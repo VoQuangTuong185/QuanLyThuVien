@@ -21,9 +21,9 @@ void Sort(int A[], int q, int r) {
         Sort(A, i, r);
 }
 
-void Quick_Sort(int A[], int n) {
-    Sort(A, 0, n - 1); 
-}
+//void Quick_Sort(int A[], int n) {
+//    Sort(A, 0, n - 1); 
+//}
 
 void CreateFileMaTheDocGia(){
 	int a[MAX_DOC_GIA];
@@ -42,10 +42,7 @@ void CreateFileMaTheDocGia(){
 			k++;
 		}
 		j=k;
-		Quick_Sort(a,k);
-	}
-	for(int i=0;i<count;i++){
-		cout<<TheDocGiaBST[i]<<"\t";
+		Sort(a, 0, k-1);
 	}
 	
 	fstream fileMaTheDocGia;

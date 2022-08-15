@@ -1,24 +1,10 @@
-- chưa tìm hiểu kỹ check năm xuất bản hợp lệ của window : THEM_DAU_SACH, HIEU_CHINH_DAU_SACH
-
 - tìm hiểu sprintf, const char * (Like the message says, conversion from const char* to char* 
 (which C++ inherited from ancient C language which didn't have const) has been deprecated.)
 
-- chưa tìm hiểu insert_last
-
-- chưa thêm phím < > de di chuyen qua lai khi edit chữ trong khung
-
-- chưa xem các hàm trong view.h
-
-- các hàm nhập đang bị chậm
-
-- còn lỗi chưa load list độc giả sau xoá cuối
-
 - chưa xem queue.h và các hàm sử dụng nó
-
-- chưa xem kỹ cách xác định độc giả quá hạn
 
 - có mấy hàm insert thì k cần & ở con trỏ first
 
 - chưa xem top 10
 
-- chưa xem cách lưu độc giả => làm như Hoàng , bỏ queue
+- dùng dư hàm TotalDocGia

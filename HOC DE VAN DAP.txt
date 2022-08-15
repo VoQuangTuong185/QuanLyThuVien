@@ -7,3 +7,5 @@
 - Tạo dãy ngẫu nhiên 10000 số từ 1..10000
 -  Insert Order (int *a, int &n, int x) : 
 - Top 10 đầu sách: tìm hiểu
+- độ phức tạp của QuickSort trường hợp trung bình là NlogN, trường hợp xấu nhất là O(N^2)
+- merge sort & heapsort: tệ nhất là NlogN

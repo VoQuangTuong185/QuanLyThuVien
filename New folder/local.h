@@ -27,6 +27,9 @@ char NhapSach[] = "NHAP SACH";
 char HieuChinhSach[] = "HIEU CHINH SACH";
 char ThemSach[] = "THEM SACH: ";
 
+char *recentEditISBN = "";
+char *recentEditMASACH = "";
+
 Button btnQLDauSach(100, w/2-325, 200 + 80, 300, 200, "QUAN LY DAU SACH");
 Button btnQLDocGia(101, w/2+25, 200 + 80, 300, 200, "QUAN LY DOC GIA");
 Button btnQLSach(102, w/2-325, 200 + 4*80, 300, 200, "MUON TRA SACH");
@@ -143,6 +146,8 @@ Button btnBackToMenu(230, 20, 20, 100, 50, "< MENU");
 Button btnMuonSach(231, w/2 - 350 , 70, 150, 50, " MUON SACH");
 Button btnTraSach(232, w/2 -160, 70, 150, 50, "TRA SACH");
 Button btnTopTen(233, w/2 +30, 70, 150, 50, "TOP 10");
+Button btnTraNgay(314, (XMT[0]+XMT[4])/2-150, 800, 300, 50, "=>> Tra Sach Ngay <<=");
+Button btnMuonNgay(315, (XMT[0]+XMT[4])/2-150, 800, 300, 50, "=>> Muon Sach Ngay <<=");
 
 // Muon sach
 EditText edNhapMaDGMuonSach(1111, 460, 150, 620, 50, "Nhap ma the :", "", "Nhap ma the doc gia vao day");
@@ -161,6 +166,7 @@ Button btnHuyLamMatSach(302, w-400, 875, 200, 50, "HUY");
 
 bool isExit = false;
 bool openFileSuccess = true;
+int recentEditDG = 0;
 
 Window Window;
 SubWindow subWindow;
@@ -610,14 +616,8 @@ void MenuEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 				while(DSDS.n) {
 					DeleteAllNodeSach(DSDS.nodes[DSDS.n-1]->First);
 					delete DSDS.nodes[--DSDS.n];
-				}
-				
-				if(root != NULL){
-					DeleteMemoryDocGia(root->left);
-					DeleteMemoryDocGia(root->right);		
-					DeleteAllMuonTra(root->docgia.mt);		
-					delete root;
-				}
+				}			
+				DeleteMemoryDocGia(root);
 				cout<<"Free memory danh muc sach \n";
 				isExit = true;
 			}		
