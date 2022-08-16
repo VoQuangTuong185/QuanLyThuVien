@@ -24,6 +24,7 @@ int main(int argc, char *argv[]){
 	ClearScreen(0);
 	DS_DauSach DSDS; //DSDS quan ly ca dau sach + sach
 	TreeDocgia DSDG; //DSDS quan ly ca dau doc gia + muon sach
+	//(DSDG.n) ? cout<<DSDG.n : cout<<"nooo";
 	ReadDauSachFromFile(DSDS);
 	ReadDocGiaFromFile(root);
 	//CreateFileMaTheDocGia();

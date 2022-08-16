@@ -423,7 +423,7 @@ void DrawTrangConDSDG(TreeDocgia &DSDG, TDGTS_PTR tdg, DS_DauSach &DSDS){
 
 bool CheckDocGia(TreeDocgia &DSDG, EditText &MaThe, EditText &Ho, EditText &Ten, EditText &Phai, EditText &TrangThai, bool them){
 	if(them && DSDG.n+1 >= MAX_DOC_GIA){
-		strcpy(mess, "So luong doc gia dat gioi han");
+		strcpy(mess, "SO LUONG DOC GIA DAT GIOI HAN");
 		return false;
 	}	
 	if(strlen(Ho.content) == 0){
@@ -612,8 +612,14 @@ void DocGiaEvent(DS_DauSach &DSDS, TreeDocgia &DSDG, TDGTS_PTR tdg){
 					Edit = &edHieuChinhTenDocGia;
 				else if(edHieuChinhPhaiDocGia.isMouseHover(mx, my))
 					Edit = &edHieuChinhPhaiDocGia;
-				else if(edHieuChinhTrangThaiTheDocGia.isMouseHover(mx, my))
-					Edit = &edHieuChinhTrangThaiTheDocGia;			
+				else if(edHieuChinhTrangThaiTheDocGia.isMouseHover(mx, my) && (!btnDocGiaQuaHan.isChoose))
+					Edit = &edHieuChinhTrangThaiTheDocGia;		
+				else if (edHieuChinhTrangThaiTheDocGia.isMouseHover(mx, my) && (btnDocGiaQuaHan.isChoose))	{
+					strcpy(mess, "DOC GIA BI KHOA DO TRA SACH QUA HAN, HAY TRA SACH!");
+					bar((w/2)-390 + textwidth(ThongBao), 675-textheight(ThongBao)/2, (w/2)+390, 675+textheight(ThongBao)/2);
+					setcolor(TIPS);							
+					outtextxy(XDSDS[7]-10 + textwidth(ThongBao), 675-textheight(ThongBao)/2, mess);
+				}	
 			}			
 		}
 	}else if(Window == XOA_DOC_GIA){

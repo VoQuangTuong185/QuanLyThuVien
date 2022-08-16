@@ -107,7 +107,7 @@ char DSDM[] = "CAC SACH DANG MUON";
 int XXXDG[8] = {200, 380, 1100, 1350, 1450, w-200, w-200, 600};
 int XXXQH[9] = {200, 350, 750, 900, 1050, 1150, 1300, w-200};
 
-int MUONTRA[] = {150, 200, 300, 750, 850, 1250, 1350, w-300, w-150}; //phan tu cuoi cung la vi tri cac edit box
+int MUONTRA[] = {150, 200, 300, 750, 850, 1250, 1350, w-300, w-150}; 
 // X Muon Tra sach
 int XMT[5] = {50, 170, 570, 720, 920};
 
@@ -444,12 +444,14 @@ void MoveToPrevDSDS(EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText 
 void MoveToNextDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
 	if(Edit == &HoDocGia) Edit = &TenDocGia;
 	else if(Edit == &TenDocGia) Edit = &PhaiDocGia;
-	else if(Edit == &PhaiDocGia) Edit = &TrangThaiTheDocGia;
+	else if(Edit == &PhaiDocGia && (!btnDocGiaQuaHan.isChoose)) Edit = &TrangThaiTheDocGia;
+	else if(Edit == &PhaiDocGia && (btnDocGiaQuaHan.isChoose)) Edit = &HoDocGia;
 	else if(Edit == &TrangThaiTheDocGia) Edit = &HoDocGia;
 }
 
 void MoveToPrevDSDG(EditText &HoDocGia,EditText &TenDocGia,EditText &PhaiDocGia,EditText &TrangThaiTheDocGia){
-	if(Edit == &HoDocGia) Edit = &TrangThaiTheDocGia;
+	if(Edit == &HoDocGia && (!btnDocGiaQuaHan.isChoose)) Edit = &TrangThaiTheDocGia;
+	else if(Edit == &HoDocGia && (btnDocGiaQuaHan.isChoose)) Edit = &PhaiDocGia;
 	else if(Edit == &TenDocGia) Edit = &HoDocGia;
 	else if(Edit == &PhaiDocGia) Edit = &TenDocGia;
 	else if(Edit == &TrangThaiTheDocGia) Edit = &PhaiDocGia;
@@ -577,11 +579,7 @@ void KeyBoardEvent(DS_DauSach &DSDS){
 			if(Edit == &edNhapMaDGMuonSach)
 				Scan(DSDS, Edit, 5, ONLY_NUMBER);
 			else if(Edit == &edNhapMaSachMuonSach)
-				Scan(DSDS, Edit, 15, TIM_MA_SACH);
-			else if(Edit == &edNhapNgayMuonSach)
-				Scan(DSDS, Edit, 10, DATE_ONLY);		
-			else if(Edit == &edNhapNgayTraSach)
-				Scan(DSDS, Edit, 10, DATE_ONLY);
+				Scan(DSDS, Edit, 15, TIM_MA_SACH);		
 		}
 	else
 		ClearScreen(4);
@@ -653,6 +651,7 @@ void SetMenuSelect(DS_DauSach &DSDS, TreeDocgia &DSDG, int menuID){
 		else if(menuID == btnQLDocGia.id){
 			Window = DANH_SACH_DOC_GIA;
 			DrawDanhSachDocGia(DSDG, DSDS);
+			//(DSDG.n) ? cout<<DSDG.n : cout<<"nooo";
 		}	
 		else if(menuID == btnQLSach.id){
 			Window = MUON_SACH;

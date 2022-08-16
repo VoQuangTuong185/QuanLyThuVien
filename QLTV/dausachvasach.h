@@ -314,8 +314,12 @@ void DrawListSach(DS_DauSach &DSDS){
 	outtextxy(w/2 - textwidth(chPage)/2, 510, chPage);
 }
 
-bool CheckDauSach(DS_DauSach &DSDS,EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai, bool CheckISBN){
-	if ((ExistsDauSach(DSDS,ISBN.content)!= -1) && (CheckISBN)){
+bool CheckDauSach(DS_DauSach &DSDS,EditText &ISBN,EditText &TenSach,EditText &SoTrang,EditText &TacGia,EditText &NXB,EditText &TheLoai, bool CheckISBN, bool them){
+	if(DSDS.n+1 > MAXLIST_DAUSACH && them) {
+		strcpy(mess, "SO LUONG DAU SACH DAT GIOI HAN [200]");
+		return false;
+	}
+	else if ((ExistsDauSach(DSDS,ISBN.content)!= -1) && (CheckISBN)){
 		strcpy(mess, "ISBN da ton tai, vui long nhap ISBN khac!");
 		Edit = &ISBN;
 		Edit->draw();
@@ -632,7 +636,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				Edit = &edThemTheLoai;	
 			else if(btnThemDauSach.isMouseHover(mx, my)){
 				// check truoc khi add
-				if(CheckDauSach(DSDS,edThemISBN,edThemTenSach,edThemSoTrang,edThemTacGia,edThemNXB,edThemTheLoai, true)){
+				if(CheckDauSach(DSDS,edThemISBN,edThemTenSach,edThemSoTrang,edThemTacGia,edThemNXB,edThemTheLoai, true, true)){
 					DauSach* dausach = new DauSach(edThemISBN.trim(), 
 								edThemTenSach.trim(), 
 								edThemSoTrang.toInt(), 
@@ -685,7 +689,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				}
 				else if(btnHieuChinhDauSach.isMouseHover(mx, my)){
 					// check truoc khi hieu chinh
-					if(CheckDauSach(DSDS,edHieuChinhISBN,edHieuChinhTenSach,edHieuChinhSoTrang,edHieuChinhTacGia,edHieuChinhNXB,edHieuChinhTheLoai, false)){
+					if(CheckDauSach(DSDS,edHieuChinhISBN,edHieuChinhTenSach,edHieuChinhSoTrang,edHieuChinhTacGia,edHieuChinhNXB,edHieuChinhTheLoai, false, false)){
 						DauSach* dausach = new DauSach(edHieuChinhISBN.trim(), 
 									edHieuChinhTenSach.trim(), 
 									edHieuChinhSoTrang.toInt(), 

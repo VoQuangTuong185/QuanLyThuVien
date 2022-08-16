@@ -92,14 +92,5 @@ double DiffTime(char *time1, char *time2){
 	//return number of seconds GetTime(time1) greater GetTime(time2)
 }
 
-int CompareDate(char *date1, char *date2){
-	int *DATE1 = SplitDate(date1);
-	int *DATE2 = SplitDate(date2);
-	if(DATE1[2] < DATE2[2] || DATE1[1] < DATE2[1] || DATE1[0] < DATE2[0])  
-		return 1;
-	else if(DATE1[2] > DATE2[2] || DATE1[1] > DATE2[1] || DATE1[0] > DATE2[0]) 
-		return -1;
-	else return 0;
-}
 
 

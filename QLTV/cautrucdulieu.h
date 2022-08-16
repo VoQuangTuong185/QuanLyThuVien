@@ -250,7 +250,6 @@ int ViTriNgatChuoi(char *s){
 }
 
 //Tim DauSach theo masach, Tra ve node cua DauSach can tim
-//chua su dung va chua tim hieu
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
 	SachPTR node;	
 	int viTriNgat = ViTriNgatChuoi(masach);
@@ -287,7 +286,7 @@ struct TopSach{
 			list[i].indexDS = i;
 			list[i].count = DSDS.nodes[i]->soluotmuon;
 		}
-		// Sap xep theo thu tu cnt giam dan
+		// Sap xep theo thu tu count giam dan
 		// Su dung QuickSort
 		partition(0, n-1);
 	}
@@ -585,7 +584,10 @@ void InsertDocGia(DocGiaPTR &node, DocGia &dg){
 DocGiaPTR TimDocGiaTheoMa(DocGiaPTR &root, int MaDocGia){
 	DocGiaPTR node = root;
 	while(node != NULL && node->docgia.MATHE !=MaDocGia)
-		(MaDocGia < node->docgia.MATHE) ? node = node->left : node = node->right;
+		if (MaDocGia < node->docgia.MATHE) 
+			node = node->left;
+		else 
+			node = node->right;
 	return node;
 }
 
