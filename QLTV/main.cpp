@@ -22,9 +22,8 @@ using namespace std;
 int main(int argc, char *argv[]){
 	initwindow(w, h, AppTitle);			// init window graphics
 	ClearScreen(0);
-	DS_DauSach DSDS; //DSDS quan ly ca dau sach + sach
-	TreeDocgia DSDG; //DSDS quan ly ca dau doc gia + muon sach
-	//(DSDG.n) ? cout<<DSDG.n : cout<<"nooo";
+	DS_DauSach DSDS; //DSDS quan ly dau sach + sach
+	TreeDocgia DSDG; //DSDS quan ly dau doc gia + muon sach
 	ReadDauSachFromFile(DSDS);
 	ReadDocGiaFromFile(root);
 	//CreateFileMaTheDocGia();

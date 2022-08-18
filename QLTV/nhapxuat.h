@@ -101,8 +101,6 @@ void ReadDauSachFromFile(DS_DauSach &DSDS){
 	int m, slm;		
 	for(int i=0; i<n; i++){
 		DauSach *dausach = new DauSach;
-	// Co 2 cach doc file khi su dung header file fstream : toan tu >> && ham getline
-	//co 4 loai: doc tung ky tu(variable is char), doc tung dong (getline), doc tung tu(variable is string ), doc file CSV 
 		fileDauSach.getline(dausach->ISBN,sizeof(dausach->ISBN));
 		fileDauSach.getline(dausach->tensach,sizeof(dausach->tensach));
 		fileDauSach >> dausach->sotrang;								fileDauSach.ignore();
@@ -205,7 +203,7 @@ int TotalDocGia(DocGiaPTR &root){
 	if(root == NULL) return 0;
 	Queue<NodeDocGia> q;
 	NodeDocGia node;
-
+	
 	q.push(*root);
 	int count = 0;
 	while(!q.empty()){

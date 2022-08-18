@@ -151,21 +151,19 @@ bool IsInclude(const char* typing , const char* tenSach){
 	//convert const char* to string to use "find function"
 	string Typing = typing; 
 	string TenSach = tenSach;
-	
 	//position start found "Typing" inside "TenSach"	
 	int index;
-	
 	//add space to "Typing" and "TenSach" to support finding use "strstr" function
 	string Typing_Space = Typing + " "; //search 'HA_' inside 'HA_MAN'
 	string Space_Typing_Space = " " + Typing + " "; //search '_HA_' inside 'lINH VU THIEN HA_'
 	string TenSach_Space = TenSach + " "; 
-	
 	//converting string to c-string and Using strstr()
 	//strstr : A pointer to the first occurrence in str1 of the entire sequence of characters specified in str2
 	//a null pointer if the sequence is not present in str1
 	//str1: 'This is a simple string'
 	//str2: 'simple'
 	//=> 'simple string'
+	cout<<TenSach.find(Typing)<<endl;
 	if((index = TenSach.find(Typing)) != string::npos)
 		if(index==0 && strstr(TenSach.c_str(),Typing_Space.c_str()) || index!=0 && strstr(TenSach_Space.c_str(),Space_Typing_Space.c_str()))		
 			return true;		
@@ -241,31 +239,28 @@ int DeleteDauSach(DS_DauSach &DSDS, char* ISBN){
 	}
 }
 
-int ViTriNgatChuoi(char *s){
-	int n = strlen(s);
-	for(int i=0; i<n; i++)
-		if(s[i] == '-')
-			return i;				
-	return -1;
-}
-
 //Tim DauSach theo masach, Tra ve node cua DauSach can tim
 DauSach* GetDauSach(DS_DauSach &DSDS, char* masach){
-	SachPTR node;	
-	int viTriNgat = ViTriNgatChuoi(masach);
+	SachPTR node;
+	int viTriNgat;	
+	int n = strlen(masach);
+	for(int i=0; i<n; i++)
+		if(masach[i] == '-')
+			viTriNgat = i;
+			
 	char isbn[viTriNgat+1];
-	int maxSL=0;	
+	int STT_SACH=0;	
 	
 	for(int i=0; i<viTriNgat; i++) 
 		isbn[i] = masach[i];		
 	isbn[viTriNgat] = '\0';
 	
 	for(int i=viTriNgat+1; i<strlen(masach); i++)
-		maxSL = maxSL*10 + (masach[i]-48); //48 = '0'
-			
+		STT_SACH = STT_SACH*10 + (masach[i]-48); //48 = '0'
+				
 	for(int i=0; i<DSDS.n; i++)
 		if(strcmp(DSDS.nodes[i]->ISBN, isbn) == 0)
-			if(maxSL < DSDS.nodes[i]->soluong)//neu nhap TDK-11. ma soluong sach cua dau sach : 11 => loi
+			if(STT_SACH < DSDS.nodes[i]->soluong)//neu nhap TDK-11. ma soluong sach cua dau sach : 11 => loi
 				return DSDS.nodes[i];		
 	return NULL;
 }
@@ -410,7 +405,7 @@ struct DocGia{
 	char ten[11];
 	int phai; //0: nam, 1 : nu
 	int trangthai; //0: Khoa, 1: Hoat dong	 
-	// dslk kep luu cac sach ma doc gia da va dang muon
+	// dslk don luu cac cuon sach doc gia da va dang muon
 	DS_MuonTra mt;
 	DocGia(){
 	}
@@ -458,11 +453,14 @@ struct TreeDocgia{
 		if(mode == MODE_MA_THE)
 			return a->MATHE - b->MATHE;
 		else if(mode == MODE_TEN){
-			//strcmp: 
-				//return 0 neu 2 chuoi giong nhau
-				//return -X , gia tri am neu ki tu khac biet dau tien trong *a nho hon ki tu tuong ung trong *b trong ASCII,
-				//            neu ki tu dau 2 chuoi bang nhau, tiep tuc so ki tu tiep theo					
-				//return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII
+			/*
+			strcmp: 
+				return 0 neu 2 chuoi giong nhau
+				return -X , gia tri am neu ki tu khac biet dau tien trong *a nho hon ki tu tuong ung trong *b trong ASCII, 				
+				return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII
+				
+				neu ki tu dau 2 chuoi bang nhau, tiep tuc so ki tu tiep theo	
+			*/
 			if(strcmp(a->ten, b->ten) == 0)	return strcmp(a->ho, b->ho); 
 			else return strcmp(a->ten, b->ten);
 		}
@@ -618,7 +616,6 @@ int RemoveDocGia(DocGiaPTR &node, int maDocGia){
 		else//co 2 cay con
 			RemoveDocGia_SpecialCase(node->right, removeNode);
 				
-		// Neu chi xoa doc gia chua tung muon sach, thi cau lenh nay khong can thiet
 		DeleteAllMuonTra(removeNode->docgia.mt);		
 		delete removeNode;
 		return 1;
@@ -646,7 +643,7 @@ void DeleteMemoryDocGia(DocGiaPTR &node){
 }
 
 //=======================================================================================================================================//
-//dslk vong de luu tru 10.000 ma the doc gia tam thoi thoa CAY TIM KIEM NHI PHAN CAN BANG
+//dslk vong de luu tru 10.000 (thuc te 8191) ma the doc gia tam thoi thoa CAY TIM KIEM NHI PHAN CAN BANG
 struct TheDocGiaBSTC{  
    int MaThe;
    TheDocGiaBSTC *next;
@@ -657,13 +654,6 @@ TDGTS_PTR CreateNewNode(int MaThe) {
     TDGTS_PTR newNode = new TheDocGiaBSTC;
     newNode->MaThe = MaThe;
     return newNode;
-}
-
-void InsertFirst_TDGTS(TDGTS_PTR &Last, int MaThe) {
-    TDGTS_PTR newNode  = CreateNewNode(MaThe);
-    if (Last == NULL)  Last = newNode;
-    else  newNode->next = Last->next;
-    Last->next = newNode;
 }
 
 void InsertLast_TDGTS(TDGTS_PTR &Last, int MaThe){

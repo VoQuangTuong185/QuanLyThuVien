@@ -169,13 +169,10 @@ void ItemSachMuonEvent(){
 
 bool isDGQH(DS_DauSach &DSDS, TreeDocgia &DSDG){
     if(CurrentDGMT->mt.chuaTra > 0){	
-        DSMTS.n = CurrentDGMT->mt.chuaTra;
-        int i = DSMTS.n-1;
-        for(PTRMT mt = CurrentDGMT->mt.First; mt != NULL; mt = mt->next){
-            if(mt->muontra.trangthai == 0)
+        for(PTRMT mt = CurrentDGMT->mt.First; mt != NULL; mt = mt->next)
+            if(mt->muontra.trangthai == 0)//DANG MUON SACH (CHUA TRA)
                 if(DiffTime(GetSystemDate(), mt->muontra.ngaymuon) > 6*24*60*60)
                     return true;
-        }
     }   
     return false;
 }
@@ -294,15 +291,12 @@ void DrawLamMatSach(){
 bool CheckDuplicateISBN_by_MaSach(DS_DauSach &DSDS){
 	DauSach *ds;
 	if(CurrentDGMT->mt.chuaTra > 0){	
-		DSMTS.n = CurrentDGMT->mt.chuaTra;
-		int i = DSMTS.n-1;
-		for(PTRMT mt = CurrentDGMT->mt.First; mt != NULL; mt = mt->next){
-			if(mt->muontra.trangthai == 0){
+		for(PTRMT mt = CurrentDGMT->mt.First; mt != NULL; mt = mt->next)
+			if(mt->muontra.trangthai == 0){//DANG MUON SACH (CHUA TRA)
 				ds = GetDauSach(DSDS, mt->muontra.MASACH);
 				if (strcmp(ds->ISBN, CurrentDSMT->ISBN)==0)
 					return true;
 			}
-		}
 		return false;
 	}	
 }

@@ -11,8 +11,8 @@
 #define PANEL							4
 
 #define MAXLIST_DAUSACH 				200
-#define MAX_DOC_GIA 					10000
-#define QUEUE_CAPACITY 					10000
+#define MAX_DOC_GIA 					8191
+#define QUEUE_CAPACITY 					8191
 
 const int ENTER = 13;
 const int BACKSPACE = 8;

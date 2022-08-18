@@ -234,7 +234,7 @@ void DrawListDSDS(DS_DauSach &DSDS){
 	}
 	//TINH TOAN SO TRANG
 	settextstyle(3, HORIZ_DIR, 2);
-	if(strlen(edTimDauSach.content) == 0){//**
+	if(strlen(edTimDauSach.content) == 0){
 		totalPageDauSach = (DSDS.n-1) / 13 + 1;
 		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
 			if (i >= DSDS.n) 
@@ -242,7 +242,7 @@ void DrawListDSDS(DS_DauSach &DSDS){
 			DrawItemDauSach(DSDS,i, -1);
 		}
 	}
-	else{
+	else{//tim kiem dau sach
 		totalPageDauSach = (sizeListIndexDauSachSearch-1) / 13 + 1;
 		int j = 0;
 		for(int i = 13*(CurrentPageDauSach-1); i < 13*CurrentPageDauSach ; i++){
