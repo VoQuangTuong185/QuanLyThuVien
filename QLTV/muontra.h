@@ -52,19 +52,20 @@ void DrawTopTen(DS_DauSach &DSDS){
 	TopSach topsach(DSDS);
 	char ch[20];
 	for(int i=0; i < (topsach.n < 10 ? topsach.n : 10); i++){
+		//cout<<topsach.list[i].indexDS<<endl;
 		itoa(i+1, ch, 10);//STT																
 		outtextxy((MUONTRA[0]+MUONTRA[1])/2-textwidth(ch)/2, 350 + i*50, ch);
 		outtextxy(MUONTRA[1]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->ISBN);		
 		outtextxy(MUONTRA[2]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tensach);
 				
 		itoa(DSDS.nodes[topsach.list[i].indexDS]->sotrang, ch, 10);		
-		outtextxy(MUONTRA[3]+20, 350 + i*50, ch);		
+		outtextxy(MUONTRA[3]+30, 350 + i*50, ch);		
 		outtextxy(MUONTRA[4]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->tacgia);
 				
 		itoa(DSDS.nodes[topsach.list[i].indexDS]->nxb, ch, 10);			
 		outtextxy((MUONTRA[5]+MUONTRA[6])/2-textwidth(ch)/2, 350 + i*50, ch);	
 		outtextxy(MUONTRA[6]+10, 350 + i*50, DSDS.nodes[topsach.list[i].indexDS]->theloai);
-				
+						
 		itoa(topsach.list[i].count, ch, 10);							
 		outtextxy((MUONTRA[7]+MUONTRA[8])/2-textwidth(ch)/2, 350 + i*50, ch);
 	} 

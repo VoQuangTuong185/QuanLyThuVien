@@ -272,8 +272,7 @@ struct LuotMuonSach{
 
 struct TopSach{
 	int n;
-	LuotMuonSach *list;
-	
+	LuotMuonSach *list;	
 	TopSach(DS_DauSach &DSDS){
 		n = DSDS.n;
 		list = new LuotMuonSach[n];
@@ -457,8 +456,7 @@ struct TreeDocgia{
 			strcmp: 
 				return 0 neu 2 chuoi giong nhau
 				return -X , gia tri am neu ki tu khac biet dau tien trong *a nho hon ki tu tuong ung trong *b trong ASCII, 				
-				return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII
-				
+				return X, gia tri duong neu ki tu khac biet dau tien trong *a lon hon ki tu tuong ung trong *b trong ASCII				
 				neu ki tu dau 2 chuoi bang nhau, tiep tuc so ki tu tiep theo	
 			*/
 			if(strcmp(a->ten, b->ten) == 0)	return strcmp(a->ho, b->ho); 
@@ -666,7 +664,7 @@ void InsertLast_TDGTS(TDGTS_PTR &Last, int MaThe){
    Last = newNode;
 }
 
-bool DeleteFirst_TDGTS(TDGTS_PTR & Last) {
+bool DeleteFirst_TDGTS(TDGTS_PTR &Last) {
     TDGTS_PTR p;
     if (Last == NULL)
         return false;
