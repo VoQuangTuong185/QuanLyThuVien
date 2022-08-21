@@ -672,8 +672,10 @@ bool DeleteFirst_TDGTS(TDGTS_PTR &Last) {
     	// nut can xoa la nut dau
         p = Last -> next; 
         // danh sach chi co 1 nut
-        if (p == Last)    Last = NULL;
-        else    Last -> next = p -> next;
+        if (p == Last)    
+			Last = NULL;
+        else    
+			Last -> next = p -> next;
         delete p;
         return true;
     }

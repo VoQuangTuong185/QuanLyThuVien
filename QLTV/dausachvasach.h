@@ -558,7 +558,6 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 			if(CurrentItem != -1){
 				Window = HIEU_CHINH_DAU_SACH;
 				subWindow = CONFIRM_POPUP_NONE;
-				strcpy(mess, "");
 				if(strlen(edTimDauSach.content) == 0) 
 					GetHieuChinhDauSach(DSDS, 13*(CurrentPageDauSach-1) + CurrentItem);
 				else 
@@ -766,7 +765,6 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				Window = DANH_MUC_SACH;
 				subWindow = HIEU_CHINH_SACH;
 				CurrentSach = CurrentItemSach;
-				strcpy(mess, "");
 				
 				SachPTR nodeSelect = GetNodesSachByPosition(DSDS.nodes[CurrentDauSach]->First, 8*(CurrentPageSach-1) + CurrentSach);
 				strcpy(edHieuChinhMaSach.content, nodeSelect->sach.MASACH);
@@ -806,7 +804,6 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 						CurrentNhapSach = 1;
 						subWindow = THEM_SACH;
 						memset(edThemViTriSach.content, 0, sizeof(edThemViTriSach.content));
-						strcpy(mess, "");
 						DrawTrangConDSDS(DSDS);		
 					}	
 					else{
@@ -848,6 +845,7 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					memset(edNhapSoLuongSach.content, 0, sizeof(edNhapSoLuongSach.content));						
 				}
 				else if(edThemMaSach.isMouseHover(mx, my)){
+					memset(mess, 0, sizeof(mess));	
 					strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
@@ -886,7 +884,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 					}
 					DrawListSach(DSDS);	
 				}
-				else if(edThemMaSach.isMouseHover(mx, my)){
+				else if(edThemMaSach.isMouseHover(mx, my)){	
+					setfillstyle(SOLID_FILL, BG_COLOR);
+					bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);				
 					strcpy(mess, "Ma sach tu dong (khong the chinh sua)!");
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);
@@ -896,7 +896,9 @@ void DauSachEvent(DS_DauSach &DSDS, TreeDocgia &DSDG){
 				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && canEditTrangThai)
 					Edit = &edHieuChinhTrangThaiSach;
 				else if(edHieuChinhTrangThaiSach.isMouseHover(mx, my) && (!canEditTrangThai)){
-					settextstyle(BOLD_FONT, HORIZ_DIR, 2);
+					settextstyle(BOLD_FONT, HORIZ_DIR, 2);	
+					setfillstyle(SOLID_FILL, BG_COLOR);
+					bar((w/2)-430 + textwidth(ThongBao), 955-textheight(ThongBao)/2, (w/2)+430, 955+textheight(ThongBao)/2);
 					strcpy(mess, "Chi duoc phep sua CO THE MUON -> DA THANH LY!!");
 					setcolor(TIPS);
 					outtextxy((w/2)-410 + textwidth(ThongBao), 955-textheight(ThongBao)/2, mess);					

@@ -2,7 +2,7 @@ void Sort(int A[], int q, int r) {
     int temp;
     int i = q;
     int j = r;
-    int x = A[(q + r) / 2]; 
+    int x = A[(q + r)/2]; 
     do { 
         while (A[i] < x) i++;
         while (A[j] > x) j--; 
@@ -11,19 +11,12 @@ void Sort(int A[], int q, int r) {
             temp = A[i];
             A[i] = A[j];
             A[j] = temp;
-            i++;
-            j--;
+            i++; j--;
         }
     } while (i <= j);
-    if (q < j) 
-        Sort(A, q, j);
-    if (i < r) 
-        Sort(A, i, r);
+    if (q < j) Sort(A, q, j);
+    if (i < r) Sort(A, i, r);
 }
-
-//void Quick_Sort(int A[], int n) {
-//    Sort(A, 0, n - 1); 
-//}
 
 void CreateFileMaTheDocGia(){
 	int a[MAX_DOC_GIA];

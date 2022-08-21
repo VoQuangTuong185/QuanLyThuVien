@@ -796,11 +796,7 @@ void ClearScreen(int choice){
 		case 8: //ClearLayoutListDocGia
 			setfillstyle(SOLID_FILL, BG_COLOR);
 			bar(XXXQH[0]-5, 150-5, w-20, 820);	
-			break;
-		
-		case 9: //ClearLayoutListDocGiaQuaHan
-			setfillstyle(SOLID_FILL, BG_COLOR);
-			bar(XXXQH[0]-5, 150-5, w-20, 820);		
+			break;	
 			
 		default:// xoa toan man hinh
 			setfillstyle(SOLID_FILL, BG_COLOR);
