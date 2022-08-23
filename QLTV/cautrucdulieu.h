@@ -163,7 +163,7 @@ bool IsInclude(const char* typing , const char* tenSach){
 	//str1: 'This is a simple string'
 	//str2: 'simple'
 	//=> 'simple string'
-	cout<<TenSach.find(Typing)<<endl;
+	//cout<<TenSach.find(Typing)<<endl;
 	if((index = TenSach.find(Typing)) != string::npos)
 		if(index==0 && strstr(TenSach.c_str(),Typing_Space.c_str()) || index!=0 && strstr(TenSach_Space.c_str(),Space_Typing_Space.c_str()))		
 			return true;		
